@@ -1,0 +1,36 @@
+html, body {
+    margin: 5px;
+    padding: 0;
+    font-family: 'Krub', sans-serif;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 5pt;
+}
+
+.main-entry {
+    font-size: 1.3em;
+    list-style-type: none;
+    line-height: 1.8;
+}
+
+.main-entry a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+}
+
+.tag {
+    margin-right: 3pt;
+    padding: 0px 5px 0px 5px;
+    font-size: 0.8em;
+    border-style: solid;
+    border-color: #f4e541;
+    border-radius: 25pt;
+    background: #f4e541;
+}
+
+.tags-container {
+    margin: 0px 0pt 20pt 10pt;
+}
