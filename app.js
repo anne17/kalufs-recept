@@ -1,11 +1,25 @@
+// And $backend will be available in all Vue instances:
+//
+// new Vue({
+//   beforeCreate: function () {
+//     console.log(this.$backend)
+//   }
+// })
+
+Vue.prototype.$backend = 'http://demo.spraakdata.gu.se/anne/recept/receptsida-backend/'
+
 var recipedata = new Vue({
   el: '#recipe-data',
   data: {
     results: []
   },
   mounted() {
-    axios.get("http://127.0.0.1:5000/recipe-data")
-    .then(response => {this.results = response.data.recipies})
+    axios.get(this.$backend+"recipe-data")
+    .then(response => {
+        this.results = response.data.recipies,
+        this.pdfaddress = this.$backend + 'pdf/'
+        this.imgaddress = this.$backend + 'img/'
+    })
   }
 });
 

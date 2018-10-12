@@ -10,18 +10,27 @@
 
         <div id="recipe-data">
             <h1>
-                Mina recept:
+                Mina recept
             </h1>
           <ul>
             <li class="main-entry" v-for="recipe in results">
-                <a v-bind:href="'http://127.0.0.1:5000/file/'+recipe.pdf">{{ recipe.title }}</a>
-              <div class="tags-container">
-                <span class="tag" v-for="tag in recipe.tags"><a href="">{{ tag }}</a></span>
+              <div>
+                  <div class="main-img-continer">
+                      <a v-bind:href="pdfaddress+recipe.pdf">
+                          <img class="main-img" v-bind:src="imgaddress+recipe.img">
+                      </a>
+                  </div>
+                  <div class="text-container">
+                    <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
+                    <div class="tags-container">
+                      <span class="tag" v-for="tag in recipe.tags"><a href="">{{ tag }}</a></span>
+                    </div>
+                  </div>
               </div>
             </li>
         </ul>
         </div>
 
-        <script src="app.js" defer></script>
+        <script src="app.js"></script>
     </body>
 </html>
