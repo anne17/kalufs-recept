@@ -39,11 +39,20 @@ h1 {
     margin-bottom: 5px;
 }
 
+.recipe-list {
+    margin-left: 2em;
+}
+
 .main-entry {
     font-size: 1.3em;
     list-style-type: none;
     line-height: 1.8;
     margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.main-list {
+    padding-left: 0pt;
 }
 
 .main-entry a {
@@ -54,6 +63,11 @@ h1 {
 
 .main-entry > div {
     clear: left;
+    height: 100px;
+    width: 550px;
+    background: #86b3f9;
+    border-right:  1px solid #86b3f9;
+    border-radius: 25px;
 }
 
 .tag {
@@ -68,26 +82,31 @@ h1 {
 
 .tags-container {
     /*      top right bottom left */
-    margin: 0px 0px 20px 10px;
-}
-
-.main-img {
-    float: left;
-    display: block;
-    margin: 0px auto 5px auto;
-    max-height: 100px;
-    /* height: 100%; */
-    /* width: 120px; */
+    margin: 5px 0px 0px 5px;
 }
 
 .main-img-container {
+    float: left;
     height: 100px;
+    width: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #c9c9c9;
+}
+
+.main-img {
+    display: block;
+    margin: 0px auto 0px auto;
+    height: 100%;
+    max-width: 100%;
 }
 
 .text-container {
     float: left;
     margin: 5px 0px 0px 10px;
+}
+
+.text-container > a:hover {
+    text-decoration: underline;
 }

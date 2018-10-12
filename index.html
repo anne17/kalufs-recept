@@ -8,14 +8,14 @@
     </head>
     <body>
 
-        <div id="recipe-data">
+        <div id="recipe-data" class="recipe-list">
             <h1>
                 Mina recept
             </h1>
-          <ul>
+          <ul class="main-list">
             <li class="main-entry" v-for="recipe in results">
               <div>
-                  <div class="main-img-continer">
+                  <div class="main-img-container">
                       <a v-bind:href="pdfaddress+recipe.pdf">
                           <img class="main-img" v-bind:src="imgaddress+recipe.img">
                       </a>
