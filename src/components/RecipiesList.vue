@@ -34,7 +34,7 @@ import axios from "axios";
 Vue.prototype.$backend =
   "http://demo.spraakdata.gu.se/anne/recept/receptsida-backend/";
 
-var recipedata = new Vue({
+new Vue({
   el: "#recipe-data",
   data: {
     results: []
@@ -55,7 +55,10 @@ var recipedata = new Vue({
 // });
 
 export default {
-  name: "RecipiesList"
+  name: "RecipiesList",
+  data() {
+    return {};
+  }
   // props: {
   //   msg: String
   // }
