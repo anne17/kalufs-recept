@@ -4,7 +4,7 @@
         Mina recept
     </h1>
   <ul class="main-list">
-    <li class="main-entry" v-for="recipe in results">
+    <li class="main-entry" v-for="recipe in results" :key="recipe.id">
       <div>
           <div class="main-img-container">
               <a v-bind:href="pdfaddress+recipe.pdf">
@@ -14,30 +14,24 @@
           <div class="text-container">
             <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
             <div class="tags-container">
-              <span class="tag" v-for="tag in recipe.tags"><a href="">{{ tag }}</a></span>
+              <span class="tag" v-for="tag in recipe.tags" :key="tag.id"><a href="">{{ tag }}</a></span>
             </div>
           </div>
       </div>
     </li>
 </ul>
 </div>
-
-<!-- <div class="about">
-  <h1>Hej!</h1>
-</div> -->
 </template>
 
 <script>
-import Vue from "vue";
 import axios from "axios";
 
-Vue.prototype.$backend =
-  "http://demo.spraakdata.gu.se/anne/recept/receptsida-backend/";
-
-new Vue({
-  el: "#recipe-data",
-  data: {
-    results: []
+export default {
+  name: "RecipiesList",
+  data() {
+    return {
+      results: []
+    };
   },
   mounted() {
     axios.get(this.$backend + "recipe-data").then(response => {
@@ -46,22 +40,6 @@ new Vue({
       this.imgaddress = this.$backend + "img/";
     });
   }
-});
-
-// new Vue({
-//   beforeCreate: function() {
-//     console.log(this.$backend);
-//   }
-// });
-
-export default {
-  name: "RecipiesList",
-  data() {
-    return {};
-  }
-  // props: {
-  //   msg: String
-  // }
 };
 </script>
 
