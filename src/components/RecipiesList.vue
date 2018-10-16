@@ -23,6 +23,7 @@
 </div>
 </template>
 
+<!-- ####################################################################### -->
 <script>
 import axios from "axios";
 
@@ -43,47 +44,8 @@ export default {
 };
 </script>
 
-
-
-
+<!-- ####################################################################### -->
 <style scoped>
-@media (min-width: 858px) {
-  html {
-    font-size: 15px;
-  }
-}
-
-@media (min-width: 780px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 702px) {
-  html {
-    font-size: 13px;
-  }
-}
-
-@media (min-width: 724px) {
-  html {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 623px) {
-  html {
-    font-size: 11px;
-  }
-}
-
-html,
-body {
-  margin: 5px;
-  padding: 0;
-  font-family: "Krub", sans-serif;
-}
-
 h1 {
   font-size: 2em;
   margin-bottom: 5px;
@@ -114,7 +76,7 @@ h1 {
 .main-entry > div {
   clear: left;
   height: 100px;
-  width: 550px;
+  width: 650px;
   background: #86b3f9;
   border-right: 1px solid #86b3f9;
   border-radius: 25px;
@@ -133,13 +95,14 @@ h1 {
 .tags-container {
   /*      top right bottom left */
   margin: 5px 0px 0px 5px;
+  text-align: left;
 }
 
 .main-img-container {
   float: left;
   height: 100px;
   width: 200px;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
   background: #c9c9c9;
@@ -155,6 +118,7 @@ h1 {
 .text-container {
   float: left;
   margin: 5px 0px 0px 10px;
+  text-align: left;
 }
 
 .text-container > a:hover {

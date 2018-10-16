@@ -9,9 +9,11 @@
   </div>
 </template>
 
+<!-- ####################################################################### -->
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
+  font-family: "Krub", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -29,4 +31,34 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+/* @media (min-width: 858px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 780px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 702px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 724px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 623px) {
+  html {
+    font-size: 11px;
+  }
+} */
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div class="recipies">
-    <img alt="Vue logo" src="../assets/logo.png">
     <RecipiesList/>
   </div>
 </template>
