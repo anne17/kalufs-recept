@@ -48,11 +48,11 @@ export default {
 <style scoped>
 h1 {
   font-size: 2em;
-  margin-bottom: 5px;
 }
 
 .recipe-list {
-  margin-left: 2em;
+  /* margin-left: 2em; */
+  border-style: dotted;
 }
 
 .main-entry {
