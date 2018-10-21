@@ -1,15 +1,31 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <div id="nav">
-      <router-link to="/recipies">Recipies</router-link> |
-      <router-link to="/">Home</router-link> |
+      <router-link to="/home">Home</router-link> |
+      <router-link to="/">Recipies</router-link> |
       <router-link to="/about">About</router-link>
+      <Login/>
     </div>
     <router-view/>
   </div>
 </template>
 
 <!-- ####################################################################### -->
+
+<script>
+// @ is an alias to /src
+import Login from "@/components/Login.vue";
+
+export default {
+  name: "app",
+  components: {
+    Login
+  }
+};
+</script>
+
+<!-- ####################################################################### -->
+
 <style>
 #app {
   /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
