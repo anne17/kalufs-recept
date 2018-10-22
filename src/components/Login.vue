@@ -1,15 +1,18 @@
 <template>
 
   <div class="login">
-    <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="isHidden = !isHidden">Login</button>
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="openLogin">Login</button>
     <div class="login-box" v-if="!isHidden">
         <div class="login-box-body">
-            <form action="" v-on:submit="onSubmit" method="post" accept-charset="utf-8">        <div class="form-group has-feedback">
-                <input type="text" name="login" value="" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            <form action="" v-on:submit="onSubmit" method="post" accept-charset="utf-8">
+              <div class="form-group has-feedback">
+                <input type="text" name="login" value="" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 <span><font color="red"></font></span>
-            </div>
+              </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" value="" placeholder="Password" class="form-control" id="password" size="30">            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <input type="password" name="password" value="" placeholder="Password" class="form-control" id="password" size="30">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 <span><font color="red"></font></span>
             </div>
                     <div class="row">
@@ -24,7 +27,8 @@
                     </div>
                 </div><!-- /.col -->
                 <div class="col-xs-4">
-                    <input type="submit" name="submit" value="Sign In" id="submit" class="btn btn-primary btn-block btn-flat">            </div><!-- /.col -->
+                    <input type="submit" name="submit" value="Sign In" id="submit" class="btn btn-primary btn-block btn-flat">
+                </div><!-- /.col -->
             </div>
             </form>
         </div><!-- /.login-box-body -->
@@ -43,7 +47,11 @@ export default {
     };
   },
   methods: {
-    onSubmit: function(event) {
+    openLogin: function() {
+      this.isHidden = !this.isHidden;
+      this.$parent.grayoutShow = true;
+    },
+    onSubmit: function() {
       var formAction = this.$backend + "login";
       console.log(formAction);
     }
@@ -85,6 +93,10 @@ body {
   border: 1px solid #999999;
   width: 360px;
   margin: 7% auto;
+  position: fixed;
+  display: block;
+  left: 0;
+  right: 0;
 }
 
 .login-page,
