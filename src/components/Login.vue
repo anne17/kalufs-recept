@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="isHidden=true"></div>
+    <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
     <div class="login">
       <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="openLogin">Login</button>
       <div class="login-box" v-if="!isHidden">
@@ -55,6 +55,10 @@ export default {
     openLogin: function() {
       this.isHidden = !this.isHidden;
       this.grayoutShow = true;
+    },
+    closeLogin: function() {
+      this.isHidden = true;
+      this.grayoutShow = false;
     },
     onSubmit: function() {
       var formAction = this.$backend + "login";
