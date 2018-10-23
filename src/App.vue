@@ -1,6 +1,5 @@
 <template>
   <div id="app" class="app">
-    <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }"></div>
     <div id="nav">
       <router-link to="/home">Home</router-link> |
       <router-link to="/">Recipies</router-link> |
@@ -21,11 +20,6 @@ export default {
   name: "app",
   components: {
     Login
-  },
-  data() {
-    return {
-      grayoutShow: false
-    };
   }
 };
 </script>
@@ -52,26 +46,6 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
-
-/* Gray out when login window opens */
-#grayout {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  opacity: 0.3;
-  z-index: 9999;
-}
-
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
 }
 
 /* @media (min-width: 858px) {

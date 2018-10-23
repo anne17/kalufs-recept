@@ -1,37 +1,39 @@
 <template>
-
-  <div class="login">
-    <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="openLogin">Login</button>
-    <div class="login-box" v-if="!isHidden">
-        <div class="login-box-body">
-            <form action="" v-on:submit="onSubmit" method="post" accept-charset="utf-8">
+  <div>
+    <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="isHidden=true"></div>
+    <div class="login">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="openLogin">Login</button>
+      <div class="login-box" v-if="!isHidden">
+          <div class="login-box-body">
+              <form action="" v-on:submit="onSubmit" method="post" accept-charset="utf-8">
+                <div class="form-group has-feedback">
+                  <input type="text" name="login" value="" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
+                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                  <span><font color="red"></font></span>
+                </div>
               <div class="form-group has-feedback">
-                <input type="text" name="login" value="" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                <span><font color="red"></font></span>
+                  <input type="password" name="password" value="" placeholder="Password" class="form-control" id="password" size="30">
+                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                  <span><font color="red"></font></span>
               </div>
-            <div class="form-group has-feedback">
-                <input type="password" name="password" value="" placeholder="Password" class="form-control" id="password" size="30">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                <span><font color="red"></font></span>
-            </div>
-                    <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                            <input type="checkbox" name="remember" value="" id="remember" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"
-                            ><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                            </div> <label for="remember" class="">Remember me</label>
-                            </label>
-                    </div>
-                </div><!-- /.col -->
-                <div class="col-xs-4">
-                    <input type="submit" name="submit" value="Sign In" id="submit" class="btn btn-primary btn-block btn-flat">
-                </div><!-- /.col -->
-            </div>
-            </form>
-        </div><!-- /.login-box-body -->
+                      <div class="row">
+                  <div class="col-xs-8">
+                      <div class="checkbox icheck">
+                          <label>
+                              <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
+                              <input type="checkbox" name="remember" value="" id="remember" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"
+                              ><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                              </div> <label for="remember" class="">Remember me</label>
+                              </label>
+                      </div>
+                  </div><!-- /.col -->
+                  <div class="col-xs-4">
+                      <input type="submit" name="submit" value="Sign In" id="submit" class="btn btn-primary btn-block btn-flat">
+                  </div><!-- /.col -->
+              </div>
+              </form>
+          </div><!-- /.login-box-body -->
+      </div>
     </div>
   </div>
 </template>
@@ -39,17 +41,20 @@
 <!-- ####################################################################### -->
 
 <script>
+// https://vuejs.org/v2/examples/modal.html
+
 export default {
   name: "login",
   data() {
     return {
-      isHidden: true
+      isHidden: true,
+      grayoutShow: false
     };
   },
   methods: {
     openLogin: function() {
       this.isHidden = !this.isHidden;
-      this.$parent.grayoutShow = true;
+      this.grayoutShow = true;
     },
     onSubmit: function() {
       var formAction = this.$backend + "login";
@@ -72,6 +77,26 @@ body {
   overflow-y: auto;
 }
 
+/* Gray out when login window opens */
+#grayout {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 9999;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
 .form-control {
   background-color: #ffffff;
   background-image: none;
@@ -90,6 +115,7 @@ body {
 
 .login-box,
 .register-box {
+  z-index: 10000;
   border: 1px solid #999999;
   width: 360px;
   margin: 7% auto;
