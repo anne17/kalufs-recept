@@ -4,14 +4,14 @@
         Mina recept
     </h1>
   <ul class="main-list">
-    <li class="main-entry" v-for="recipe in results" :key="recipe.id">
-      <div>
-          <div class="main-img-container">
+    <li class="main-entry container" v-for="recipe in results" :key="recipe.id">
+      <div class="row">
+          <div class="main-img-container col-3">
               <a v-bind:href="pdfaddress+recipe.pdf">
-                  <img class="main-img" v-bind:src="imgaddress+recipe.img">
+                  <img class="main-img img-responsive" v-bind:src="imgaddress+recipe.img">
               </a>
           </div>
-          <div class="text-container">
+          <div class="text-container col-9">
             <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
             <div class="tags-container">
               <span class="tag" v-for="tag in recipe.tags" :key="tag.id"><a href="">{{ tag }}</a></span>
@@ -47,23 +47,28 @@ export default {
 <!-- ####################################################################### -->
 <style scoped>
 h1 {
-  font-size: 2em;
-}
-
-.recipe-list {
-  /* margin-left: 2em; */
-}
-
-.main-entry {
-  font-size: 1.3em;
-  list-style-type: none;
-  line-height: 1.8;
-  margin-bottom: 5px;
-  margin-top: 10px;
+  font-size: 2.6rem;
 }
 
 .main-list {
   padding-left: 0pt;
+  margin-left: 0pt;
+}
+
+.row {
+  display: flex;
+  /* align-items: stretch; */
+  /* align-content: stretch; */
+  flex-wrap: wrap;
+  height: 100px;
+}
+
+.main-entry {
+  font-size: 1.8rem;
+  list-style-type: none;
+  line-height: 3.3rem;
+  margin-top: 0.5em;
+  max-width: 50em;
 }
 
 .main-entry a {
@@ -74,49 +79,48 @@ h1 {
 
 .main-entry > div {
   clear: left;
-  height: 100px;
-  width: 650px;
   background: #86b3f9;
   border-right: 1px solid #86b3f9;
-  border-radius: 25px;
-}
-
-.tag {
-  margin-right: 3px;
-  padding: 0px 5px 0px 5px;
-  font-size: 0.8em;
-  border-style: solid;
-  border-color: #f4e541;
-  border-radius: 25px;
-  background: #f4e541;
+  border-radius: 15px;
 }
 
 .tags-container {
   /*      top right bottom left */
-  margin: 5px 0px 0px 5px;
+  margin: 0.3em 0em 0em 0.3em;
   text-align: left;
+}
+
+.tag {
+  margin-right: 0.3em;
+  padding: 0em 0.3em 0em 0.3em;
+  font-size: 1.3rem;
+  border-style: solid;
+  border-color: #f4e541;
+  border-radius: 15px;
+  background: #f4e541;
 }
 
 .main-img-container {
   float: left;
-  height: 100px;
-  width: 200px;
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  width: 20%;
   background: #c9c9c9;
+  position: relative;
 }
 
 .main-img {
-  display: block;
-  margin: 0px auto 0px auto;
-  height: 100%;
-  max-width: 100%;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-height: 100%;
 }
 
 .text-container {
   float: left;
-  margin: 5px 0px 0px 10px;
+  margin: 0.3em 0em 0em 0.6em;
   text-align: left;
 }
 
