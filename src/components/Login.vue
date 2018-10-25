@@ -5,32 +5,33 @@
       <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="openLogin">Login</button>
       <div class="login-box" v-if="!isHidden">
           <div class="login-box-body">
-              <form action="" v-on:submit="onSubmit" method="post" accept-charset="utf-8">
+              <form v-on:submit.prevent="onSubmit">
                 <div class="form-group has-feedback">
-                  <input type="text" name="login" value="" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
+                  <input type="text" name="login" value="" v-model="form.login" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
                   <span class="glyphicon glyphicon-user form-control-feedback"></span>
                   <span><font color="red"></font></span>
                 </div>
-              <div class="form-group has-feedback">
-                  <input type="password" name="password" value="" placeholder="Password" class="form-control" id="password" size="30">
+                <div class="form-group has-feedback">
+                  <input type="password" name="password" value="" v-model="form.password" placeholder="Password" class="form-control" id="password" size="30">
                   <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                   <span><font color="red"></font></span>
-              </div>
-                      <div class="row">
+                </div>
+                <div class="row">
                   <div class="col-xs-8">
-                      <div class="checkbox icheck">
-                          <label>
-                              <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                              <input type="checkbox" name="remember" value="" id="remember" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"
-                              ><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                              </div> <label for="remember" class="">Remember me</label>
-                              </label>
-                      </div>
+                    <div class="checkbox icheck">
+                      <label>
+                        <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
+                          <input type="checkbox" name="remember" value="" id="remember" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
+                          <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                        </div>
+                        <label for="remember" class="">Remember me</label>
+                      </label>
+                    </div>
                   </div><!-- /.col -->
                   <div class="col-xs-4">
                       <input type="submit" name="submit" value="Sign In" id="submit" class="btn btn-primary btn-block btn-flat">
                   </div><!-- /.col -->
-              </div>
+                </div>
               </form>
           </div><!-- /.login-box-body -->
       </div>
@@ -42,13 +43,19 @@
 
 <script>
 // https://vuejs.org/v2/examples/modal.html
+// https://auralinna.blog/post/2018/how-to-build-a-complete-form-with-vue-js
+import axios from "axios";
 
 export default {
   name: "login",
   data() {
     return {
       isHidden: true,
-      grayoutShow: false
+      grayoutShow: false,
+      form: {
+        login: "",
+        password: ""
+      }
     };
   },
   methods: {
@@ -61,8 +68,36 @@ export default {
       this.grayoutShow = false;
     },
     onSubmit: function() {
-      var formAction = this.$backend + "login";
-      console.log(formAction);
+      // this.enableSubmitLoader();
+      // console.log(this.form);
+      axios
+        .post(this.$backend + "login", this.form)
+        .then(response => {
+          this.submitSuccess(response);
+          // this.disableSubmitLoader();
+          this.closeLogin();
+          // Display user loged in
+        })
+        .catch(error => {
+          this.submitError(error);
+          // this.disableSubmitLoader();
+          // Display error message
+        });
+    },
+    submitSuccess(response) {
+      if (response.data.success) {
+        this.isSubmitted = true;
+        this.isError = false;
+      } else {
+        this.errorHeader = "error.invalidFields";
+        this.errors = response.data.errors;
+        this.isError = true;
+      }
+    },
+    submitError(error) {
+      this.errorHeader = error.general;
+      this.errors = [{ field: null, message: error.generalMessage }];
+      this.isError = true;
     }
   }
 };
@@ -75,11 +110,11 @@ export default {
   float: right;
 }
 
-body {
+/* body {
   height: 350px;
   overflow-x: hidden;
   overflow-y: auto;
-}
+} */
 
 /* Gray out when login window opens */
 #grayout {
