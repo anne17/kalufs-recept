@@ -18,14 +18,11 @@
                 </div>
                 <div class="row">
                   <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                      <label>
-                        <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-                          <input type="checkbox" name="remember" value="" id="remember" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
-                          <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                        </div>
-                        <label for="remember" class="">Remember me</label>
-                      </label>
+                    <div class="checkbox">
+                      <!-- <label> -->
+                        <input type="checkbox" name="remember" value="" id="remember" v-model="form.remember">
+                        <label for="remember">Remember me</label>
+                      <!-- </label> -->
                     </div>
                   </div><!-- /.col -->
                   <div class="col-xs-4">
@@ -54,7 +51,8 @@ export default {
       grayoutShow: false,
       form: {
         login: "",
-        password: ""
+        password: "",
+        remember: true
       }
     };
   },
@@ -116,6 +114,14 @@ export default {
   overflow-y: auto;
 } */
 
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
 /* Gray out when login window opens */
 #grayout {
   position: fixed;
@@ -126,14 +132,6 @@ export default {
   background-color: black;
   opacity: 0.3;
   z-index: 9999;
-}
-
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
 }
 
 .form-control {
@@ -152,8 +150,7 @@ export default {
   width: 100%;
 }
 
-.login-box,
-.register-box {
+.login-box {
   z-index: 10000;
   border: 1px solid #999999;
   width: 360px;
@@ -164,21 +161,7 @@ export default {
   right: 0;
 }
 
-.login-page,
-.register-page {
-  background: #d2d6de;
-}
-
-.login-logo,
-.register-logo {
-  font-size: 35px;
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 300;
-}
-
-.login-box-body,
-.register-box-body {
+.login-box-body {
   background: #fff;
   padding: 20px;
   border-top: 0;
@@ -220,10 +203,6 @@ export default {
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.icheck > label {
-  padding-left: 0;
 }
 
 .checkbox label,

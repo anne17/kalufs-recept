@@ -52,7 +52,6 @@ h1 {
 
 .recipe-list {
   /* margin-left: 2em; */
-  border-style: dotted;
 }
 
 .main-entry {

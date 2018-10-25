@@ -1,7 +1,7 @@
 <template>
   <div class="recipies">
     <div class="row">
-      <div class="column" style="border-style: dotted;">
+      <div class="column">
         <p>Placeholder text</p>
       </div>
       <div class="column">
@@ -33,7 +33,10 @@ export default {
 /* Create three unequal columns that floats next to each other */
 .column {
   float: left;
-  padding: 10px;
+  padding: 0.8em;
+  margin: 0.5em;
+  border-style: dotted;
+  border-width: thin;
 }
 
 .left {
@@ -48,6 +51,10 @@ export default {
   content: "";
   display: table;
   clear: both;
+}
+
+.row {
+  margin: 10px;
 }
 
 /* Responsive layout - makes the three columns stack on top of each other
