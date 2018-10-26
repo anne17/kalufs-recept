@@ -54,7 +54,7 @@ export default {
 }
 
 .row {
-  margin: 0.8em;
+  margin: 0.2em;
 }
 
 /* Responsive layout - makes the three columns stack on top of each other

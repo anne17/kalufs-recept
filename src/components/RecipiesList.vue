@@ -6,9 +6,9 @@
   <ul class="main-list">
     <li class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
-          <div class="main-img-container col-3">
+          <div class="main-img-container col-3" v-bind:style="{ backgroundImage: 'url(' + imgaddress+recipe.img + ')' }">
               <a v-bind:href="pdfaddress+recipe.pdf">
-                  <img class="main-img img-responsive" v-bind:src="imgaddress+recipe.img">
+                  <!-- <img class="main-img img-responsive" v-bind:src="imgaddress+recipe.img"> -->
               </a>
           </div>
           <div class="text-container col-9">
@@ -59,14 +59,13 @@ h1 {
   display: flex;
   /* align-items: stretch; */
   /* align-content: stretch; */
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   height: 100px;
 }
 
 .main-entry {
   font-size: 1.8rem;
   list-style-type: none;
-  line-height: 3.3rem;
   margin-top: 0.5em;
   max-width: 50em;
 }
@@ -104,8 +103,10 @@ h1 {
   float: left;
   height: 100%;
   width: 20%;
-  background: #c9c9c9;
+  /* background: #c9c9c9; */
   position: relative;
+  background-size: cover;
+  background-position: center;
 }
 
 .main-img {
