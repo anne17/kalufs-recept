@@ -10,7 +10,7 @@
           <div class="login-box-body">
               <form v-on:submit.prevent="onSubmit">
                 <div class="form-group has-feedback">
-                  <input type="text" name="login" value="" v-model="form.login" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
+                  <input type="text" name="login" autofocus value="" v-model="form.login" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
                   <span class="glyphicon glyphicon-user form-control-feedback"></span>
                   <span><font color="red"></font></span>
                 </div>
@@ -88,8 +88,8 @@ export default {
         });
     },
     submitSuccess(response) {
-      console.log("hej");
-      if (response.data.status.success) {
+      console.log(response.data);
+      if (response.data.status == "success") {
         this.isSubmitted = true;
         this.isError = false;
         this.buttonHide = true;
@@ -124,9 +124,9 @@ export default {
 
 <style scoped>
 .login > button {
-  float: right;
-  margin-right: 5px;
-  margin-top: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 /* body {
