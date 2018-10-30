@@ -2,7 +2,10 @@
   <div>
     <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
     <div class="login">
-      <button type="button" class="btn btn-default btn-sm dropdown-toggle" v-on:click="openLogin">Login</button>
+      <button type="button" v-bind:class="{ hide: buttonHide }" class="btn btn-default btn-sm dropdown-toggle show" v-on:click="openLogin">Login</button>
+      <span class="hide" v-bind:class="{ hide: userShow }">
+        Hej User!
+      </span>
       <div class="login-box" v-if="!isHidden">
           <div class="login-box-body">
               <form v-on:submit.prevent="onSubmit">
@@ -49,6 +52,8 @@ export default {
     return {
       isHidden: true,
       grayoutShow: false,
+      buttonHide: false,
+      userShow: false,
       form: {
         login: "",
         password: "",
@@ -74,7 +79,7 @@ export default {
           this.submitSuccess(response);
           // this.disableSubmitLoader();
           this.closeLogin();
-          // Display user loged in
+          // Display user logged in
         })
         .catch(error => {
           this.submitError(error);
@@ -83,18 +88,25 @@ export default {
         });
     },
     submitSuccess(response) {
-      if (response.data.success) {
+      console.log("hej");
+      if (response.data.status.success) {
         this.isSubmitted = true;
         this.isError = false;
+        this.buttonHide = true;
+        this.userShow = true;
+        console.log(this.userShow);
       } else {
         this.errorHeader = "error.invalidFields";
-        this.errors = response.data.errors;
+        this.errors = response.data.status.message;
+        console.log("success, error:", this.errors);
         this.isError = true;
       }
     },
     submitError(error) {
-      this.errorHeader = error.general;
-      this.errors = [{ field: null, message: error.generalMessage }];
+      this.errors = response.data.status.message;
+      console.log("success, error:", this.errors);
+      // this.errorHeader = error.general;
+      // this.errors = [{ field: null, message: error.generalMessage }];
       this.isError = true;
     },
     packageData: data => {
@@ -113,6 +125,8 @@ export default {
 <style scoped>
 .login > button {
   float: right;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
 /* body {

@@ -1,10 +1,22 @@
 <template>
   <div id="app" class="app">
-    <div id="nav">
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/">Recipies</router-link> |
-      <router-link to="/about">About</router-link>
-      <Login/>
+    <div id="header" class="container">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-4">
+        </div>
+        <!-- middle column -->
+        <div class="col-4 header-img-container">
+          <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
+        </div>
+        <!-- right column -->
+        <div class="col-4">
+          <Login/>
+        </div>
+        <!-- <router-link to="/home">Home</router-link> |
+        <router-link to="/">Recipies</router-link> |
+        <router-link to="/about">About</router-link> -->
+      </div>
     </div>
     <router-view/>
   </div>
@@ -27,11 +39,6 @@ export default {
 <!-- ####################################################################### -->
 
 <style>
-
-body {
-  margin: 0.2em;
-}
-
 #app {
   /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   font-family: "Krub", sans-serif;
@@ -40,18 +47,28 @@ body {
   text-align: center;
   color: #2c3e50;
 }
-#nav {
-  padding: 30px;
+#header {
+  background-color: #5f8fe9;
+  width: 100%;
+  height: 50px;
 }
 
-#nav a {
+.header-img-container {
+  display: inline-block;
+}
+
+.header-img-container > img {
+  height: 50px;
+}
+
+/* #header a {
   font-weight: bold;
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
+#header a.router-link-exact-active {
   color: #42b983;
-}
+} */
 
 /* @media (min-width: 858px) {
   html {

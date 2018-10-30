@@ -6,10 +6,7 @@
   <ul class="main-list">
     <li class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
-          <div class="main-img-container col-3" v-bind:style="{ backgroundImage: 'url(' + imgaddress+recipe.img + ')' }">
-              <a v-bind:href="pdfaddress+recipe.pdf">
-                  <!-- <img class="main-img img-responsive" v-bind:src="imgaddress+recipe.img"> -->
-              </a>
+          <div class="main-img-container col-3" v-on:click="openLink(pdfaddress+recipe.pdf)" v-bind:style="{ backgroundImage: 'url(' + imgaddress+recipe.img + ')' }">
           </div>
           <div class="text-container col-9">
             <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
@@ -40,6 +37,11 @@ export default {
       this.pdfaddress = this.$backend + "pdf/";
       this.imgaddress = this.$backend + "img/";
     });
+  },
+  methods: {
+    openLink: function(url) {
+      window.location.href = url;
+    }
   }
 };
 </script>
@@ -57,8 +59,6 @@ h1 {
 
 .row {
   display: flex;
-  /* align-items: stretch; */
-  /* align-content: stretch; */
   flex-wrap: nowrap;
   height: 100px;
 }
@@ -78,8 +78,8 @@ h1 {
 
 .main-entry > div {
   clear: left;
-  background: #86b3f9;
-  border-right: 1px solid #86b3f9;
+  background: #a5c3f2;
+  border-right: 1px solid #a5c3f2;
   border-radius: 15px;
 }
 
@@ -94,29 +94,19 @@ h1 {
   padding: 0em 0.3em 0em 0.3em;
   font-size: 1.3rem;
   border-style: solid;
-  border-color: #f4e541;
+  border-color: #fff586;
   border-radius: 15px;
-  background: #f4e541;
+  background: #fff586;
 }
 
 .main-img-container {
   float: left;
   height: 100%;
   width: 20%;
-  /* background: #c9c9c9; */
   position: relative;
   background-size: cover;
   background-position: center;
-}
-
-.main-img {
-  position: absolute;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  max-height: 100%;
+  cursor: pointer;
 }
 
 .text-container {

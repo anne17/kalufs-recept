@@ -2,7 +2,8 @@
   <div class="recipies">
     <div class="row">
       <div class="column">
-        <p>Placeholder text</p>
+        <p>Search bar</p>
+        <p>Filter by category</p>
       </div>
       <div class="column">
         <RecipiesList/>
@@ -29,12 +30,17 @@ export default {
 * {
   box-sizing: border-box;
 }
+.recipies {
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+}
 
 /* Create three unequal columns that floats next to each other */
 .column {
   float: left;
   padding: 0.8em;
   margin-bottom: 0.5em;
+  margin-right: 0.2em;
   border-style: dotted;
   border-width: thin;
 }
