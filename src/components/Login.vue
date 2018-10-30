@@ -67,9 +67,9 @@ export default {
     },
     onSubmit: function() {
       // this.enableSubmitLoader();
-      // console.log(this.form);
+      let formData = this.packageData(this.form);
       axios
-        .post(this.$backend + "login", this.form)
+        .post(this.$backend + "login", formData)
         .then(response => {
           this.submitSuccess(response);
           // this.disableSubmitLoader();
@@ -96,6 +96,13 @@ export default {
       this.errorHeader = error.general;
       this.errors = [{ field: null, message: error.generalMessage }];
       this.isError = true;
+    },
+    packageData: data => {
+      const form = new FormData();
+      for (const key in data) {
+        form.append(key, data[key]);
+      }
+      return form;
     }
   }
 };
