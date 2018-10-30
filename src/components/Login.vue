@@ -96,17 +96,13 @@ export default {
         this.userShow = true;
         console.log(this.userShow);
       } else {
-        this.errorHeader = "error.invalidFields";
-        this.errors = response.data.status.message;
-        console.log("success, error:", this.errors);
+        this.errors = response.data.message;
+        console.log("error:", this.errors);
         this.isError = true;
       }
     },
     submitError(error) {
-      this.errors = response.data.status.message;
-      console.log("success, error:", this.errors);
-      // this.errorHeader = error.general;
-      // this.errors = [{ field: null, message: error.generalMessage }];
+      this.errors = [{ message: error.generalMessage }];
       this.isError = true;
     },
     packageData: data => {
