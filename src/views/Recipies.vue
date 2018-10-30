@@ -34,7 +34,7 @@ export default {
 .column {
   float: left;
   padding: 0.8em;
-  margin: 0.5em;
+  margin-bottom: 0.5em;
   border-style: dotted;
   border-width: thin;
 }

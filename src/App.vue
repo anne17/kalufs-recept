@@ -27,6 +27,11 @@ export default {
 <!-- ####################################################################### -->
 
 <style>
+
+body {
+  margin: 0.2em;
+}
+
 #app {
   /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   font-family: "Krub", sans-serif;
