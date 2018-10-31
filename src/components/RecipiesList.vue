@@ -6,7 +6,7 @@
   <ul class="main-list">
     <li class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
-          <div class="main-img-container col-3" v-on:click="openLink(pdfaddress+recipe.pdf)" v-bind:style="{ backgroundImage: 'url(' + imgaddress+recipe.img + ')' }">
+          <div class="main-img-container col-3" v-on:click="openLink(pdfaddress+recipe.pdf)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
           </div>
           <div class="text-container col-9">
             <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
@@ -36,11 +36,19 @@ export default {
       this.results = response.data.recipies;
       this.pdfaddress = this.$backend + "pdf/";
       this.imgaddress = this.$backend + "img/";
+      this.defaultimg = this.$backend + "img/default_recipe.png";
     });
   },
   methods: {
     openLink: function(url) {
       window.location.href = url;
+    },
+    getImgUrl: function(recipe_data) {
+      if (recipe_data.img !== undefined) {
+        return this.imgaddress + recipe_data.img;
+      } else {
+        return this.defaultimg;
+      }
     }
   }
 };
