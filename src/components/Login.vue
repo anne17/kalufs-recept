@@ -2,9 +2,9 @@
   <div>
     <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
     <div class="login">
-      <button type="button" v-bind:class="{ hide: buttonHide }" class="btn btn-default btn-sm dropdown-toggle show" v-on:click="openLogin">Login</button>
-      <span class="hide" v-bind:class="{ hide: userShow }">
-        Hej User!
+      <button type="button" v-bind:class="{ hide: buttonHide }" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="openLogin">Login</button>
+      <span class="login-status hide" v-bind:class="{ show: userShow }">
+        Hej {{ currentUser }}!
       </span>
       <div class="login-box" v-if="!isHidden">
           <div class="login-box-body">
@@ -54,6 +54,7 @@ export default {
       grayoutShow: false,
       buttonHide: false,
       userShow: false,
+      currentUser: "User",
       form: {
         login: "",
         password: "",
@@ -79,7 +80,6 @@ export default {
           this.submitSuccess(response);
           // this.disableSubmitLoader();
           this.closeLogin();
-          // Display user logged in
         })
         .catch(error => {
           this.submitError(error);
@@ -88,13 +88,12 @@ export default {
         });
     },
     submitSuccess(response) {
-      console.log(response.data);
       if (response.data.status == "success") {
-        this.isSubmitted = true;
         this.isError = false;
+        this.currentUser = response.data.user;
         this.buttonHide = true;
         this.userShow = true;
-        console.log(this.userShow);
+        // TODO: logout button
       } else {
         this.errors = response.data.message;
         console.log("error:", this.errors);
@@ -119,17 +118,16 @@ export default {
 <!-- ####################################################################### -->
 
 <style scoped>
-.login > button {
+.login-status {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-/* body {
-  height: 350px;
-  overflow-x: hidden;
-  overflow-y: auto;
-} */
+span.login-status {
+  color: white;
+  font-weight: bold;
+}
 
 .show {
   display: block;
