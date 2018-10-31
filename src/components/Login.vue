@@ -1,42 +1,46 @@
 <template>
-  <div>
-    <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
-    <div class="login">
-      <button type="button" v-bind:class="{ hide: buttonHide }" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="openLogin">Login</button>
-      <span class="login-status hide" v-bind:class="{ show: userShow }">
-        Hej {{ currentUser }}!
-      </span>
-      <div class="login-box" v-if="!isHidden">
-          <div class="login-box-body">
-              <form v-on:submit.prevent="onSubmit">
-                <div class="form-group has-feedback">
-                  <input type="text" name="login" autofocus value="" v-model="form.login" placeholder="Username" class="form-control" id="login" maxlength="80" size="30">
-                  <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                  <span><font color="red"></font></span>
-                </div>
-                <div class="form-group has-feedback">
-                  <input type="password" name="password" value="" v-model="form.password" placeholder="Password" class="form-control" id="password" size="30">
-                  <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                  <span><font color="red"></font></span>
-                </div>
-                <div class="row">
-                  <div class="col-xs-8">
-                    <div class="checkbox">
-                      <!-- <label> -->
-                        <input type="checkbox" name="remember" value="" id="remember" v-model="form.remember">
-                        <label for="remember">Remember me</label>
-                      <!-- </label> -->
-                    </div>
-                  </div><!-- /.col -->
-                  <div class="col-xs-4">
-                      <input type="submit" name="submit" value="Sign In" id="submit" class="btn btn-primary btn-block btn-flat">
-                  </div><!-- /.col -->
-                </div>
-              </form>
-          </div><!-- /.login-box-body -->
-      </div>
-    </div>
+<div>
+  <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
+
+  <div class="login">
+    <button type="button" v-bind:class="{ hide: buttonHide }" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="openLogin">Login</button>
+    <span class="login-status hide" v-bind:class="{ show: userShow }">
+      Hej {{ currentUser }}!
+    </span>
+
+  	<div class="modal-dialog modal-login" v-if="!isHidden">
+  		<div class="modal-content">
+  			<div class="modal-header">
+  				<h4 class="modal-title">Member Login</h4>
+  				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" v-on:click="closeLogin">&times;</button>
+  			</div>
+  			<div class="modal-body">
+  				<form v-on:submit.prevent="onSubmit">
+  					<div class="form-group">
+  						<i class="fa fa-user"></i>
+  						<input type="text" class="form-control" placeholder="Username" required="required" autofocus v-model="form.login">
+  					</div>
+  					<div class="form-group">
+  						<i class="fa fa-lock"></i>
+  						<input type="password" class="form-control" placeholder="Password" required="required" v-model="form.password">
+  					</div>
+            <div class="checkbox">
+                <input type="checkbox" name="remember" value="" id="remember" v-model="form.remember">
+                <label for="remember">Remember me</label>
+            </div>
+  					<div class="form-group">
+  						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
+  					</div>
+            <div class="error" v-if="showError">
+              {{ error }}
+            </div>
+  				</form>
+  			</div>
+  		</div>
+  	</div>
+
   </div>
+</div>
 </template>
 
 <!-- ####################################################################### -->
@@ -55,6 +59,7 @@ export default {
       buttonHide: false,
       userShow: false,
       currentUser: "User",
+      showError: false,
       form: {
         login: "",
         password: "",
@@ -79,7 +84,6 @@ export default {
         .then(response => {
           this.submitSuccess(response);
           // this.disableSubmitLoader();
-          this.closeLogin();
         })
         .catch(error => {
           this.submitError(error);
@@ -90,18 +94,20 @@ export default {
     submitSuccess(response) {
       if (response.data.status == "success") {
         this.isError = false;
+        this.closeLogin();
         this.currentUser = response.data.user;
         this.buttonHide = true;
         this.userShow = true;
         // TODO: logout button
       } else {
-        this.errors = response.data.message;
-        console.log("error:", this.errors);
+        this.error = response.data.message;
+        console.log("error:", this.error);
+        this.showError = true;
         this.isError = true;
       }
     },
     submitError(error) {
-      this.errors = [{ message: error.generalMessage }];
+      this.error = [{ message: error.generalMessage }];
       this.isError = true;
     },
     packageData: data => {
@@ -137,7 +143,7 @@ span.login-status {
   display: none;
 }
 
-/* Gray out when login window opens */
+/* Gray out background when login window opens */
 #grayout {
   position: fixed;
   left: 0px;
@@ -149,83 +155,82 @@ span.login-status {
   z-index: 9999;
 }
 
-.form-control {
-  background-color: #ffffff;
-  background-image: none;
-  border: 1px solid #999999;
-  border-radius: 0;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  color: #333333;
-  display: block;
-  font-size: 14px;
-  height: 34px;
-  line-height: 1.42857;
-  padding: 6px 12px;
-  transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-  width: 100%;
-}
-
-.login-box {
+.modal-login {
+  color: #636363;
+  width: 350px;
   z-index: 10000;
-  border: 1px solid #999999;
-  width: 360px;
+  display: block;
   margin: 7% auto;
-  position: fixed;
-  display: block;
-  left: 0;
-  right: 0;
+  /* position: fixed; */
+  /* left: 0; */
+  /* right: 0; */
 }
-
-.login-box-body {
-  background: #fff;
+.modal-login .modal-content {
   padding: 20px;
-  border-top: 0;
-  color: #666;
+  border-radius: 5px;
+  border: none;
 }
-
-.has-feedback {
+.modal-login .modal-header {
+  border-bottom: none;
   position: relative;
+  justify-content: center;
 }
-.form-group {
-  margin-bottom: 15px;
-}
-
-.has-feedback .form-control {
-  padding-right: 42.5px;
-}
-
-.login-box-body .form-control-feedback,
-.register-box-body .form-control-feedback {
-  color: #777;
-}
-
-.form-control-feedback {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
-  display: block;
-  width: 34px;
-  height: 34px;
-  line-height: 34px;
+.modal-login h4 {
   text-align: center;
-  pointer-events: none;
+  font-size: 26px;
 }
-
-.checkbox,
-.radio {
+.modal-login .form-group {
   position: relative;
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
-
-.checkbox label,
-.radio label {
-  min-height: 20px;
-  padding-left: 20px;
-  margin-bottom: 0;
-  font-weight: 400;
-  cursor: pointer;
+.modal-login i {
+  position: absolute;
+  left: 13px;
+  top: 11px;
+  font-size: 18px;
+}
+.modal-login .form-control {
+  padding-left: 40px;
+}
+.modal-login .form-control:focus {
+  border-color: #00ce81;
+}
+.modal-login .form-control,
+.modal-login .btn {
+  min-height: 40px;
+  border-radius: 3px;
+}
+.modal-login .hint-text {
+  text-align: center;
+  padding-top: 10px;
+}
+.modal-login .close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+.modal-login .btn {
+  background: #00ce81;
+  border: none;
+  line-height: normal;
+}
+.modal-login .btn:hover,
+.modal-login .btn:focus {
+  background: #00bf78;
+}
+.modal-login .modal-footer {
+  background: #ecf0f1;
+  border-color: #dee4e7;
+  text-align: center;
+  margin: 0 -20px -20px;
+  border-radius: 5px;
+  font-size: 13px;
+  justify-content: center;
+}
+.modal-login .modal-footer a {
+  color: #999;
+}
+.trigger-btn {
+  display: inline-block;
+  margin: 100px auto;
 }
 </style>
