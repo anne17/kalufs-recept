@@ -9,7 +9,7 @@
     </span>
 
   	<div class="modal-dialog modal-login" v-if="!isHidden">
-  		<div class="modal-content">
+  		<div class="modal-content" v-bind:class="{ error: isError }">
   			<div class="modal-header">
   				<h4 class="modal-title">Member Login</h4>
   				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" v-on:click="closeLogin">&times;</button>
@@ -31,7 +31,7 @@
   					<div class="form-group">
   						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
   					</div>
-            <div class="error" v-if="showError">
+            <div class="error error-message" v-if="isError">
               {{ error }}
             </div>
   				</form>
@@ -48,6 +48,7 @@
 <script>
 // https://vuejs.org/v2/examples/modal.html
 // https://auralinna.blog/post/2018/how-to-build-a-complete-form-with-vue-js
+// https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
 import axios from "axios";
 
 export default {
@@ -59,7 +60,7 @@ export default {
       buttonHide: false,
       userShow: false,
       currentUser: "User",
-      showError: false,
+      isError: false,
       form: {
         login: "",
         password: "",
@@ -78,6 +79,7 @@ export default {
     },
     onSubmit: function() {
       // this.enableSubmitLoader();
+      this.isError = false;
       let formData = this.packageData(this.form);
       axios
         .post(this.$backend + "login", formData)
@@ -88,22 +90,20 @@ export default {
         .catch(error => {
           this.submitError(error);
           // this.disableSubmitLoader();
-          // Display error message
+          // TODO: Display error message
         });
     },
     submitSuccess(response) {
       if (response.data.status == "success") {
-        this.isError = false;
         this.closeLogin();
         this.currentUser = response.data.user;
         this.buttonHide = true;
         this.userShow = true;
         // TODO: logout button
       } else {
+        this.isError = true;
         this.error = response.data.message;
         console.log("error:", this.error);
-        this.showError = true;
-        this.isError = true;
       }
     },
     submitError(error) {
@@ -132,6 +132,11 @@ export default {
 
 span.login-status {
   color: white;
+  font-weight: bold;
+}
+
+.error .error-message {
+  color: red;
   font-weight: bold;
 }
 
@@ -165,10 +170,24 @@ span.login-status {
   /* left: 0; */
   /* right: 0; */
 }
+
+@keyframes blink {
+  from {
+    border-color: transparent;
+  }
+  to {
+    border-color: red;
+  }
+}
+.modal-login .error {
+  border-width: 2.5px;
+  /* transition: border 1s; */
+  animation: blink 1s 2 alternate;
+}
 .modal-login .modal-content {
   padding: 20px;
   border-radius: 5px;
-  border: none;
+  /* border: none; */
 }
 .modal-login .modal-header {
   border-bottom: none;
@@ -216,18 +235,6 @@ span.login-status {
 .modal-login .btn:hover,
 .modal-login .btn:focus {
   background: #00bf78;
-}
-.modal-login .modal-footer {
-  background: #ecf0f1;
-  border-color: #dee4e7;
-  text-align: center;
-  margin: 0 -20px -20px;
-  border-radius: 5px;
-  font-size: 13px;
-  justify-content: center;
-}
-.modal-login .modal-footer a {
-  color: #999;
 }
 .trigger-btn {
   display: inline-block;
