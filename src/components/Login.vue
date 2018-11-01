@@ -3,36 +3,35 @@
   <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
 
   <div class="login">
-    <button type="button" v-bind:class="{ hide: buttonHide }" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="openLogin">Login</button>
-    <span class="login-status hide" v-bind:class="{ show: userShow }">
+    <button type="button" v-if="!loggedIn" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="openLogin">Logga in</button>
+    <span class="login-status" v-if="loggedIn">
       Hej {{ currentUser }}!
     </span>
-
+    <button type="button" v-if="loggedIn" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="logout">Logga ut</button>
   	<div class="modal-dialog modal-login" v-if="!isHidden">
   		<div class="modal-content" v-bind:class="{ error: isError }">
-  			<div class="modal-header">
-  				<h4 class="modal-title">Member Login</h4>
-  				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" v-on:click="closeLogin">&times;</button>
-  			</div>
   			<div class="modal-body">
   				<form v-on:submit.prevent="onSubmit">
   					<div class="form-group">
   						<i class="fa fa-user"></i>
-  						<input type="text" class="form-control" placeholder="Username" required="required" autofocus v-model="form.login">
+  						<input type="text" class="form-control" placeholder="Användarnamn" required="required" autofocus v-model="form.login">
   					</div>
   					<div class="form-group">
   						<i class="fa fa-lock"></i>
-  						<input type="password" class="form-control" placeholder="Password" required="required" v-model="form.password">
+  						<input type="password" class="form-control" placeholder="Lösenord" required="required" v-model="form.password">
   					</div>
             <div class="checkbox">
                 <input type="checkbox" name="remember" value="" id="remember" v-model="form.remember">
-                <label for="remember">Remember me</label>
+                <label for="remember">Kom ihåg mig</label>
             </div>
   					<div class="form-group">
   						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
   					</div>
             <div class="error error-message" v-if="isError">
               {{ error }}
+            </div>
+            <div class="error error-message" v-if="!isError">
+              &nbsp;
             </div>
   				</form>
   			</div>
@@ -55,10 +54,9 @@ export default {
   name: "login",
   data() {
     return {
+      loggedIn: false,
       isHidden: true,
       grayoutShow: false,
-      buttonHide: false,
-      userShow: false,
       currentUser: "User",
       isError: false,
       form: {
@@ -76,6 +74,7 @@ export default {
     closeLogin: function() {
       this.isHidden = true;
       this.grayoutShow = false;
+      this.isError = false;
     },
     onSubmit: function() {
       // this.enableSubmitLoader();
@@ -90,32 +89,39 @@ export default {
         .catch(error => {
           this.submitError(error);
           // this.disableSubmitLoader();
-          // TODO: Display error message
         });
     },
     submitSuccess(response) {
       if (response.data.status == "success") {
         this.closeLogin();
         this.currentUser = response.data.user;
-        this.buttonHide = true;
-        this.userShow = true;
-        // TODO: logout button
+        this.loggedIn = true;
       } else {
         this.isError = true;
-        this.error = response.data.message;
-        console.log("error:", this.error);
+        this.error = this.errorMessage(response.data.message);
       }
     },
     submitError(error) {
-      this.error = [{ message: error.generalMessage }];
       this.isError = true;
+      this.error = this.errorMessage(error);
     },
-    packageData: data => {
+    packageData(data) {
       const form = new FormData();
       for (const key in data) {
         form.append(key, data[key]);
       }
       return form;
+    },
+    errorMessage(error) {
+      if (error == "Invalid username or password!") {
+        return "Felaktigt lösenord eller användarnamn!";
+      } else {
+        return "Ett oväntat fel har inträffat :(";
+      }
+    },
+    logout() {
+      this.loggedIn = false;
+      //TODO: axios to backend!
     }
   }
 };
@@ -133,6 +139,8 @@ export default {
 span.login-status {
   color: white;
   font-weight: bold;
+  top: 15px;
+  right: 90px;
 }
 
 .error .error-message {
@@ -166,11 +174,7 @@ span.login-status {
   z-index: 10000;
   display: block;
   margin: 7% auto;
-  /* position: fixed; */
-  /* left: 0; */
-  /* right: 0; */
 }
-
 @keyframes blink {
   from {
     border-color: transparent;
@@ -179,15 +183,14 @@ span.login-status {
     border-color: red;
   }
 }
-.modal-login .error {
-  border-width: 2.5px;
-  /* transition: border 1s; */
-  animation: blink 1s 2 alternate;
-}
 .modal-login .modal-content {
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
-  /* border: none; */
+  border-color: transparent;
+  border-width: 2.5px;
+}
+.modal-login .error {
+  animation: blink 1s 2 alternate;
 }
 .modal-login .modal-header {
   border-bottom: none;
@@ -235,6 +238,9 @@ span.login-status {
 .modal-login .btn:hover,
 .modal-login .btn:focus {
   background: #00bf78;
+}
+.modal-body {
+  padding-bottom: 5px;
 }
 .trigger-btn {
   display: inline-block;
