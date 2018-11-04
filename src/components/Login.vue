@@ -48,6 +48,7 @@
 // https://vuejs.org/v2/examples/modal.html
 // https://auralinna.blog/post/2018/how-to-build-a-complete-form-with-vue-js
 // https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
+// https://blog.sqreen.io/authentication-best-practices-vue/
 import axios from "axios";
 
 export default {
@@ -76,7 +77,7 @@ export default {
       this.grayoutShow = false;
       this.isError = false;
     },
-    onSubmit: function() {
+    onSubmit_old: function() {
       // this.enableSubmitLoader();
       this.isError = false;
       let formData = this.packageData(this.form);
@@ -120,11 +121,42 @@ export default {
       }
     },
     logout() {
-      this.loggedIn = false;
-      //TODO: axios to backend!
+      axios
+        .post(this.$backend + "logout")
+        .then(response => {
+          if (response.data.status == "success") {
+            this.loggedIn = false;
+          } else {
+            this.error = this.errorMessage(response.data.message);
+            console.log(this.error);
+          }
+        })
+        .catch(error => {
+          console.log("Couldn't log out");
+        });
+    },
+    onSubmit() {
+      const { username, password } = this;
+      LoginRoutine({ username, password }).then(() => {
+        this.$router.push("/");
+      });
     }
   }
 };
+
+const LoginRoutine = user =>
+  new Promise ((resolve, reject) => {
+    axios({url: "login", data: user, method: "POST" })
+      .then(resp => {
+        const token = resp.data.token
+        localStorage.setItem("user-token", token); // store the token in localstorage
+        resolve(resp)
+      })
+      .catch(err => {
+        localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
+        reject(err);
+      });
+  });
 </script>
 
 <!-- ####################################################################### -->
