@@ -77,7 +77,7 @@ export default {
       this.grayoutShow = false;
       this.isError = false;
     },
-    onSubmit_old: function() {
+    onSubmit: function() {
       // this.enableSubmitLoader();
       this.isError = false;
       let formData = this.packageData(this.form);
@@ -97,14 +97,18 @@ export default {
         this.closeLogin();
         this.currentUser = response.data.user;
         this.loggedIn = true;
+        // const token = resp.data.token;
+        // localStorage.setItem("user-token", token); // store the token in localstorage
       } else {
         this.isError = true;
         this.error = this.errorMessage(response.data.message);
+        // localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
       }
     },
     submitError(error) {
       this.isError = true;
       this.error = this.errorMessage(error);
+      // localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
     },
     packageData(data) {
       const form = new FormData();
@@ -121,6 +125,7 @@ export default {
       }
     },
     logout() {
+      // localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
       axios
         .post(this.$backend + "logout")
         .then(response => {
@@ -132,31 +137,29 @@ export default {
           }
         })
         .catch(error => {
-          console.log("Couldn't log out");
+          console.log("Couldn't log out:", error);
         });
-    },
-    onSubmit() {
-      const { username, password } = this;
-      LoginRoutine({ username, password }).then(() => {
-        this.$router.push("/");
-      });
-    }
+    } //,
+    // onSubmit() {
+    //   const { username, password } = this;
+    //   LoginRoutine({ username, password }).then(() => {
+    //     this.$router.push("/");
+    //   });
+    // },
+    // LoginRoutine(user) {
+    //   axios({ url: this.$backend + "login", data: user, method: "POST" })
+    //     .then(resp => {
+    //       const token = resp.data.token;
+    //       localStorage.setItem("user-token", token); // store the token in localstorage
+    //       resolve(resp);
+    //     })
+    //     .catch(err => {
+    //       localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
+    //       reject(err);
+    //     });
+    // }
   }
 };
-
-const LoginRoutine = user =>
-  new Promise ((resolve, reject) => {
-    axios({url: "login", data: user, method: "POST" })
-      .then(resp => {
-        const token = resp.data.token
-        localStorage.setItem("user-token", token); // store the token in localstorage
-        resolve(resp)
-      })
-      .catch(err => {
-        localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
-        reject(err);
-      });
-  });
 </script>
 
 <!-- ####################################################################### -->
