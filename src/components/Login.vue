@@ -67,17 +67,39 @@ export default {
       }
     };
   },
+  created() {
+    this.checkLogin();
+  },
   methods: {
-    openLogin: function() {
+    checkLogin() {
+      console.log("Checking login status");
+      axios
+        .post(this.$backend + "check_authentication")
+        .then(response => {
+          if (response.data.status == "success") {
+            this.loggedIn = true;
+            this.currentUser = response.data.user;
+            console.log(response.data);
+          } else {
+            this.loggedIn = false;
+            console.log(response.data);
+          }
+        })
+        .catch(error => {
+          this.loggedIn = false;
+        });
+    },
+    openLogin() {
+      this.checkLogin();
       this.isHidden = !this.isHidden;
       this.grayoutShow = true;
     },
-    closeLogin: function() {
+    closeLogin() {
       this.isHidden = true;
       this.grayoutShow = false;
       this.isError = false;
     },
-    onSubmit: function() {
+    onSubmit() {
       // this.enableSubmitLoader();
       this.isError = false;
       let formData = this.packageData(this.form);
