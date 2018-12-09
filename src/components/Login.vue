@@ -20,10 +20,10 @@
   						<i class="fa fa-lock"></i>
   						<input type="password" class="form-control" placeholder="Lösenord" required="required" v-model="form.password">
   					</div>
-            <div class="checkbox">
+            <!-- <div class="checkbox">
                 <input type="checkbox" name="remember" value="" id="remember" v-model="form.remember">
                 <label for="remember">Kom ihåg mig</label>
-            </div>
+            </div> -->
   					<div class="form-group">
   						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
   					</div>
@@ -50,6 +50,7 @@
 // https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
 // https://blog.sqreen.io/authentication-best-practices-vue/
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export default {
   name: "login",
@@ -62,8 +63,8 @@ export default {
       isError: false,
       form: {
         login: "",
-        password: "",
-        remember: true
+        password: "" //,
+        // remember: true
       }
     };
   },
@@ -72,14 +73,12 @@ export default {
   },
   methods: {
     checkLogin() {
-      console.log("Checking login status");
       axios
         .post(this.$backend + "check_authentication")
         .then(response => {
           if (response.data.status == "success") {
             this.loggedIn = true;
             this.currentUser = response.data.user;
-            console.log(response.data);
           } else {
             this.loggedIn = false;
             console.log(response.data);
@@ -87,10 +86,10 @@ export default {
         })
         .catch(error => {
           this.loggedIn = false;
+          console.log(error);
         });
     },
     openLogin() {
-      this.checkLogin();
       this.isHidden = !this.isHidden;
       this.grayoutShow = true;
     },
@@ -100,37 +99,26 @@ export default {
       this.isError = false;
     },
     onSubmit() {
-      // this.enableSubmitLoader();
       this.isError = false;
       let formData = this.packageData(this.form);
       axios
         .post(this.$backend + "login", formData)
         .then(response => {
-          this.submitSuccess(response);
-          // this.disableSubmitLoader();
+          this.closeLogin();
+          this.currentUser = response.data.user;
+          this.loggedIn = true;
         })
-        .catch(error => {
-          this.submitError(error);
-          // this.disableSubmitLoader();
+        .catch(e => {
+          this.isError = true;
+          if (
+            typeof e.response !== "undefined" &&
+            e.response.data.message == "Invalid username or password!"
+          ) {
+            this.error = "Felaktigt lösenord eller användarnamn!";
+          } else {
+            this.error = "Ett oväntat fel har inträffat :(";
+          }
         });
-    },
-    submitSuccess(response) {
-      if (response.data.status == "success") {
-        this.closeLogin();
-        this.currentUser = response.data.user;
-        this.loggedIn = true;
-        // const token = resp.data.token;
-        // localStorage.setItem("user-token", token); // store the token in localstorage
-      } else {
-        this.isError = true;
-        this.error = this.errorMessage(response.data.message);
-        // localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
-      }
-    },
-    submitError(error) {
-      this.isError = true;
-      this.error = this.errorMessage(error);
-      // localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
     },
     packageData(data) {
       const form = new FormData();
@@ -139,15 +127,7 @@ export default {
       }
       return form;
     },
-    errorMessage(error) {
-      if (error == "Invalid username or password!") {
-        return "Felaktigt lösenord eller användarnamn!";
-      } else {
-        return "Ett oväntat fel har inträffat :(";
-      }
-    },
     logout() {
-      // localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
       axios
         .post(this.$backend + "logout")
         .then(response => {
@@ -155,31 +135,13 @@ export default {
             this.loggedIn = false;
           } else {
             this.error = this.errorMessage(response.data.message);
-            console.log(this.error);
           }
         })
         .catch(error => {
           console.log("Couldn't log out:", error);
+          // Todo: popup with error message?
         });
-    } //,
-    // onSubmit() {
-    //   const { username, password } = this;
-    //   LoginRoutine({ username, password }).then(() => {
-    //     this.$router.push("/");
-    //   });
-    // },
-    // LoginRoutine(user) {
-    //   axios({ url: this.$backend + "login", data: user, method: "POST" })
-    //     .then(resp => {
-    //       const token = resp.data.token;
-    //       localStorage.setItem("user-token", token); // store the token in localstorage
-    //       resolve(resp);
-    //     })
-    //     .catch(err => {
-    //       localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
-    //       reject(err);
-    //     });
-    // }
+    }
   }
 };
 </script>
