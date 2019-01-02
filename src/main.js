@@ -4,7 +4,8 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 Vue.prototype.$backend =
-  "http://demo.spraakdata.gu.se/anne/recept/receptsida-backend/";
+  // "http://demo.spraakdata.gu.se/anne/recept/receptsida-backend/";
+  "http://0.0.0.0:9005/";
 
 global.Vue = Vue;
 

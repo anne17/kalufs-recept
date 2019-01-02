@@ -8,6 +8,9 @@
       <div class="column">
         <RecipiesList/>
       </div>
+      <div class="column">
+        <p><a href="/edit">Nytt recept</a></p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +38,7 @@ export default {
   margin-right: 0.2em;
 }
 
-/* Create three unequal columns that floats next to each other */
+/* Create three unequal columns that float next to each other */
 .column {
   float: left;
   padding: 0.8em;

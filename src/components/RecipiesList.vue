@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     axios.get(this.$backend + "recipe-data").then(response => {
-      this.results = response.data.recipies;
+      this.results = response.data.data.recipies;
       this.pdfaddress = this.$backend + "pdf/";
       this.imgaddress = this.$backend + "img/";
       this.defaultimg = this.$backend + "img/default_recipe.png";

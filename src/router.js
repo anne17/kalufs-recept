@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Recipies from "./views/Recipies.vue";
+import EditRecipe from "./views/EditRecipe.vue";
 
 Vue.use(Router);
 
@@ -18,6 +19,11 @@ export default new Router({
       path: "/",
       name: "recipies",
       component: Recipies
+    },
+    {
+      path: "/edit",
+      name: "recipies",
+      component: EditRecipe
     },
     {
       path: "/about",
