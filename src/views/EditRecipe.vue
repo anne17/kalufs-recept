@@ -80,6 +80,52 @@
       </div>
 
     </div>
+    <div class="column markdown-help">
+      <h4>Markdown-hjälp</h4>
+
+      <p>
+        <strong>Kursiv stil:</strong></br>
+        <ul>
+          <li>*single asterisks*</li>
+          <li>_single underscores_</li>
+        </ul>
+      </p>
+      <p>
+        <strong>Tjock stil:</strong></br>
+        <ul>
+          <li>**double asterisks**</li>
+          <li>__double underscores__</li>
+        </ul>
+      </p>
+      <p>
+        <strong>Rubriker:</strong></br>
+        <ul>
+          <li># This is an H1</li>
+          <li>## This is an H2</li>
+          <li>###### This is an H6</li>
+        </ul>
+      </p>
+      <p>
+        <strong>Listor:</strong></br>
+        <ul>
+          <li>* Red</li>
+          <li>* Green</li>
+          <li>* Blue</li></br>
+
+          <li>1. Red</li>
+          <li>2. Green</li>
+          <li>3. Blue</li>
+        </ul>
+      </p>
+      <p>
+        <strong>Länkar:</strong></br>
+        <ul>
+          <li>[Den här länken](http://example.com) leder ingenstans.</li>
+        </ul>
+      </p>
+
+    <a href="https://daringfireball.net/projects/markdown/syntax">(Markdown dokumentation)</a>
+    </div>
   </div>
 </template>
 
@@ -183,6 +229,14 @@ label {
   text-align: left;
 }
 
+.markdown-help {
+  text-align: left;
+}
+
+.markdown-help ul {
+  list-style-type: none;
+}
+
 /* Create three unequal columns that float next to each other */
 .column {
   float: left;
@@ -193,13 +247,13 @@ label {
   border-width: thin;
 }
 
-.left {
+/* .left {
   width: 30%;
 }
 
 .right {
   width: 70%;
-}
+} */
 
 /* .row:after {
   content: "";
