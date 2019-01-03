@@ -22,7 +22,7 @@ export default new Router({
     },
     {
       path: "/edit",
-      name: "recipies",
+      name: "edit",
       component: EditRecipe
     },
     {

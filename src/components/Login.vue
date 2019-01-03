@@ -81,7 +81,6 @@ export default {
             this.currentUser = response.data.user;
           } else {
             this.loggedIn = false;
-            console.log(response.data);
           }
         })
         .catch(error => {
