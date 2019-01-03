@@ -1,36 +1,57 @@
 <template>
   <div class="edit">
-    <div class="column">
+    <div class="column side-menu">
+      <div>
+        <button type="button" class="btn btn-default btn-sm" v-on:click="preview">
+          <i class="far fa-eye"></i>
+          Preview
+        </button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-default btn-sm" v-on:click="save">
+          <i class="fas fa-save"></i>
+          Spara
+        </button>
+      </div>
+
     </div>
-    <div class="column">
+    <div class="column editor">
       <h1>
           Nytt recept
       </h1>
 
       <div class="form-group row">
-        <label for="name" class="col-2 col-form-label">Receptnamn</label>
-        <div class="col-10">
+        <label for="name" class="col-sm-2 col-form-label">Receptnamn</label>
+        <div class="col-sm-10">
           <input class="form-control" type="text" placeholder="Mackor med ost" id="name">
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="ingredients" class="col-2 col-form-label">Ingredienser</label>
-        <div class="col-10">
-          <input class="form-control" type="text" placeholder="..." id="ingredients">
+        <label for="ingredients" class="col-sm-2 col-form-label">Ingredienser</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="10" placeholder="- ..." id="ingredients"></textarea>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="contents" class="col-2 col-form-label">Beskrivning</label>
-        <div class="col-10">
-          <input class="form-control" type="text" placeholder="..." id="contents">
+        <label for="contents" class="col-sm-2 col-form-label">Beskrivning</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" rows="10" placeholder="..." id="contents"></textarea>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="source" class="col-2 col-form-label">Källa</label>
-        <div class="col-10">
+        <label for="source" class="col-sm-2 col-form-label">Bild</label>
+        <div class="col-sm-10">
+          <input type="file" id="file" class="custom-file-input">
+          <span class="custom-file-control"></span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="source" class="col-sm-2 col-form-label">Källa</label>
+        <div class="col-sm-10">
           <input class="form-control" type="url" placeholder="https://example.com" id="source">
         </div>
       </div>
@@ -62,8 +83,22 @@
   margin-right: 0.2em;
 }
 
+.side-menu button {
+  margin-bottom: 1em;
+}
+
 h1 {
   font-size: 2.6rem;
+  margin-bottom: 2rem;
+}
+
+.editor {
+  /* max-width: 50em; */
+  width: 60%;
+}
+
+label {
+  float: left;
 }
 
 /* Create three unequal columns that float next to each other */
@@ -84,15 +119,11 @@ h1 {
   width: 70%;
 }
 
-.row:after {
+/* .row:after {
   content: "";
   display: table;
   clear: both;
-}
-
-.row {
-  margin: 0.2em;
-}
+} */
 
 /* Responsive layout - makes the three columns stack on top of each other
 instead of next to each other */

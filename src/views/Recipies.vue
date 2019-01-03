@@ -9,7 +9,12 @@
         <RecipiesList/>
       </div>
       <div class="column">
-        <p><a href="/edit">Nytt recept</a></p>
+        <p>
+          <a href="/edit">
+            <i class="fas fa-plus"></i>
+            Nytt recept
+          </a>
+        </p>
       </div>
     </div>
   </div>
