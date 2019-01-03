@@ -7,12 +7,12 @@
           Granska
         </button>
       </div>
-      <div>
+      <!-- <div>
         <button type="button" class="btn btn-default btn-sm" v-on:click="save">
           <i class="fas fa-save"></i>
           Spara
         </button>
-      </div>
+      </div> -->
 
     </div>
     <div class="column editor">
@@ -84,21 +84,21 @@
       <h4>Markdown-hjälp</h4>
 
       <p>
-        <strong>Kursiv stil:</strong></br>
+        <strong>Kursiv stil:</strong><br>
         <ul>
           <li>*single asterisks*</li>
           <li>_single underscores_</li>
         </ul>
       </p>
       <p>
-        <strong>Tjock stil:</strong></br>
+        <strong>Tjock stil:</strong><br>
         <ul>
           <li>**double asterisks**</li>
           <li>__double underscores__</li>
         </ul>
       </p>
       <p>
-        <strong>Rubriker:</strong></br>
+        <strong>Rubriker:</strong><br>
         <ul>
           <li># This is an H1</li>
           <li>## This is an H2</li>
@@ -106,11 +106,11 @@
         </ul>
       </p>
       <p>
-        <strong>Listor:</strong></br>
+        <strong>Listor:</strong><br>
         <ul>
           <li>* Red</li>
           <li>* Green</li>
-          <li>* Blue</li></br>
+          <li>* Blue</li><br>
 
           <li>1. Red</li>
           <li>2. Green</li>
@@ -118,7 +118,7 @@
         </ul>
       </p>
       <p>
-        <strong>Länkar:</strong></br>
+        <strong>Länkar:</strong><br>
         <ul>
           <li>[Den här länken](http://example.com) leder ingenstans.</li>
         </ul>
@@ -142,19 +142,19 @@ export default {
       // currentUser: "User",
       isError: false,
       previewActive: false,
-      preview:{
+      preview: {
         name: "",
         portions: 0,
         ingredients: "",
         contents: "",
-        source: "",
+        source: ""
       },
       form: {
         name: "",
         portions: 4,
         ingredients: "",
         contents: "",
-        source: "",
+        source: ""
       }
     };
   },
@@ -208,6 +208,11 @@ export default {
   margin-right: 0.2em;
 }
 
+.side-menu {
+  padding: 22em 0.8em 22em 0.8em !important;
+  width: 8%;
+}
+
 .side-menu button {
   margin-bottom: 1em;
 }
@@ -219,6 +224,8 @@ h1 {
 
 .editor {
   width: 60%;
+  border-right: thin solid #ccc;
+  border-left: thin solid #ccc;
 }
 
 label {
@@ -235,6 +242,7 @@ label {
 
 .markdown-help ul {
   list-style-type: none;
+  padding-left: 1em;
 }
 
 /* Create three unequal columns that float next to each other */
@@ -243,8 +251,8 @@ label {
   padding: 0.8em;
   margin-bottom: 0.5em;
   margin-right: 0.2em;
-  border-style: dotted;
-  border-width: thin;
+  /* border-style: dotted;
+  border-width: thin; */
 }
 
 /* .left {

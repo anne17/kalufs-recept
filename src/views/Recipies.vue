@@ -5,15 +5,13 @@
         <p>Search bar</p>
         <p>Filter by category</p>
       </div>
-      <div class="column">
+      <div class="column middle">
         <RecipiesList/>
       </div>
       <div class="column">
-        <p>
-          <a href="/edit">
-            <i class="fas fa-plus"></i>
-            Nytt recept
-          </a>
+        <p id="new-recipe" @click="newRecipe">
+          <i class="fas fa-plus"></i>
+          Nytt recept
         </p>
       </div>
     </div>
@@ -29,6 +27,11 @@ export default {
   name: "recipies",
   components: {
     RecipiesList
+  },
+  methods: {
+    newRecipe() {
+      this.$router.push("edit");
+    }
   }
 };
 </script>
@@ -43,14 +46,23 @@ export default {
   margin-right: 0.2em;
 }
 
+.middle {
+  border-right: thin solid #ccc;
+  border-left: thin solid #ccc;
+}
+
+#new-recipe {
+  cursor: pointer;
+}
+
 /* Create three unequal columns that float next to each other */
 .column {
   float: left;
   padding: 0.8em;
   margin-bottom: 0.5em;
   margin-right: 0.2em;
-  border-style: dotted;
-  border-width: thin;
+  /* border-style: dotted;
+  border-width: thin; */
 }
 
 .left {
