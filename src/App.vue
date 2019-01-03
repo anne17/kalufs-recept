@@ -6,9 +6,11 @@
         <div class="col-4">
         </div>
         <!-- middle column -->
-        <div class="col-4 header-img-container">
-          <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
-        </div>
+        <a href="/">
+          <div class="col-4 header-img-container">
+              <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
+          </div>
+        </a>
         <!-- right column -->
         <div class="col-4">
           <Login/>
