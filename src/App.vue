@@ -6,10 +6,12 @@
         <div class="col-4">
         </div>
         <!-- middle column -->
-        <router-link to="/">
+        <router-link to="/" class="logo">
+          <span>kalufs. </span>
           <div class="col-4 header-img-container">
               <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
           </div>
+          <span> /recept</span>
         </router-link>
         <!-- right column -->
         <div class="col-4">
@@ -59,11 +61,17 @@ export default {
   height: 50px;
 }
 
-/* #header a {
+#header .logo {
+  font-family: "Indie Flower", cursive;
+  text-decoration: none;
   font-weight: bold;
-  color: #2c3e50;
-}*/
+  font-size: 2.8rem;
+  color: white;
+}
 
+.logo span {
+  vertical-align: bottom;
+}
 /* @media (min-width: 858px) {
   html {
     font-size: 15px;

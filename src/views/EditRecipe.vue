@@ -1,13 +1,11 @@
 <template>
   <div class="edit">
     <div class="column side-menu">
-      <div>
+      <div class="buttons">
         <button type="button" class="btn btn-default btn-sm" v-on:click="getPreview">
           <i class="far fa-eye"></i>
           Granska
         </button>
-      </div>
-      <div>
         <button type="button" class="btn btn-default btn-sm" v-on:click="save" disabled>
           <i class="fas fa-save"></i>
           Spara
@@ -127,11 +125,7 @@ export default {
         .then(response => {
           if (response.data.status == "success") {
             this.previewActive = true;
-            this.preview.name = response.data.data.name;
-            this.preview.portions = response.data.data.portions;
-            this.preview.ingredients = response.data.data.ingredients;
-            this.preview.contents = response.data.data.contents;
-            this.preview.source = response.data.data.source;
+            this.preview = response.data.data;
           } else {
             console.log(response.data);
             this.previewActive = false;
