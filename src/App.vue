@@ -6,18 +6,15 @@
         <div class="col-4">
         </div>
         <!-- middle column -->
-        <a href="/">
+        <router-link to="/">
           <div class="col-4 header-img-container">
               <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
           </div>
-        </a>
+        </router-link>
         <!-- right column -->
         <div class="col-4">
           <Login/>
         </div>
-        <!-- <router-link to="/home">Home</router-link> |
-        <router-link to="/">Recipies</router-link> |
-        <router-link to="/about">About</router-link> -->
       </div>
     </div>
     <router-view/>
@@ -42,7 +39,6 @@ export default {
 
 <style>
 #app {
-  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   font-family: "Krub", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -66,11 +62,7 @@ export default {
 /* #header a {
   font-weight: bold;
   color: #2c3e50;
-}
-
-#header a.router-link-exact-active {
-  color: #42b983;
-} */
+}*/
 
 /* @media (min-width: 858px) {
   html {

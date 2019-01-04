@@ -138,7 +138,7 @@ export default {
         })
         .catch(error => {
           console.log("Couldn't log out:", error);
-          // Todo: popup with error message?
+          // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
         });
     }
   }
