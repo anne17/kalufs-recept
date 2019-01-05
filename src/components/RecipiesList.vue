@@ -64,7 +64,7 @@ export default {
 .row {
   display: flex;
   flex-wrap: nowrap;
-  height: 100px;
+  height: 5em;
 }
 
 .main-entry {

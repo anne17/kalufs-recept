@@ -40,15 +40,21 @@ export default {
 <!-- ####################################################################### -->
 
 <style>
+html,
+body {
+  height: 100%;
+}
 #app {
   font-family: "Krub", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: ghostwhite;
+  min-height: 100%;
 }
 #header {
-  background-color: #5f8fe9;
+  background-color: #3866bf;
   max-width: 100%;
   height: 50px;
 }

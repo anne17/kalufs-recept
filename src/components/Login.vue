@@ -14,7 +14,7 @@
         <i class="fas fa-sign-out-alt"></i>
       </span>
     </div>
-  	<div class="modal-dialog modal-login" v-if="!isHidden">
+  	<div class="modal-dialog" v-if="!isHidden">
   		<div class="modal-content" v-bind:class="{ error: isError }">
         <div id="close-icon" v-on:click="closeLogin">
           <i class="far fa-times-circle"></i>
@@ -190,13 +190,13 @@ export default {
   z-index: 9999;
 }
 
-.modal-login {
+.modal-dialog {
   color: #636363;
   width: 350px;
   z-index: 10000;
   position: fixed;
   top: 10%;
-  left: 40%;
+  left: 50%;
 }
 #close-icon i {
   position: unset;
@@ -211,60 +211,60 @@ export default {
     border-color: red;
   }
 }
-.modal-login .modal-content {
+.modal-dialog .modal-content {
   padding: 15px;
   border-radius: 5px;
   border-color: transparent;
   border-width: 2.5px;
 }
-.modal-login .error {
+.modal-dialog .error {
   animation: blink 1s 2 alternate;
 }
-.modal-login .modal-header {
+.modal-dialog .modal-header {
   border-bottom: none;
   position: relative;
   justify-content: center;
 }
-.modal-login h4 {
+.modal-dialog h4 {
   text-align: center;
   font-size: 26px;
 }
-.modal-login .form-group {
+.modal-dialog .form-group {
   position: relative;
 }
-.modal-login i {
+.modal-dialog i {
   position: absolute;
   left: 13px;
   top: 11px;
   font-size: 18px;
 }
-.modal-login .form-control {
+.modal-dialog .form-control {
   padding-left: 40px;
 }
-.modal-login .form-control:focus {
+.modal-dialog .form-control:focus {
   border-color: #00ce81;
 }
-.modal-login .form-control,
-.modal-login .btn {
+.modal-dialog .form-control,
+.modal-dialog .btn {
   min-height: 40px;
   border-radius: 3px;
 }
-.modal-login .hint-text {
+.modal-dialog .hint-text {
   text-align: center;
   padding-top: 10px;
 }
-.modal-login .close {
+.modal-dialog .close {
   position: absolute;
   top: -5px;
   right: -5px;
 }
-.modal-login .btn {
+.modal-dialog .btn {
   background: #00ce81;
   border: none;
   line-height: normal;
 }
-.modal-login .btn:hover,
-.modal-login .btn:focus {
+.modal-dialog .btn:hover,
+.modal-dialog .btn:focus {
   background: #00bf78;
 }
 .modal-body {

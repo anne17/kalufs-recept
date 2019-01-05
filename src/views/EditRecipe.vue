@@ -66,7 +66,7 @@
 
         <div id="preview-window" v-if="previewActive">
           <hr>
-          <h2>Förhandsvisning</h2>
+          <h1>Förhandsvisning</h1>
           <hr>
 
           <div class="recipe-view">
