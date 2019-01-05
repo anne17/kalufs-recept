@@ -3,18 +3,18 @@
     <div id="header" class="container">
       <div class="row">
         <!-- left column -->
-        <div class="col-4">
+        <div class="col-2">
         </div>
         <!-- middle column -->
-        <router-link to="/" class="logo">
-          <span>kalufs. </span>
-          <div class="col-4 header-img-container">
-              <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
-          </div>
-          <span> /recept</span>
-        </router-link>
+        <div class="col-lg-8 col-md-8 col-sm-12 header-img-container">
+          <router-link to="/" class="logo">
+            <span>kalufs. </span>
+            <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
+            <span> /recept</span>
+          </router-link>
+        </div>
         <!-- right column -->
-        <div class="col-4">
+        <div class="col-2">
           <Login/>
         </div>
       </div>
@@ -49,56 +49,52 @@ export default {
 }
 #header {
   background-color: #5f8fe9;
-  width: 100%;
+  max-width: 100%;
   height: 50px;
+}
+
+#header .row {
+  height: 100%;
 }
 
 .header-img-container {
   display: inline-block;
+  height: 100%;
 }
 
-.header-img-container > img {
-  height: 50px;
+.header-img-container img {
+  height: 100%;
 }
 
 #header .logo {
   font-family: "Indie Flower", cursive;
   text-decoration: none;
   font-weight: bold;
-  font-size: 2.8rem;
+  font-size: 1.8rem;
   color: white;
 }
 
 .logo span {
-  vertical-align: bottom;
-}
-/* @media (min-width: 858px) {
-  html {
-    font-size: 15px;
-  }
+  vertical-align: sub;
 }
 
-@media (min-width: 780px) {
-  html {
-    font-size: 14px;
-  }
+h1 {
+  font-size: 1.6rem;
+  margin-top: 0.6em;
 }
 
-@media (min-width: 702px) {
-  html {
-    font-size: 13px;
-  }
+/* padding side-bars */
+.right,
+.left {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
 }
 
-@media (min-width: 724px) {
-  html {
-    font-size: 12px;
-  }
+.left {
+  border-left: thin solid #ccc;
 }
 
-@media (max-width: 623px) {
-  html {
-    font-size: 11px;
-  }
-} */
+.right {
+  border-right: thin solid #ccc;
+}
 </style>

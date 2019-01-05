@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-help">
-    <h4>Markdown-hjälp</h4>
+    <h1>Markdown-hjälp</h1>
 
     <p>
       <strong>Kursiv stil:</strong><br>
@@ -41,7 +41,9 @@
       </ul>
     </p>
 
-    <a href="https://daringfireball.net/projects/markdown/syntax">(Markdown-dokumentation)</a>
+    <p>
+      <a href="https://daringfireball.net/projects/markdown/syntax">Markdown-dokumentation</a>
+    </p>
   </div>
 </template>
 
@@ -57,10 +59,20 @@ export default {
 <style scoped>
 .markdown-help {
   text-align: left;
+  font-size: 0.9rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.4em;
 }
 
 .markdown-help ul {
   list-style-type: none;
   padding-left: 1em;
+}
+
+p {
+  margin-left: 0.8em;
 }
 </style>

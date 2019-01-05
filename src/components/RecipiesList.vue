@@ -56,10 +56,6 @@ export default {
 
 <!-- ####################################################################### -->
 <style scoped>
-h1 {
-  font-size: 2.6rem;
-}
-
 .main-list {
   padding-left: 0pt;
   margin-left: 0pt;
@@ -72,10 +68,9 @@ h1 {
 }
 
 .main-entry {
-  font-size: 1.8rem;
   list-style-type: none;
   margin-top: 0.5em;
-  max-width: 50em;
+  width: 100%;
 }
 
 .main-entry a {
@@ -93,18 +88,19 @@ h1 {
 
 .tags-container {
   /*      top right bottom left */
-  margin: 0.3em 0em 0em 0.3em;
+  padding: 0.3em 0em 0em 0.3em;
   text-align: left;
 }
 
 .tag {
-  margin-right: 0.3em;
+  margin: 0.3em 0.3em 0 0;
   padding: 0em 0.3em 0em 0.3em;
-  font-size: 1.3rem;
+  font-size: 0.8rem;
   border-style: solid;
   border-color: #fff586;
   border-radius: 15px;
   background: #fff586;
+  display: inline-block;
 }
 
 .main-img-container {
@@ -119,7 +115,7 @@ h1 {
 
 .text-container {
   float: left;
-  margin: 0.3em 0em 0em 0.6em;
+  margin-top: 0.3em;
   text-align: left;
 }
 

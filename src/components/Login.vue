@@ -1,15 +1,24 @@
 <template>
 <div>
-  <div id="grayout" class="hide" v-bind:class="{ show: grayoutShow }" @click="closeLogin"></div>
+  <div id="grayout" v-if="grayoutShow" @click="closeLogin"></div>
 
   <div class="login">
-    <button type="button" v-if="!loggedIn" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="openLogin">Logga in</button>
-    <span class="login-status" v-if="loggedIn">
-      Hej {{ currentUser }}!
-    </span>
-    <button type="button" v-if="loggedIn" class="btn btn-default btn-sm dropdown-toggle login-status" v-on:click="logout">Logga ut</button>
+    <div class="login-status d-none d-lg-inline">
+      <span v-if="!loggedIn" v-on:click="openLogin" title="Logga in">
+        <i class="fas fa-sign-in-alt"></i>
+      </span>
+      <span  v-if="loggedIn">
+        Hej {{ currentUser }}!&nbsp;
+      </span>
+      <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
+        <i class="fas fa-sign-out-alt"></i>
+      </span>
+    </div>
   	<div class="modal-dialog modal-login" v-if="!isHidden">
   		<div class="modal-content" v-bind:class="{ error: isError }">
+        <div id="close-icon" v-on:click="closeLogin">
+          <i class="far fa-times-circle"></i>
+        </div>
   			<div class="modal-body">
   				<form v-on:submit.prevent="onSubmit">
   					<div class="form-group">
@@ -149,29 +158,24 @@ export default {
 
 <style scoped>
 .login-status {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-span.login-status {
   color: white;
   font-weight: bold;
+  float: right;
+  position: absolute;
+  right: 5%;
   top: 15px;
-  right: 90px;
+}
+
+.login-status i {
+  cursor: pointer;
+  font-size: 1.3em;
+  position: relative;
+  top: 2px;
 }
 
 .error .error-message {
   color: red;
   font-weight: bold;
-}
-
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
 }
 
 /* Gray out background when login window opens */
@@ -190,8 +194,14 @@ span.login-status {
   color: #636363;
   width: 350px;
   z-index: 10000;
-  display: block;
-  margin: 7% auto;
+  position: fixed;
+  top: 10%;
+  left: 40%;
+}
+#close-icon i {
+  position: unset;
+  float: right;
+  cursor: pointer;
 }
 @keyframes blink {
   from {
