@@ -9,6 +9,7 @@
           <div class="main-img-container col-3" v-on:click="openLink(pdfaddress+recipe.pdf)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
           </div>
           <div class="text-container col-9">
+            <!-- <router-link v-bind:to="view+'?title='+recipe.title">{{ recipe.title }}</router-link> -->
             <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
             <div class="tags-container">
               <span class="tag" v-for="tag in recipe.tags" :key="tag.id"><a href="">{{ tag }}</a></span>
@@ -35,6 +36,7 @@ export default {
     axios.get(this.$backend + "recipe-data").then(response => {
       this.results = response.data.data.recipies;
       this.pdfaddress = this.$backend + "pdf/";
+      // this.viewaddress = this.$backend + "view_recipe?title=";
       this.imgaddress = this.$backend + "img/";
       this.defaultimg = this.$backend + "img/default_recipe.png";
     });
