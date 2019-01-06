@@ -86,7 +86,10 @@ body {
 
 h1 {
   font-size: 1.6rem;
-  margin-top: 0.6em;
+}
+
+.middle {
+  margin-top: 0.8em;
 }
 
 /* padding side-bars */

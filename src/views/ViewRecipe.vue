@@ -10,11 +10,14 @@
         </div>
 
       </div> -->
-      <div class="col-lg-7 col-md-8 col-sm-12 editor">
+      <div class="col-lg-12 col-md-12 col-sm-12 middle">
 
         <div class="recipe-view">
+          <h1 class="errormsg" v-if="isError">Kan inte hitta receptet!</h1>
+
           <h2 v-html="recipe.title"></h2>
-          <h3 v-if="recipe.ingredients">Ingredienser</h3> <p>För <span v-html="recipe.portions"></span> portioner</p>
+          <h3 v-if="recipe.ingredients">Ingredienser</h3>
+          <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
           <p v-html="recipe.ingredients"></p>
           <h3 v-if="recipe.contents">Beskrivning</h3>
           <p v-html="recipe.contents"></p>
@@ -64,8 +67,9 @@ export default {
             console.log(response.data);
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(e => {
+          console.log(e.response.data.message);
+          this.isError = true;
         });
     },
     save() {
@@ -87,5 +91,13 @@ export default {
 
 .recipe-view {
   text-align: left;
+}
+
+.errormsg{
+  color: red;
+}
+
+h2 {
+  text-align: center;
 }
 </style>

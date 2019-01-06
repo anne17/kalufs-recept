@@ -14,17 +14,17 @@
             Spara
           </button>
         </div>
-
       </div>
-      <div class="col-lg-7 col-md-8 col-sm-12 editor">
+
+      <div class="col-lg-7 col-md-8 col-sm-12 middle editor">
         <h1>
             Nytt recept
         </h1>
 
         <div class="form-group row">
-          <label for="name" class="col-sm-2 col-form-label">Receptnamn</label>
+          <label for="title" class="col-sm-2 col-form-label">Receptnamn</label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="Mackor med ost" id="name" v-model="form.name">
+            <input class="form-control" type="text" placeholder="Mackor med ost" id="title" v-model="form.title">
           </div>
         </div>
 
@@ -70,7 +70,7 @@
           <hr>
 
           <div class="recipe-view">
-            <h2 v-html="preview.name"></h2>
+            <h2 v-html="preview.title"></h2>
             <h3 v-if="preview.ingredients">Ingredienser</h3> <p>För <span v-html="preview.portions"></span> portioner</p>
             <p v-html="preview.ingredients"></p>
             <h3 v-if="preview.contents">Beskrivning</h3>
@@ -106,14 +106,14 @@ export default {
       isError: false,
       previewActive: false,
       preview: {
-        name: "",
+        title: "",
         portions: 0,
         ingredients: "",
         contents: "",
         source: ""
       },
       form: {
-        name: "",
+        title: "",
         portions: 4,
         ingredients: "",
         contents: "",
