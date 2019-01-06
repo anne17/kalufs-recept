@@ -21,7 +21,7 @@ export default new Router({
       component: EditRecipe
     },
     {
-      path: "/view",
+      path: "/view/:title",
       name: "view",
       component: ViewRecipe
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-2 d-none d-lg-block side-menu right">
+      <!-- <div class="col-2 d-none d-lg-block side-menu right">
         <div class="buttons">
           <button type="button" class="btn btn-default btn-sm" v-on:click="save" disabled>
             <i class="fas fa-save"></i>
@@ -9,7 +9,7 @@
           </button>
         </div>
 
-      </div>
+      </div> -->
       <div class="col-lg-7 col-md-8 col-sm-12 editor">
 
         <div class="recipe-view">
@@ -56,7 +56,7 @@ export default {
   methods: {
     getData() {
       axios
-        .get(this.$backend + "view_recipe?title="+this.$route.query.title)
+        .get(this.$backend + "view_recipe?title="+this.$route.params.title)
         .then(response => {
           if (response.data.status == "success") {
             this.recipe = response.data.data;

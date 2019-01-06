@@ -10,7 +10,8 @@
           </div>
           <div class="text-container col-9">
             <!-- <router-link v-bind:to="view+'?title='+recipe.title">{{ recipe.title }}</router-link> -->
-            <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a>
+            <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
+            <!-- <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a> -->
             <div class="tags-container">
               <span class="tag" v-for="tag in recipe.tags" :key="tag.id"><a href="">{{ tag }}</a></span>
             </div>
