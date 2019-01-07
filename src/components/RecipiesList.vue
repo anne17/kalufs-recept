@@ -3,21 +3,22 @@
     <h1>
         Mina recept
     </h1>
-  <ul class="main-list">
-    <li class="main-entry container" v-for="recipe in results" :key="recipe.id">
+    <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
           <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
+            <img class="img-fluid default-img" v-if="!recipe.img" :src="defaultimg"></img>
           </div>
-          <div class="text-container col-9">
-            <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
-            <!-- <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a> -->
-            <div class="tags-container">
+          <div class="text-container container col-9">
+            <div class="row title">
+              <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
+              <!-- <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a> -->
+            </div>
+            <div class="tags-container row">
               <span class="tag" v-for="tag in recipe.tags" :key="tag.id"><a href="">{{ tag }}</a></span>
             </div>
           </div>
       </div>
-    </li>
-</ul>
+    </div>
 </div>
 </template>
 
@@ -36,9 +37,9 @@ export default {
     axios.get(this.$backend + "recipe-data").then(response => {
       this.results = response.data.data.recipies;
       this.pdfaddress = this.$backend + "pdf/";
-      // this.viewaddress = this.$backend + "view_recipe?title=";
       this.imgaddress = this.$backend + "img/";
-      this.defaultimg = this.$backend + "img/default_recipe.png";
+      // this.defaultimg = this.$backend + "img/default_recipe.png";
+      this.defaultimg = this.$backend + "img/default1.png";
     });
   },
   methods: {
@@ -50,7 +51,8 @@ export default {
       if (recipe_data.img !== undefined) {
         return this.imgaddress + recipe_data.img;
       } else {
-        return this.defaultimg;
+        // return this.defaultimg;
+        return "";
       }
     }
   }
@@ -65,15 +67,14 @@ export default {
 }
 
 .row {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 5em;
+  margin-right: unset;
+  margin-left: unset;
 }
 
 .main-entry {
   list-style-type: none;
   margin-top: 0.5em;
-  width: 100%;
+  padding: 0px;
 }
 
 .main-entry a {
@@ -89,14 +90,29 @@ export default {
   border-radius: 15px;
 }
 
-.tags-container {
-  /*      top right bottom left */
-  padding: 0.3em 0em 0em 0.3em;
+.main-img-container {
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.default-img {
+  max-width: 70%;
+}
+
+.text-container {
+  margin: 0.4em 0em 0.5em 0em;
   text-align: left;
 }
 
+.title:hover {
+  text-decoration: underline;
+}
+
 .tag {
-  margin: 0.3em 0.3em 0 0;
+  /*      top right bottom left */
+  margin: 0.3em 0.3em 0.3em 0;
   padding: 0em 0.3em 0em 0.3em;
   font-size: 0.8rem;
   border-style: solid;
@@ -104,25 +120,5 @@ export default {
   border-radius: 15px;
   background: #fff586;
   display: inline-block;
-}
-
-.main-img-container {
-  float: left;
-  height: 100%;
-  width: 20%;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
-}
-
-.text-container {
-  float: left;
-  margin-top: 0.3em;
-  text-align: left;
-}
-
-.text-container > a:hover {
-  text-decoration: underline;
 }
 </style>
