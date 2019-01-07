@@ -42,7 +42,7 @@
     </p>
 
     <p>
-      <a href="https://daringfireball.net/projects/markdown/syntax">Markdown-dokumentation</a>
+      <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown-dokumentation</a>
     </p>
   </div>
 </template>

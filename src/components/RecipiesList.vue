@@ -6,10 +6,9 @@
   <ul class="main-list">
     <li class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
-          <div class="main-img-container col-3" v-on:click="openLink(pdfaddress+recipe.pdf)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
+          <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
           </div>
           <div class="text-container col-9">
-            <!-- <router-link v-bind:to="view+'?title='+recipe.title">{{ recipe.title }}</router-link> -->
             <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
             <!-- <a v-bind:href="pdfaddress+recipe.pdf">{{ recipe.title }}</a> -->
             <div class="tags-container">
@@ -43,8 +42,9 @@ export default {
     });
   },
   methods: {
-    openLink: function(url) {
-      window.location.href = url;
+    openLink: function(title) {
+      // window.location.href = url;
+      this.$router.push({name: 'view', params: {title: title}})
     },
     getImgUrl: function(recipe_data) {
       if (recipe_data.img !== undefined) {
