@@ -6,7 +6,7 @@
         <div class="col-2">
         </div>
         <!-- middle column -->
-        <div class="col-lg-8 col-md-8 col-sm-12 header-img-container">
+        <div class="col-8 header-img-container">
           <router-link to="/" class="logo">
             <span>kalufs. </span>
             <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
@@ -28,6 +28,7 @@
 <script>
 // @ is an alias to /src
 import Login from "@/components/Login.vue";
+// import MobileMenu from "@/components/MobileMenu.vue";
 
 export default {
   name: "app",
@@ -66,6 +67,9 @@ body {
 .header-img-container {
   display: inline-block;
   height: 100%;
+  white-space: nowrap;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .header-img-container img {

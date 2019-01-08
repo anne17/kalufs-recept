@@ -3,7 +3,8 @@
   <div id="grayout" v-if="grayoutShow" @click="closeLogin"></div>
 
   <div class="login">
-    <div class="login-status d-none d-lg-inline">
+    <!-- Login feedback large screen -->
+    <div class="login-status d-none d-md-inline d-lg-inline">
       <span v-if="!loggedIn" v-on:click="openLogin" title="Logga in">
         <i class="fas fa-sign-in-alt"></i>
       </span>
@@ -14,6 +15,11 @@
         <i class="fas fa-sign-out-alt"></i>
       </span>
     </div>
+    <!-- Login feedback small screen -->
+    <div class="login-status d-inline d-lg-none d-md-none">
+      <i class="fas fa-bars"></i>
+    </div>
+
   	<div class="modal-dialog" v-if="!isHidden">
   		<div class="modal-content" v-bind:class="{ error: isError }">
         <div id="close-icon" v-on:click="closeLogin">
