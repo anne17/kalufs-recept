@@ -49,13 +49,13 @@
           </div>
         </div>
 
-        <!-- <div class="form-group row">
-          <label for="source" class="col-sm-2 col-form-label">Bild</label>
-          <div class="col-sm-10">
-            <input type="file" id="file" class="custom-file-input">
+        <div class="form-group row">
+          <label for="file" class="col-sm-2 col-form-label">Bild</label>
+          <div class="col-sm-2">
+            <input type="file" id="file">
             <span class="custom-file-control"></span>
           </div>
-        </div> -->
+        </div>
 
         <div class="form-group row">
           <label for="source" class="col-sm-2 col-form-label">Källa</label>
