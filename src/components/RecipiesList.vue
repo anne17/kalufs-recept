@@ -6,7 +6,7 @@
     <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
           <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
-            <img class="img-fluid default-img" v-if="!recipe.img" :src="defaultimg"></img>
+            <img class="default-img" v-if="!recipe.img" :src="defaultimg"></img>
           </div>
           <div class="text-container container col-9">
             <div class="row title">
@@ -39,7 +39,7 @@ export default {
       this.pdfaddress = this.$backend + "pdf/";
       this.imgaddress = this.$backend + "img/";
       // this.defaultimg = this.$backend + "img/default_recipe.png";
-      this.defaultimg = this.$backend + "img/default1.png";
+      this.defaultimg = this.$backend + "img/default.png";
     });
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
   clear: left;
   background: #a5c3f2;
   border-right: 1px solid #a5c3f2;
-  border-radius: 15px;
+  border-radius: 0 15px 15px 0;
 }
 
 .main-img-container {
@@ -95,10 +95,14 @@ export default {
   background-position: center;
   cursor: pointer;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .default-img {
-  max-width: 70%;
+  max-height: 71px;
+  max-width: 100%;
+  margin: auto;
 }
 
 .text-container {
