@@ -15,11 +15,15 @@
         <div class="recipe-view">
           <h1 class="errormsg" v-if="isError">Kan inte hitta receptet!</h1>
 
+          <div class="img-container">
+            <img class=".main-img" :src="getImgUrl(recipe)"></img>
+          </div>
+
           <h2 v-html="recipe.title"></h2>
           <h3 v-if="recipe.ingredients">Ingredienser</h3>
           <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
           <p v-html="recipe.ingredients"></p>
-          <h3 v-if="recipe.contents">Beskrivning</h3>
+          <h3 v-if="recipe.contents">Gör så här</h3>
           <p v-html="recipe.contents"></p>
           <p><i v-if="recipe.source">Källa: </i> <span v-html="recipe.source"></span></p>
         </div>
@@ -49,7 +53,7 @@ export default {
         ingredients: "",
         contents: "",
         source: "",
-        image: "",
+        image: ""
       }
     };
   },
@@ -59,7 +63,7 @@ export default {
   methods: {
     getData() {
       axios
-        .get(this.$backend + "view_recipe?title="+this.$route.params.title)
+        .get(this.$backend + "view_recipe?title=" + this.$route.params.title)
         .then(response => {
           if (response.data.status == "success") {
             this.recipe = response.data.data;
@@ -72,8 +76,12 @@ export default {
           this.isError = true;
         });
     },
-    save() {
-      console.log("pretending to save some data");
+    getImgUrl: function(recipe_data) {
+      if (recipe_data.img !== undefined) {
+        return this.$imgaddress + recipe_data.img;
+      } else {
+        return this.$defaultimg;
+      }
     }
   }
 };
@@ -93,11 +101,25 @@ export default {
   text-align: left;
 }
 
-.errormsg{
+.img-container {
+  display: flex;
+  max-height: 50%;
+}
+
+.main-img {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.errormsg {
   color: red;
 }
 
 h2 {
   text-align: center;
+}
+
+h3 {
+  font-size: 1.5rem;
 }
 </style>
