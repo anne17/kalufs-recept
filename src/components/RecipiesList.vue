@@ -6,7 +6,7 @@
     <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
           <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
-            <img class="default-img" v-if="!recipe.img" :src="defaultimg"></img>
+            <img class="default-img" v-if="!recipe.img" :src="$defaultimg"></img>
           </div>
           <div class="text-container container col-9">
             <div class="row title">
@@ -36,10 +36,7 @@ export default {
   mounted() {
     axios.get(this.$backend + "recipe-data").then(response => {
       this.results = response.data.data.recipies;
-      this.pdfaddress = this.$backend + "pdf/";
-      this.imgaddress = this.$backend + "img/";
-      // this.defaultimg = this.$backend + "img/default_recipe.png";
-      this.defaultimg = this.$backend + "img/default.png";
+      // this.pdfaddress = this.$backend + "pdf/";
     });
   },
   methods: {
@@ -49,7 +46,7 @@ export default {
     },
     getImgUrl: function(recipe_data) {
       if (recipe_data.img !== undefined) {
-        return this.imgaddress + recipe_data.img;
+        return this.$imgaddress + recipe_data.img;
       } else {
         // return this.defaultimg;
         return "";
