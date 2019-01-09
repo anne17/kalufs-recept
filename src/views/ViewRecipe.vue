@@ -102,13 +102,16 @@ export default {
 }
 
 .img-container {
-  display: flex;
-  max-height: 50%;
+  max-height: 400px;
+  display: contents;
 }
 
 .main-img {
   margin-right: auto;
   margin-left: auto;
+  object-fit: contain;
+  max-width: 100%;
+  display: flex;
 }
 
 .errormsg {
