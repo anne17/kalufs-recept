@@ -50,9 +50,9 @@
         </div>
 
         <div class="form-group row">
-          <label for="file" class="col-sm-2 col-form-label">Bild</label>
+          <label for="image" class="col-sm-2 col-form-label">Bild</label>
           <div class="col-sm-2">
-            <input type="file" id="file">
+            <input type="file" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
             <span class="custom-file-control"></span>
           </div>
         </div>
@@ -110,6 +110,7 @@ export default {
         portions: 0,
         ingredients: "",
         contents: "",
+        image: "",
         source: ""
       },
       form: {
@@ -117,6 +118,7 @@ export default {
         portions: 4,
         ingredients: "",
         contents: "",
+        image: "",
         source: ""
       }
     };
@@ -139,6 +141,9 @@ export default {
           console.log(error);
           this.previewActive = false;
         });
+    },
+    handleFileUpload() {
+      this.form.image = this.$refs.image.files[0];
     },
     save() {
       console.log("pretending to save some data");
