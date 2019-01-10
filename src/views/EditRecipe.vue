@@ -70,6 +70,11 @@
           <hr>
 
           <div class="recipe-view">
+
+            <div class="img-container">
+              <img class="main-img" :src="getImgUrl(preview)"></img>
+            </div>
+
             <h2 v-html="preview.title"></h2>
             <h3 v-if="preview.ingredients">Ingredienser</h3> <p>För <span v-html="preview.portions"></span> portioner</p>
             <p v-html="preview.ingredients"></p>
@@ -147,6 +152,14 @@ export default {
     },
     save() {
       console.log("pretending to save some data");
+    },
+    getImgUrl: function(recipe_data) {
+      if (recipe_data.image !== undefined) {
+        console.log(this.$tmpaddress + recipe_data.image);
+        return this.$tmpaddress + recipe_data.image;
+      } else {
+        return this.$defaultimg;
+      }
     },
     packageData(data) {
       const form = new FormData();
