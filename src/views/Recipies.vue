@@ -3,8 +3,14 @@
   <div class="recipies container">
     <div class="row">
       <div class="col-2 d-none d-lg-block right">
-        <p>Search bar</p>
-        <p>Filter by category</p>
+
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Sök" disabled>
+        </div>
+
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
         <RecipiesList/>
