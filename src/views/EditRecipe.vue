@@ -68,23 +68,8 @@
           <hr>
           <h1>Förhandsvisning</h1>
           <hr>
-
-          <div class="recipe-view">
-
-            <div class="img-container">
-              <img class="main-img" :src="getImgUrl(preview)"></img>
-            </div>
-
-            <h2 v-html="preview.title"></h2>
-            <h3 v-if="preview.ingredients">Ingredienser</h3> <p>För <span v-html="preview.portions"></span> portioner</p>
-            <p v-html="preview.ingredients"></p>
-            <h3 v-if="preview.contents">Beskrivning</h3>
-            <p v-html="preview.contents"></p>
-            <p><i v-if="preview.source">Källa: </i> <span v-html="preview.source"></span></p>
-          </div>
-
+          <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
         </div>
-
       </div>
 
       <div class="col-3 d-none d-lg-block left">
@@ -98,19 +83,22 @@
 <!-- ####################################################################### -->
 <script>
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
+import ShowRecipe from '@/components/ShowRecipe.vue'
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export default {
   name: "EditRecipe",
   components: {
-    MarkdownHelp
+    MarkdownHelp,
+    ShowRecipe
   },
   data() {
     return {
       isError: false,
       previewActive: false,
       preview: {
+        preview: true,
         title: "",
         portions: 0,
         ingredients: "",
@@ -137,6 +125,7 @@ export default {
           if (response.data.status == "success") {
             this.previewActive = true;
             this.preview = response.data.data;
+            this.preview.preview = true;
           } else {
             console.log(response.data);
             this.previewActive = false;
@@ -155,7 +144,6 @@ export default {
     },
     getImgUrl: function(recipe_data) {
       if (recipe_data.image !== undefined) {
-        console.log(this.$tmpaddress + recipe_data.image);
         return this.$tmpaddress + recipe_data.image;
       } else {
         return this.$defaultimg;

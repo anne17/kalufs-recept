@@ -6,7 +6,7 @@
     <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
           <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
-            <img class="default-img" v-if="!recipe.img" :src="$defaultimg"></img>
+            <img class="default-img" v-if="!recipe.image" :src="$defaultimg"></img>
           </div>
           <div class="text-container container col-9">
             <div class="row title">
@@ -45,8 +45,8 @@ export default {
       this.$router.push({name: 'view', params: {title: title}})
     },
     getImgUrl: function(recipe_data) {
-      if (recipe_data.img !== undefined) {
-        return this.$imgaddress + recipe_data.img;
+      if (recipe_data.image !== undefined) {
+        return this.$imgaddress + recipe_data.image;
       } else {
         // return this.defaultimg;
         return "";
