@@ -8,6 +8,7 @@ Vue.prototype.$backend =
   // "https://api.kalufs.lol/recapi/";
   "http://0.0.0.0:9005/";
 
+Vue.prototype.$tmpaddress = Vue.prototype.$backend + "tmp/";
 Vue.prototype.$imgaddress = Vue.prototype.$backend + "img/";
 Vue.prototype.$defaultimg = Vue.prototype.$backend + "img/default.png";
 
