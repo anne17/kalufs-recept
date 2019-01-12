@@ -46,7 +46,7 @@ export default {
     },
     getImgUrl: function(recipe_data) {
       if (recipe_data.image !== undefined) {
-        return this.$imgaddress + recipe_data.image;
+        return this.$backend + recipe_data.image;
       } else {
         return "";
       }

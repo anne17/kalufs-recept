@@ -24,7 +24,6 @@ export default {
   props: {
       isError: 0,
       recipe: {
-        preview: false,
         title: "",
         portions: 0,
         ingredients: "",
@@ -36,11 +35,7 @@ export default {
   methods: {
     getImgUrl: function(recipe_data) {
       if (recipe_data.image !== undefined) {
-        if (recipe_data.preview == true) {
-          return this.$tmpaddress + recipe_data.image;
-        } else {
-          return this.$imgaddress + recipe_data.image;
-        }
+          return this.$backend + recipe_data.image;
       } else {
         return this.$defaultimg;
       }
