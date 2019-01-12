@@ -35,14 +35,7 @@ export default {
   data() {
     return {
       isError: false,
-      recipe: {
-        title: "",
-        portions: 0,
-        ingredients: "",
-        contents: "",
-        source: "",
-        image: ""
-      }
+      recipe: Object
     };
   },
   created() {

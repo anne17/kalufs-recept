@@ -22,15 +22,15 @@
 export default {
   name: "ShowRecipe",
   props: {
-      isError: Boolean,
+      isError: 0,
       recipe: {
         preview: false,
-        title: String,
+        title: "",
         portions: 0,
-        ingredients: String,
-        contents: String,
-        source: String,
-        image: String
+        ingredients: "",
+        contents: "",
+        source: "",
+        image: ""
       }
   },
   methods: {

@@ -97,15 +97,7 @@ export default {
     return {
       isError: false,
       previewActive: false,
-      preview: {
-        preview: true,
-        title: "",
-        portions: 0,
-        ingredients: "",
-        contents: "",
-        image: "",
-        source: ""
-      },
+      preview: Object,
       form: {
         title: "",
         portions: 4,
