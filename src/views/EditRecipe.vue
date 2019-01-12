@@ -143,11 +143,11 @@ export default {
             // Update form
             for (var key in this.data) {
               if (this.form.hasOwnProperty(key)) {
-                  this.form[key] = this.data[key];
-                }
+                this.form[key] = this.data[key];
               }
+            }
             // Set header
-            this.header = "Redigera '" + this.form.title + "'"
+            this.header = "Redigera '" + this.form.title + "'";
           } else {
             console.log(response.data);
           }

@@ -3,7 +3,7 @@
     <h1 class="errormsg" v-if="isError">Kan inte hitta receptet!</h1>
 
     <div class="img-container">
-      <img class="main-img" :src="getImgUrl(recipe)"></img>
+      <img class="main-img" :src="getImgUrl(recipe)">
     </div>
 
     <h2 v-html="recipe.title"></h2>
@@ -22,7 +22,7 @@
 export default {
   name: "ShowRecipe",
   props: {
-    isError: 0,
+    isError: false,
     recipe: {
       title: "",
       portions: 0,
@@ -35,7 +35,7 @@ export default {
   methods: {
     getImgUrl: function(recipe_data) {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
-          return this.$backend + recipe_data.image;
+        return this.$backend + recipe_data.image;
       } else {
         return this.$defaultimg;
       }
