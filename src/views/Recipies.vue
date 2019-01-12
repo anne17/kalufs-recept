@@ -16,7 +16,7 @@
         <RecipiesList/>
       </div>
       <div class="col-2 d-none d-lg-block left">
-        <p id="new-recipe" @click="newRecipe">
+        <p class="new-recipe" @click="newRecipe">
           <i class="fas fa-plus"></i>
           Nytt recept
         </p>
@@ -49,7 +49,15 @@ export default {
   box-sizing: border-box;
 }
 
-#new-recipe {
+.new-recipe {
   cursor: pointer;
+}
+.new-recipe:hover {
+  color: black;
+}
+
+.right,
+.left {
+  padding-top: 1.5em;
 }
 </style>

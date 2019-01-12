@@ -23,7 +23,7 @@
 
 <!-- ####################################################################### -->
 <script>
-import ShowRecipe from '@/components/ShowRecipe.vue'
+import ShowRecipe from "@/components/ShowRecipe.vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 

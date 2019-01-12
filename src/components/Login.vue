@@ -201,7 +201,7 @@ export default {
   position: fixed;
   top: 10%;
   left: 50%;
-  transform: translate(-50%,0%);
+  transform: translate(-50%, 0%);
 }
 #close-icon i {
   position: unset;
