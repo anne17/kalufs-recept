@@ -18,7 +18,7 @@
 
       <div class="col-lg-7 col-md-8 col-sm-12 middle editor">
         <h1>
-            Nytt recept
+            {{ header }}
         </h1>
 
         <div class="form-group row">
@@ -83,7 +83,7 @@
 <!-- ####################################################################### -->
 <script>
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
-import ShowRecipe from '@/components/ShowRecipe.vue'
+import ShowRecipe from "@/components/ShowRecipe.vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -98,15 +98,22 @@ export default {
       isError: false,
       previewActive: false,
       preview: Object,
+      header: "Nytt recept",
       form: {
         title: "",
         portions: 4,
         ingredients: "",
         contents: "",
         image: "",
-        source: ""
+        source: "",
+        tags: ""
       }
     };
+  },
+  created() {
+    if (this.$route.params.title !== "New") {
+      this.getData();
+    }
   },
   methods: {
     getPreview() {
@@ -117,7 +124,6 @@ export default {
           if (response.data.status == "success") {
             this.previewActive = true;
             this.preview = response.data.data;
-            this.preview.preview = true;
           } else {
             console.log(response.data);
             this.previewActive = false;
@@ -128,18 +134,34 @@ export default {
           this.previewActive = false;
         });
     },
+    getData() {
+      axios
+        .get(this.$backend + "get_recipe?title=" + this.$route.params.title)
+        .then(response => {
+          if (response.data.status == "success") {
+            this.data = response.data.data;
+            // Update form
+            for (var key in this.data) {
+              if (this.form.hasOwnProperty(key)) {
+                  this.form[key] = this.data[key];
+                }
+              }
+            // Set header
+            this.header = "Redigera '" + this.form.title + "'"
+          } else {
+            console.log(response.data);
+          }
+        })
+        .catch(e => {
+          console.log(e.response.data);
+          this.isError = true;
+        });
+    },
     handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
     },
     save() {
       console.log("pretending to save some data");
-    },
-    getImgUrl: function(recipe_data) {
-      if (recipe_data.image !== undefined) {
-        return this.$tmpaddress + recipe_data.image;
-      } else {
-        return this.$defaultimg;
-      }
     },
     packageData(data) {
       const form = new FormData();

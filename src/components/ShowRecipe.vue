@@ -22,19 +22,19 @@
 export default {
   name: "ShowRecipe",
   props: {
-      isError: 0,
-      recipe: {
-        title: "",
-        portions: 0,
-        ingredients: "",
-        contents: "",
-        source: "",
-        image: ""
-      }
+    isError: 0,
+    recipe: {
+      title: "",
+      portions: 0,
+      ingredients: "",
+      contents: "",
+      source: "",
+      image: ""
+    }
   },
   methods: {
     getImgUrl: function(recipe_data) {
-      if (recipe_data.image !== undefined) {
+      if (recipe_data.image !== undefined && recipe_data.image !== "") {
           return this.$backend + recipe_data.image;
       } else {
         return this.$defaultimg;

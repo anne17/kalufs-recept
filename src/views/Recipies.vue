@@ -16,10 +16,10 @@
         <RecipiesList/>
       </div>
       <div class="col-2 d-none d-lg-block left">
-        <p class="new-recipe" @click="newRecipe">
+        <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
           <i class="fas fa-plus"></i>
           Nytt recept
-        </p>
+        </router-link>
       </div>
     </div>
   </div>
@@ -34,11 +34,6 @@ export default {
   name: "recipies",
   components: {
     RecipiesList
-  },
-  methods: {
-    newRecipe() {
-      this.$router.push("edit");
-    }
   }
 };
 </script>
@@ -51,6 +46,8 @@ export default {
 
 .new-recipe {
   cursor: pointer;
+  text-decoration: none;
+  color: unset;
 }
 .new-recipe:hover {
   color: black;
