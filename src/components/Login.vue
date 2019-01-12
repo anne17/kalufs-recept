@@ -61,9 +61,7 @@
 
 <script>
 // https://vuejs.org/v2/examples/modal.html
-// https://auralinna.blog/post/2018/how-to-build-a-complete-form-with-vue-js
 // https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
-// https://blog.sqreen.io/authentication-best-practices-vue/
 import axios from "axios";
 axios.defaults.withCredentials = true;
 

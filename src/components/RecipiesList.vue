@@ -48,7 +48,6 @@ export default {
       if (recipe_data.image !== undefined) {
         return this.$imgaddress + recipe_data.image;
       } else {
-        // return this.defaultimg;
         return "";
       }
     }
