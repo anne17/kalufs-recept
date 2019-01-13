@@ -1,8 +1,5 @@
 <template>
 <div id="recipe-data" class="recipe-list">
-    <h1>
-        Mina recept
-    </h1>
     <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
           <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">

@@ -17,14 +17,14 @@
       </div>
 
       <div class="col-lg-7 col-md-8 col-sm-12 middle editor">
-        <h1>
-            {{ header }}
+        <h1 class="edit-title">
+            {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
         </h1>
 
         <div class="form-group row">
           <label for="title" class="col-sm-2 col-form-label">Receptnamn</label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="Mackor med ost" id="title" v-model="form.title">
+            <input class="form-control" type="text" id="title" v-model="form.title" required>
           </div>
         </div>
 
@@ -98,9 +98,12 @@ export default {
       isError: false,
       previewActive: false,
       preview: Object,
-      header: "Nytt recept",
+      heading: {
+        text: "Nytt recept",
+        title: ""
+      },
       form: {
-        title: "",
+        title: "Nytt recept",
         portions: 4,
         ingredients: "",
         contents: "",
@@ -146,8 +149,9 @@ export default {
                 this.form[key] = this.data[key];
               }
             }
-            // Set header
-            this.header = "Redigera '" + this.form.title + "'";
+            // Set heading
+            this.heading.text = "Redigera ";
+            this.heading.title = this.form.title;
           } else {
             console.log(response.data);
           }
@@ -184,8 +188,22 @@ export default {
   margin-bottom: 1em;
 }
 
+.edit-title {
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+}
+
+.recipe-title {
+  font-style: italic;
+}
+
 label {
   float: left;
+}
+
+input,
+textarea {
+  color: #28292b;
 }
 
 #preview-window .recipe-view {

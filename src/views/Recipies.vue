@@ -13,14 +13,18 @@
 
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
+        <h1>
+            Mina recept
+        </h1>
+        <div class="new-recipe-container">
+          <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+            <strong>&plus;</strong> Nytt recept
+          </router-link>
+        </div>
         <RecipiesList/>
       </div>
-      <div class="col-2 d-none d-lg-block left">
-        <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
-          <i class="fas fa-plus"></i>
-          Nytt recept
-        </router-link>
-      </div>
+      <!-- <div class="col-2 d-none d-lg-block left">
+      </div> -->
     </div>
   </div>
 </template>
@@ -44,6 +48,10 @@ export default {
   box-sizing: border-box;
 }
 
+.new-recipe-container {
+  text-align: right;
+  padding-right: 0.2em;
+}
 .new-recipe {
   cursor: pointer;
   text-decoration: none;
@@ -51,10 +59,5 @@ export default {
 }
 .new-recipe:hover {
   color: black;
-}
-
-.right,
-.left {
-  padding-top: 1.5em;
 }
 </style>

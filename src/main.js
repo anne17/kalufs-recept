@@ -4,7 +4,6 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 Vue.prototype.$backend =
-  // "http://demo.spraakdata.gu.se/anne/recept/receptsida-backend/";
   // "https://api.kalufs.lol/recapi/";
   "http://0.0.0.0:9005/";
 
