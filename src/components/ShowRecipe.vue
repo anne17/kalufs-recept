@@ -1,12 +1,12 @@
 <template>
   <div class="show-recipe">
-    <h1 class="errormsg" v-if="isError">Kan inte hitta receptet!</h1>
+    <h2 class="errormsg" v-if="isError">Kan inte hitta receptet!</h2>
 
-    <div class="img-container">
-      <img class="main-img" :src="getImgUrl(recipe)">
+    <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
+      <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
     </div>
 
-    <h2 v-html="recipe.title"></h2>
+    <h1 v-html="recipe.title"></h1>
     <h3 v-if="recipe.ingredients">Ingredienser</h3>
     <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
     <p v-html="recipe.ingredients"></p>
@@ -37,7 +37,7 @@ export default {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
         return this.$backend + recipe_data.image;
       } else {
-        return this.$defaultimg;
+        return "";
       }
     }
   }
@@ -52,20 +52,24 @@ export default {
 
 .img-container {
   display: flex;
-  max-height: 50%;
+  height: 26em;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  align-items: center;
 }
 
-.main-img {
+.default-img {
   margin-right: auto;
   margin-left: auto;
 }
-
 .errormsg {
   color: red;
 }
 
-h2 {
+h1 {
   text-align: center;
+  font-size: 1.8rem;
 }
 
 h3 {

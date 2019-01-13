@@ -64,18 +64,19 @@
           </div>
         </div>
 
-        <div id="preview-window" v-if="previewActive">
-          <hr>
-          <h1>Förhandsvisning</h1>
-          <hr>
-          <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
-        </div>
       </div>
 
       <div class="col-3 d-none d-lg-block left">
         <MarkdownHelp/>
       </div>
 
+    </div>
+
+    <div id="preview-window" v-if="previewActive">
+      <hr>
+      <h1>Förhandsvisning</h1>
+      <hr>
+      <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
     </div>
   </div>
 </template>
