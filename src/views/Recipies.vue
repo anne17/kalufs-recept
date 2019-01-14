@@ -16,10 +16,22 @@
         <h1>
             Mina recept
         </h1>
-        <div class="new-recipe-container">
-          <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
-            <strong>&plus;</strong> Nytt recept
-          </router-link>
+        <div class="container">
+        <div class="menu row">
+
+          <div class="input-group input-group-sm mb-3 col-6">
+            <div class="input-group-prepend d-inline d-lg-none">
+              <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" disabled>
+          </div>
+
+          <div class="new-recipe-container col-6">
+            <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+              <strong>&plus;</strong> Nytt recept
+            </router-link>
+          </div>
+        </div>
         </div>
         <RecipiesList/>
       </div>
@@ -59,5 +71,13 @@ export default {
 }
 .new-recipe:hover {
   color: black;
+}
+
+.menu {
+  margin-top: 0.4em;
+}
+
+.input-group {
+  padding-left: 0;
 }
 </style>
