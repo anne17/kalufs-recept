@@ -13,8 +13,8 @@
               <span class="tag" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
             </div>
           </div>
-          <div class="mini-menu container col-1">
-            <router-link :to="{ name: 'edit', params: {title: recipe.title}}" >
+          <div class="mini-edit-menu container col-1">
+            <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
               <i class="fas fa-pencil-alt"></i>
             </router-link>
           </div>
@@ -123,15 +123,14 @@ export default {
   display: inline-block;
 }
 
-.mini-menu {
+.mini-edit-menu {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;
 }
-.mini-menu i {
-  cursor: pointer;
+.mini-edit-menu i {
   float: right;
 }
-.mini-menu i:hover {
+.mini-edit-menu i:hover {
   color: black;
 }
 </style>

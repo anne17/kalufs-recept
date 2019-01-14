@@ -7,6 +7,12 @@
     </div>
 
     <h1 v-html="recipe.title"></h1>
+    <div v-if="showEditOption" class="mini-edit-menu">
+      <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
+        <i class="fas fa-pencil-alt"></i>
+      </router-link>
+    </div>
+
     <h3 v-if="recipe.ingredients">Ingredienser</h3>
     <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
     <p v-html="recipe.ingredients"></p>
@@ -22,6 +28,7 @@
 export default {
   name: "ShowRecipe",
   props: {
+    showEditOption: false,
     isError: false,
     recipe: {
       title: "",
@@ -48,6 +55,22 @@ export default {
 <style scoped>
 .show-recipe {
   text-align: left;
+}
+
+.mini-edit-menu {
+  margin: 0.6em 0 0 0;
+  padding: 0 0.6em 0 0;
+}
+.mini-edit-menu i {
+  float: right;
+  font-size: 1.2rem;
+}
+.mini-edit-menu i:hover {
+  color: black;
+}
+
+.mini-edit-menu a {
+  color: inherit;
 }
 
 .img-container {

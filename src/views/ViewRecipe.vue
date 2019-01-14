@@ -11,7 +11,8 @@
 
       </div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 middle">
-        <ShowRecipe :recipe="recipe" :isError="isError"></ShowRecipe>
+
+        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="true"></ShowRecipe>
       </div>
 
       <!-- <div class="col-3 d-none d-lg-block left">
