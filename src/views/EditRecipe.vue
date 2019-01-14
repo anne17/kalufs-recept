@@ -1,22 +1,11 @@
 <template>
   <div class="edit container">
     <div class="row">
-      <div class="col-2 d-none d-lg-block side-menu right">
-        <div class="buttons">
-          <button type="button" class="btn btn-default btn-sm" v-on:click="getPreview">
-            <i class="far fa-eye"></i>
-            Granska
-          </button>
-        </div>
-        <div class="buttons">
-          <button type="button" class="btn btn-default btn-sm" v-on:click="save" disabled>
-            <i class="fas fa-save"></i>
-            Spara
-          </button>
-        </div>
+
+      <div class="col-2 d-none d-lg-block side-menu">
       </div>
 
-      <div class="col-lg-7 col-md-8 col-sm-12 middle editor">
+      <div class="col-lg-8 col-md-8 col-sm-12 middle editor">
         <h1 class="edit-title">
             {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
         </h1>
@@ -64,9 +53,21 @@
           </div>
         </div>
 
+        <div class="buttons">
+          <button type="button" class="btn btn-default btn-sm" v-on:click="getPreview">
+            <i class="far fa-eye"></i>
+            Granska
+          </button>
+
+          <button type="button" class="btn btn-default btn-sm" v-on:click="save" disabled>
+            <i class="fas fa-save"></i>
+            Spara
+          </button>
+        </div>
+
       </div>
 
-      <div class="col-3 d-none d-lg-block left">
+      <div class="col-2 d-none d-lg-block right">
         <MarkdownHelp/>
       </div>
 
@@ -75,7 +76,7 @@
     <div id="preview-window" v-if="previewActive">
       <hr>
       <h1>Förhandsvisning</h1>
-      <hr>
+
       <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
     </div>
   </div>
@@ -185,10 +186,6 @@ export default {
   padding: 22em 0.8em 22em 0.8em !important;
 }
 
-.side-menu button {
-  margin-bottom: 1em;
-}
-
 .edit-title {
   margin-top: 0.6em;
   margin-bottom: 0.8em;
@@ -209,5 +206,17 @@ textarea {
 
 #preview-window .recipe-view {
   text-align: left;
+}
+
+#preview-window hr {
+  margin: 0;
+}
+
+#preview-window h1 {
+  padding-bottom: 0.8em;
+}
+
+button {
+  margin: 1em;
 }
 </style>

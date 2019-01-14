@@ -52,7 +52,7 @@ export default {
 
 .img-container {
   display: flex;
-  height: 26em;
+  height: 40vh;
   background-size: cover;
   background-position: center;
   overflow: hidden;

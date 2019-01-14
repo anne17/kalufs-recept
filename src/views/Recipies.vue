@@ -2,7 +2,7 @@
 <template>
   <div class="recipies container">
     <div class="row">
-      <div class="col-2 d-none d-lg-block right">
+      <div class="col-2 d-none d-lg-block left">
 
         <div class="input-group input-group-sm mb-3">
           <div class="input-group-prepend">
@@ -23,7 +23,7 @@
         </div>
         <RecipiesList/>
       </div>
-      <!-- <div class="col-2 d-none d-lg-block left">
+      <!-- <div class="col-2 d-none d-lg-block right">
       </div> -->
     </div>
   </div>

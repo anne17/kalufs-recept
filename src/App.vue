@@ -90,7 +90,8 @@ body {
 
 h1 {
   font-size: 1.6rem;
-  margin-top: 0.8em;
+  padding-top: 0.8em;
+  margin: 0;
 }
 
 /* padding side-bars */
@@ -101,10 +102,17 @@ h1 {
 }
 
 .left {
-  border-left: thin solid #ccc;
+  border-right: thin solid #ccc;
 }
 
 .right {
-  border-right: thin solid #ccc;
+  border-left: thin solid #ccc;
 }
+
+/* Reduce fat margins */
+/* @media (min-width: 1200px) {
+  .main-container {
+    max-width: 1180px;
+  }
+} */
 </style>
