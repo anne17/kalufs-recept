@@ -69,7 +69,7 @@ export default {
 
 .main-entry {
   list-style-type: none;
-  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   padding: 0px;
 }
 
