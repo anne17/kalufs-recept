@@ -4,8 +4,9 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 Vue.prototype.$backend =
-  // "https://api.kalufs.lol/recapi/";
-  "http://0.0.0.0:9005/";
+  process.env.NODE_ENV === "production"
+    ? "https://api.kalufs.lol/recapi/"
+    : "http://0.0.0.0:9005/";
 
 Vue.prototype.$defaultimg = Vue.prototype.$backend + "img/default.png";
 
