@@ -99,8 +99,8 @@ h1 {
 /* padding side-bars */
 .right,
 .left {
-  padding-top: 0.8em;
-  padding-bottom: 0.8em;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
 }
 
 .left {

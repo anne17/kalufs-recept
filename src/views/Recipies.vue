@@ -13,14 +13,18 @@
 
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
+        <h1>
+            Mina recept
+        </h1>
+        <div class="new-recipe-container">
+          <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+            <strong>&plus;</strong> Nytt recept
+          </router-link>
+        </div>
         <RecipiesList/>
       </div>
-      <div class="col-2 d-none d-lg-block left">
-        <p id="new-recipe" @click="newRecipe">
-          <i class="fas fa-plus"></i>
-          Nytt recept
-        </p>
-      </div>
+      <!-- <div class="col-2 d-none d-lg-block left">
+      </div> -->
     </div>
   </div>
 </template>
@@ -34,11 +38,6 @@ export default {
   name: "recipies",
   components: {
     RecipiesList
-  },
-  methods: {
-    newRecipe() {
-      this.$router.push("edit");
-    }
   }
 };
 </script>
@@ -49,7 +48,16 @@ export default {
   box-sizing: border-box;
 }
 
-#new-recipe {
+.new-recipe-container {
+  text-align: right;
+  padding-right: 0.2em;
+}
+.new-recipe {
   cursor: pointer;
+  text-decoration: none;
+  color: unset;
+}
+.new-recipe:hover {
+  color: black;
 }
 </style>

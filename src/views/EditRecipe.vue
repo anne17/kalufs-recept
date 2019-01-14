@@ -17,14 +17,14 @@
       </div>
 
       <div class="col-lg-7 col-md-8 col-sm-12 middle editor">
-        <h1>
-            Nytt recept
+        <h1 class="edit-title">
+            {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
         </h1>
 
         <div class="form-group row">
           <label for="title" class="col-sm-2 col-form-label">Receptnamn</label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="Mackor med ost" id="title" v-model="form.title">
+            <input class="form-control" type="text" id="title" v-model="form.title" required>
           </div>
         </div>
 
@@ -68,23 +68,8 @@
           <hr>
           <h1>Förhandsvisning</h1>
           <hr>
-
-          <div class="recipe-view">
-
-            <div class="img-container">
-              <img class="main-img" :src="getImgUrl(preview)"></img>
-            </div>
-
-            <h2 v-html="preview.title"></h2>
-            <h3 v-if="preview.ingredients">Ingredienser</h3> <p>För <span v-html="preview.portions"></span> portioner</p>
-            <p v-html="preview.ingredients"></p>
-            <h3 v-if="preview.contents">Beskrivning</h3>
-            <p v-html="preview.contents"></p>
-            <p><i v-if="preview.source">Källa: </i> <span v-html="preview.source"></span></p>
-          </div>
-
+          <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
         </div>
-
       </div>
 
       <div class="col-3 d-none d-lg-block left">
@@ -98,35 +83,40 @@
 <!-- ####################################################################### -->
 <script>
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
+import ShowRecipe from "@/components/ShowRecipe.vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export default {
   name: "EditRecipe",
   components: {
-    MarkdownHelp
+    MarkdownHelp,
+    ShowRecipe
   },
   data() {
     return {
       isError: false,
       previewActive: false,
-      preview: {
-        title: "",
-        portions: 0,
-        ingredients: "",
-        contents: "",
-        image: "",
-        source: ""
+      preview: Object,
+      heading: {
+        text: "Nytt recept",
+        title: ""
       },
       form: {
-        title: "",
+        title: "Nytt recept",
         portions: 4,
         ingredients: "",
         contents: "",
         image: "",
-        source: ""
+        source: "",
+        tags: ""
       }
     };
+  },
+  created() {
+    if (this.$route.params.title !== "New") {
+      this.getData();
+    }
   },
   methods: {
     getPreview() {
@@ -147,19 +137,35 @@ export default {
           this.previewActive = false;
         });
     },
+    getData() {
+      axios
+        .get(this.$backend + "get_recipe?title=" + this.$route.params.title)
+        .then(response => {
+          if (response.data.status == "success") {
+            this.data = response.data.data;
+            // Update form
+            for (var key in this.data) {
+              if (this.form.hasOwnProperty(key)) {
+                this.form[key] = this.data[key];
+              }
+            }
+            // Set heading
+            this.heading.text = "Redigera ";
+            this.heading.title = this.form.title;
+          } else {
+            console.log(response.data);
+          }
+        })
+        .catch(e => {
+          console.log(e.response.data);
+          this.isError = true;
+        });
+    },
     handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
     },
     save() {
       console.log("pretending to save some data");
-    },
-    getImgUrl: function(recipe_data) {
-      if (recipe_data.image !== undefined) {
-        console.log(this.$tmpaddress + recipe_data.image);
-        return this.$tmpaddress + recipe_data.image;
-      } else {
-        return this.$defaultimg;
-      }
     },
     packageData(data) {
       const form = new FormData();
@@ -182,8 +188,22 @@ export default {
   margin-bottom: 1em;
 }
 
+.edit-title {
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+}
+
+.recipe-title {
+  font-style: italic;
+}
+
 label {
   float: left;
+}
+
+input,
+textarea {
+  color: #28292b;
 }
 
 #preview-window .recipe-view {
