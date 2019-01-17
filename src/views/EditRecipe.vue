@@ -11,6 +11,16 @@
         </h1>
 
         <div class="form-group row">
+          <label for="title" class="col-sm-2 col-form-label">Hämta från URL</label>
+          <div class="col-sm-10 input-group-prepend">
+            <span class="input-group-text" id="url_search" @click="sendUrl">
+              <i class="fas fa-search"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Adress till receptet" v-model="url">
+          </div>
+        </div>
+
+        <div class="form-group row">
           <label for="title" class="col-sm-2 col-form-label">Receptnamn</label>
           <div class="col-sm-10">
             <input class="form-control" type="text" id="title" v-model="form.title" required>
@@ -104,6 +114,7 @@ export default {
         text: "Nytt recept",
         title: ""
       },
+      url: "",
       form: {
         title: "Nytt recept",
         portions: 4,
@@ -121,6 +132,28 @@ export default {
     }
   },
   methods: {
+    sendUrl() {
+      if (this.url != "") {
+        axios
+          .get(this.$backend + "parse_from_url?url=" + this.url)
+          .then(response => {
+            if (response.data.status == "success") {
+              this.data = response.data.data;
+              // Update form
+              for (var key in this.data) {
+                if (this.form.hasOwnProperty(key)) {
+                  this.form[key] = this.data[key];
+                }
+              }
+            } else {
+              console.log(response.data);
+            }
+          })
+          .catch(e => {
+            console.log(e.response.data);
+          });
+      }
+    },
     getPreview() {
       let formData = this.packageData(this.form);
       axios
@@ -193,6 +226,11 @@ export default {
 
 .recipe-title {
   font-style: italic;
+}
+
+#url_search {
+  height: calc(2.25rem + 2px);
+  cursor: pointer;
 }
 
 label {
