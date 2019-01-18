@@ -50,11 +50,11 @@ export default {
           if (response.data.status == "success") {
             this.recipe = response.data.data;
           } else {
-            console.log(response.data);
+            console.error(response.data);
           }
         })
         .catch(e => {
-          console.log(e.response.data.message);
+          console.error(e.response.data.message);
           this.isError = true;
         });
     }

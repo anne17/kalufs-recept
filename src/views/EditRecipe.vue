@@ -146,11 +146,11 @@ export default {
                 }
               }
             } else {
-              console.log(response.data);
+              console.error(response.data);
             }
           })
           .catch(e => {
-            console.log(e.response.data);
+            console.error(e.response.data);
           });
       }
     },
@@ -163,12 +163,12 @@ export default {
             this.previewActive = true;
             this.preview = response.data.data;
           } else {
-            console.log(response.data);
+            console.error(response.data);
             this.previewActive = false;
           }
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
           this.previewActive = false;
         });
     },
@@ -188,11 +188,11 @@ export default {
             this.heading.text = "Redigera ";
             this.heading.title = this.form.title;
           } else {
-            console.log(response.data);
+            console.error(response.data);
           }
         })
         .catch(e => {
-          console.log(e.response.data);
+          console.error(e.response.data);
           this.isError = true;
         });
     },

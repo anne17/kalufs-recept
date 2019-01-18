@@ -98,7 +98,7 @@ export default {
         })
         .catch(error => {
           this.loggedIn = false;
-          console.log(error);
+          console.error(error);
         });
     },
     openLogin() {
@@ -150,7 +150,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log("Couldn't log out:", error);
+          console.error("Couldn't log out:", error);
           // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
         });
     }
