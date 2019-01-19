@@ -11,13 +11,15 @@
         </h1>
 
         <div class="form-group row">
-          <label for="title" class="col-sm-2 col-form-label">Hämta från URL</label>
-          <div class="col-sm-10 input-group-prepend">
-            <span class="input-group-text" id="url_search" @click="sendUrl">
-              <!-- <i class="fas fa-search"></i> -->
-              Hämta Recept
-            </span>
-            <input type="text" class="form-control" placeholder="Adress till receptet" v-model="url">
+          <label for="url" class="col-sm-2 col-form-label">Hämta från URL</label>
+          <div class="input-group col-sm-10">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="url_search" @click="sendUrl">Hämta Recept</span>
+            </div>
+            <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" v-on:change="validateUrl">
+            <div class="invalid-feedback">
+              {{ urlErrorMessage }}
+            </div>
           </div>
         </div>
 
@@ -41,7 +43,7 @@
         <div class="form-group row">
           <label for="ingredients" class="col-sm-2 col-form-label">Ingredienser</label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="10" placeholder="- ..." id="ingredients" v-model="form.ingredients"></textarea>
+            <textarea class="form-control" rows="8" placeholder="- ..." id="ingredients" v-model="form.ingredients"></textarea>
           </div>
         </div>
 
@@ -113,6 +115,9 @@ export default {
     return {
       isError: false,
       titleError: false,
+      urlError: false,
+      urlErrorMessageDef: "Det här är inte en giltid adress!",
+      urlErrorMessage: "",
       previewActive: false,
       preview: Object,
       heading: {
@@ -138,7 +143,7 @@ export default {
   },
   methods: {
     sendUrl() {
-      if (this.url != "") {
+      if (this.validateUrl()) {
         axios
           .get(this.$backend + "parse_from_url?url=" + this.url)
           .then(response => {
@@ -155,7 +160,19 @@ export default {
             }
           })
           .catch(e => {
-            console.error(e.response.data);
+            this.message = e.response.data.message;
+            if (this.message.startsWith("Invalid URL")) {
+              this.urlErrorMessage = this.urlErrorMessageDef;
+              this.urlError = true;
+            } else if (this.message.startsWith("No parser found")) {
+              this.urlErrorMessage =
+                "Adressen från den här sidan kan inte hanteras än :(";
+              this.urlError = true;
+            } else {
+              this.urlErrorMessage = "Någonting blev fel :(";
+              this.urlError = true;
+              console.error(this.message);
+            }
           });
       }
     },
@@ -207,6 +224,15 @@ export default {
     },
     handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
+    },
+    validateUrl() {
+      if (this.url == "") {
+        this.urlErrorMessage = this.urlErrorMessageDef;
+        this.urlError = true;
+        return false;
+      }
+      this.urlError = false;
+      return true;
     },
     validateTitle() {
       if (this.form.title == "") {
