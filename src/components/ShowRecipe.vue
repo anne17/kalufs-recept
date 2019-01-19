@@ -18,7 +18,7 @@
     <p v-html="recipe.ingredients"></p>
     <h3 v-if="recipe.contents">Gör så här</h3>
     <p v-html="recipe.contents"></p>
-    <p><i v-if="recipe.source">Källa: </i> <span v-html="recipe.source"></span></p>
+    <p><i v-if="recipe.source">Källa: </i> <a :href="recipe.source" target="_blank">{{ recipe.source }}</a></p>
   </div>
 
 </template>
