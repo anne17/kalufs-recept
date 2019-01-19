@@ -44,6 +44,7 @@ export default {
 html,
 body {
   height: 100%;
+  background-color: ghostwhite;
 }
 #app {
   font-family: "Krub", sans-serif;
@@ -51,7 +52,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: ghostwhite;
   min-height: 100%;
 }
 #header {
