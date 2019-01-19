@@ -2,25 +2,26 @@
   <div class="show-recipe">
     <h2 class="errormsg" v-if="isError">Kan inte hitta receptet!</h2>
 
-    <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
-      <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
-    </div>
+    <div class="theRecipe" v-if="!isError">
+      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
+        <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
+      </div>
 
-    <h1 v-html="recipe.title"></h1>
-    <div v-if="showEditOption" class="mini-edit-menu">
-      <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
-        <i class="fas fa-pencil-alt"></i>
-      </router-link>
-    </div>
+      <h1 v-html="recipe.title"></h1>
+      <div v-if="showEditOption" class="mini-edit-menu">
+        <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera" v-if="recipe.title">
+          <i class="fas fa-pencil-alt"></i>
+        </router-link>
+      </div>
 
-    <h3 v-if="recipe.ingredients">Ingredienser</h3>
-    <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
-    <p v-html="recipe.ingredients"></p>
-    <h3 v-if="recipe.contents">Gör så här</h3>
-    <p v-html="recipe.contents"></p>
-    <p><i v-if="recipe.source">Källa: </i> <a :href="recipe.source" target="_blank">{{ recipe.source }}</a></p>
+      <h3 v-if="recipe.ingredients">Ingredienser</h3>
+      <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
+      <p v-html="recipe.ingredients"></p>
+      <h3 v-if="recipe.contents">Gör så här</h3>
+      <p v-html="recipe.contents"></p>
+      <p><i v-if="recipe.source">Källa: </i> <a :href="recipe.source" target="_blank">{{ recipe.source }}</a></p>
+    </div>
   </div>
-
 </template>
 
 <!-- ####################################################################### -->
@@ -28,8 +29,8 @@
 export default {
   name: "ShowRecipe",
   props: {
-    showEditOption: false,
-    isError: false,
+    showEditOption: Boolean,
+    isError: Boolean,
     recipe: {
       title: "",
       portions: 0,
@@ -88,6 +89,8 @@ export default {
 }
 .errormsg {
   color: red;
+  text-align: center;
+  margin-top: 1em;
 }
 
 h1 {
