@@ -22,9 +22,12 @@
         </div>
 
         <div class="form-group row">
-          <label for="title" class="col-sm-2 col-form-label">Receptnamn</label>
+          <label for="title" class="col-sm-2 col-form-label">*Receptnamn</label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" id="title" v-model="form.title" required>
+            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" v-model="form.title" v-on:change="validateTitle" required>
+            <div class="invalid-feedback">
+              Du måste ange ett receptnamn!
+            </div>
           </div>
         </div>
 
@@ -109,6 +112,7 @@ export default {
   data() {
     return {
       isError: false,
+      titleError: false,
       previewActive: false,
       preview: Object,
       heading: {
@@ -156,23 +160,26 @@ export default {
       }
     },
     getPreview() {
-      let formData = this.packageData(this.form);
-      axios
-        .post(this.$backend + "preview_data", formData)
-        .then(response => {
-          if (response.data.status == "success") {
-            this.previewActive = true;
-            this.preview = response.data.data;
-            this.$nextTick(() => this.$refs.previewWindow.scrollIntoView());
-          } else {
-            console.error(response.data);
+      this.valid = this.validateForm();
+      if (this.valid) {
+        let formData = this.packageData(this.form);
+        axios
+          .post(this.$backend + "preview_data", formData)
+          .then(response => {
+            if (response.data.status == "success") {
+              this.previewActive = true;
+              this.preview = response.data.data;
+              this.$nextTick(() => this.$refs.previewWindow.scrollIntoView());
+            } else {
+              console.error(response.data);
+              this.previewActive = false;
+            }
+          })
+          .catch(error => {
+            console.error(error);
             this.previewActive = false;
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          this.previewActive = false;
-        });
+          });
+      }
     },
     getData() {
       axios
@@ -200,6 +207,20 @@ export default {
     },
     handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
+    },
+    validateTitle() {
+      if (this.form.title == "") {
+        this.titleError = true;
+        return false;
+      }
+      this.titleError = false;
+      return true;
+    },
+    validateForm() {
+      if (!this.validateTitle()) {
+        return false;
+      }
+      return true;
     },
     save() {
       console.log("pretending to save some data");
