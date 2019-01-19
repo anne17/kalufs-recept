@@ -14,7 +14,8 @@
           <label for="title" class="col-sm-2 col-form-label">Hämta från URL</label>
           <div class="col-sm-10 input-group-prepend">
             <span class="input-group-text" id="url_search" @click="sendUrl">
-              <i class="fas fa-search"></i>
+              <!-- <i class="fas fa-search"></i> -->
+              Hämta Recept
             </span>
             <input type="text" class="form-control" placeholder="Adress till receptet" v-model="url">
           </div>
@@ -83,7 +84,7 @@
 
     </div>
 
-    <div id="preview-window" v-if="previewActive">
+    <div id="previewWindow" v-if="previewActive" ref="previewWindow">
       <hr>
       <h1>Förhandsvisning</h1>
 
@@ -162,6 +163,7 @@ export default {
           if (response.data.status == "success") {
             this.previewActive = true;
             this.preview = response.data.data;
+            this.$nextTick(() => this.$refs.previewWindow.scrollIntoView());
           } else {
             console.error(response.data);
             this.previewActive = false;
@@ -242,15 +244,15 @@ textarea {
   color: #28292b;
 }
 
-#preview-window .recipe-view {
+#previewWindow .recipe-view {
   text-align: left;
 }
 
-#preview-window hr {
+#previewWindow hr {
   margin: 0;
 }
 
-#preview-window h1 {
+#previewWindow h1 {
   padding-bottom: 0.8em;
 }
 
