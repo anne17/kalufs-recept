@@ -1,5 +1,14 @@
 <template>
   <div class="edit container">
+
+    <popover name="urlTooltip" class="url-popover">
+      <span>Jag kan automatiskt extrahera recept från:</span>
+      <ul v-for="page in parsablePages" :key="page.id">
+        <li> {{ page }} </li>
+      </ul>
+    </popover>
+
+
     <div class="row">
 
       <div class="col-2 d-none d-lg-block side-menu">
@@ -11,7 +20,12 @@
         </h1>
 
         <div class="form-group row">
-          <label for="url" class="col-sm-2 col-form-label">Hämta från URL</label>
+          <label class="col-sm-2 col-form-label">
+            Hämta från URL
+            <span class="url-tooltip" v-popover:urlTooltip>
+              <i class="fas fa-question-circle"></i>
+            </span>
+          </label>
           <div class="input-group col-sm-10">
             <div class="input-group-prepend">
               <span class="input-group-text" id="url_search" @click="sendUrl">Hämta Recept</span>
@@ -118,6 +132,7 @@ export default {
       urlError: false,
       urlErrorMessageDef: "Det här är inte en giltid adress!",
       urlErrorMessage: "",
+      parsablePages: [],
       previewActive: false,
       preview: Object,
       heading: {
@@ -140,8 +155,23 @@ export default {
     if (this.$route.params.title !== "New") {
       this.getData();
     }
+    this.get_parsable_pages();
   },
   methods: {
+    get_parsable_pages() {
+      axios
+        .get(this.$backend + "get_parsers")
+        .then(response => {
+          if (response.data.status == "success") {
+            this.parsablePages = response.data.data;
+          } else {
+            console.error(response.data.message);
+          }
+        })
+        .catch(e => {
+          console.error(e.response.data);
+        });
+    },
     sendUrl() {
       if (this.validateUrl()) {
         axios
@@ -264,6 +294,10 @@ export default {
 
 <!-- ####################################################################### -->
 <style scoped>
+.url-popover ul {
+  text-align: left;
+}
+
 .side-menu {
   padding: 22em 0.8em 22em 0.8em !important;
 }
@@ -275,6 +309,10 @@ export default {
 
 .recipe-title {
   font-style: italic;
+}
+
+.url-tooltip {
+  cursor: pointer;
 }
 
 #url_search {
