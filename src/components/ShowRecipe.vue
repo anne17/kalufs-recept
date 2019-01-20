@@ -53,8 +53,8 @@ export default {
       }
     },
     isUrl(s) {
-       this.regexp = /^(?:https?:\/\/)?(?:[\w\.]+\.)?(\w+\.\w+)(?:\/|$)/
-       return this.regexp.test(s);
+      this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;
+      return this.regexp.test(s);
     }
   }
 };
