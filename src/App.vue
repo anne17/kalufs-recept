@@ -1,6 +1,33 @@
 <template>
   <div id="app" class="app">
-    <div id="header" class="container">
+
+    <!-- Use headroom on narrow screens -->
+    <headroom class="d-lg-none">
+      <header id="header" class="container">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-2">
+          </div>
+          <!-- middle column -->
+          <div class="col-8 header-img-container">
+            <router-link to="/" class="logo">
+              <span>kalufs. </span>
+              <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
+              <span> /recept</span>
+            </router-link>
+          </div>
+          <!-- right column -->
+          <div class="col-2">
+            <Login/>
+          </div>
+        </div>
+      </header>
+    </headroom>
+    <div class="headroom-space d-lg-none">
+    </div>
+
+    <!-- No headroom on large screens -->
+    <header id="header" class="container d-none d-lg-block">
       <div class="row">
         <!-- left column -->
         <div class="col-2">
@@ -18,7 +45,8 @@
           <Login/>
         </div>
       </div>
-    </div>
+    </header>
+
     <router-view/>
   </div>
 </template>
@@ -27,13 +55,15 @@
 
 <script>
 // @ is an alias to /src
+import { headroom } from "vue-headroom";
 import Login from "@/components/Login.vue";
 // import MobileMenu from "@/components/MobileMenu.vue";
 
 export default {
   name: "app",
   components: {
-    Login
+    Login,
+    headroom
   }
 };
 </script>
@@ -86,6 +116,10 @@ body {
 
 .logo span {
   vertical-align: sub;
+}
+
+.headroom-space {
+  height: 6vh;
 }
 
 h1 {
