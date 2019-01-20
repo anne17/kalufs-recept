@@ -19,7 +19,11 @@
       <p v-html="recipe.ingredients"></p>
       <h3 v-if="recipe.contents">Gör så här</h3>
       <p v-html="recipe.contents"></p>
-      <p><i v-if="recipe.source">Källa: </i> <a :href="recipe.source" target="_blank">{{ recipe.source }}</a></p>
+      <p>
+        <i v-if="recipe.source">Källa: </i>
+        <a v-if="isUrl(recipe.source)" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
+        <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
+      </p>
     </div>
   </div>
 </template>
@@ -41,12 +45,16 @@ export default {
     }
   },
   methods: {
-    getImgUrl: function(recipe_data) {
+    getImgUrl(recipe_data) {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
         return this.$backend + recipe_data.image;
       } else {
         return "";
       }
+    },
+    isUrl(s) {
+       this.regexp = /^(?:https?:\/\/)?(?:[\w\.]+\.)?(\w+\.\w+)(?:\/|$)/
+       return this.regexp.test(s);
     }
   }
 };
