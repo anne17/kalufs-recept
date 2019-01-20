@@ -27,10 +27,10 @@
             </span>
           </label>
           <div class="input-group col-sm-10">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="url_search" @click="sendUrl">Hämta Recept</span>
-            </div>
             <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" v-on:change="validateUrl">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="url_search" @click="sendUrl">Fyll i recept</span>
+            </div>
             <div class="invalid-feedback">
               {{ urlErrorMessage }}
             </div>
@@ -58,22 +58,26 @@
         <div class="form-group row">
           <label for="ingredients" class="col-sm-2 col-form-label">Ingredienser</label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="8" placeholder="- ..." id="ingredients" v-model="form.ingredients"></textarea>
+            <textarea class="form-control" rows="8" placeholder="- [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
           <label for="contents" class="col-sm-2 col-form-label">Beskrivning</label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="10" placeholder="..." id="contents" v-model="form.contents"></textarea>
+            <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
           <label for="image" class="col-sm-2 col-form-label">Bild</label>
-          <div class="col-sm-2">
-            <input type="file" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
-            <span class="custom-file-control"></span>
+          <div class="col-sm-10">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
+              <label class="custom-file-label" for="image">
+                 Välj fil...
+              </label>
+            </div>
           </div>
         </div>
 
@@ -202,8 +206,8 @@ export default {
             } else {
               this.urlErrorMessage = "Någonting blev fel :(";
               this.urlError = true;
-              console.error(this.message);
             }
+            console.error(this.message);
           });
       }
     },
