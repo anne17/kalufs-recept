@@ -58,7 +58,7 @@
         <div class="form-group row">
           <label for="ingredients" class="col-sm-2 col-form-label">Ingredienser</label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="8" placeholder="- [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients"></textarea>
+            <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients"></textarea>
           </div>
         </div>
 
@@ -258,7 +258,7 @@ export default {
     },
     handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
-      //replace the "Choose a file" label
+      // Replace the "Choose a file" label
       this.fileBrowseLabel = this.form.image.name;
     },
     validateUrl() {

@@ -25,9 +25,9 @@
     <p>
       <strong>Listor:</strong><br>
       <ul>
-        <li>- Red</li>
-        <li>- Green</li>
-        <li>- Blue</li>
+        <li>* Red</li>
+        <li>* Green</li>
+        <li>* Blue</li>
       </ul>
       <ul>
         <li>1. Red</li>
