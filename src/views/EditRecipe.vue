@@ -36,6 +36,7 @@
             </div>
           </div>
         </div>
+        <hr>
 
         <div class="form-group row">
           <label for="title" class="col-sm-2 col-form-label">*Receptnamn</label>
@@ -130,7 +131,7 @@ export default {
       isError: false,
       titleError: false,
       urlError: false,
-      urlErrorMessageDef: "Det här är inte en giltid adress!",
+      urlErrorMessageDef: "Det här är inte en giltig adress!",
       urlErrorMessage: "",
       parsablePages: [],
       previewActive: false,
@@ -329,6 +330,12 @@ textarea {
   color: #28292b;
 }
 
+#ingredients,
+#contents {
+  font-family: "Roboto Mono", monospace;
+  font-weight: lighter;
+}
+
 #previewWindow .recipe-view {
   text-align: left;
 }
@@ -343,5 +350,10 @@ textarea {
 
 button {
   margin: 1em;
+}
+
+.right {
+  padding-top: 20vh;
+  padding-right: 0;
 }
 </style>

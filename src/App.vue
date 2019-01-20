@@ -101,13 +101,13 @@ h1 {
   padding-bottom: 1.5em;
 }
 
-.left {
+/* .left {
   border-right: thin solid #ccc;
 }
 
 .right {
   border-left: thin solid #ccc;
-}
+} */
 
 /* Reduce fat margins */
 /* @media (min-width: 1200px) {
