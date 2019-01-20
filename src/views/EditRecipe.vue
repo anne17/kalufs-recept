@@ -23,7 +23,7 @@
           <label class="col-sm-2 col-form-label">
             Hämta från URL
             <span class="url-tooltip" v-popover:urlTooltip>
-              <i class="fas fa-question-circle"></i>
+              <i class="far fa-question-circle"></i>
             </span>
           </label>
           <div class="input-group col-sm-10">
@@ -74,9 +74,7 @@
           <div class="col-sm-10">
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
-              <label class="custom-file-label" for="image">
-                 Välj fil...
-              </label>
+              <label class="custom-file-label" for="image">{{ fileBrowseLabel }}</label>
             </div>
           </div>
         </div>
@@ -138,6 +136,7 @@ export default {
       urlErrorMessageDef: "Det här är inte en giltig adress!",
       urlErrorMessage: "",
       parsablePages: [],
+      fileBrowseLabel: "Välj fil...",
       previewActive: false,
       preview: Object,
       heading: {
@@ -259,6 +258,8 @@ export default {
     },
     handleFileUpload() {
       this.form.image = this.$refs.image.files[0];
+      //replace the "Choose a file" label
+      this.fileBrowseLabel = this.form.image.name;
     },
     validateUrl() {
       if (this.url == "") {

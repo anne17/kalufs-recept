@@ -103,7 +103,7 @@ body {
 }
 
 .header-img-container img {
-  height: 100%;
+  height: 93%;
 }
 
 #header .logo {
