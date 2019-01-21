@@ -7,21 +7,27 @@
         <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
       </div>
 
-      <h1 v-html="recipe.title"></h1>
+      <h1 v-html="recipe.title" class="recipe-title"></h1>
       <div v-if="showEditOption" class="mini-edit-menu">
         <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera" v-if="recipe.title">
           <i class="fas fa-pencil-alt"></i>
         </router-link>
       </div>
 
-      <h3 v-if="recipe.ingredients">Ingredienser</h3>
-      <p v-if="recipe.portions">För <span v-html="recipe.portions"></span> portioner</p>
-      <p v-html="recipe.ingredients"></p>
-      <h3 v-if="recipe.contents">Gör så här</h3>
-      <p v-html="recipe.contents"></p>
-      <p>
-        <i v-if="recipe.source">Källa: </i>
-        <a v-if="isUrl(recipe.source)" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
+      <div class="ingredients">
+        <h4 v-if="recipe.ingredients">Ingredienser</h4>
+        <p v-if="recipe.portions" class="portions">för <span v-html="recipe.portions"></span> portioner</p>
+        <p v-html="recipe.ingredients"></p>
+      </div>
+
+      <div class="contents">
+        <h4 v-if="recipe.contents">Gör så här</h4>
+        <p v-html="recipe.contents"></p>
+      </div>
+
+      <p v-if="recipe.source" class="recipe-source">
+        <span >Källa: </span>
+        <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
       </p>
     </div>
@@ -64,6 +70,7 @@ export default {
 <style scoped>
 .show-recipe {
   text-align: left;
+  font-size: 1.3rem;
 }
 
 .mini-edit-menu {
@@ -72,7 +79,6 @@ export default {
 }
 .mini-edit-menu i {
   float: right;
-  font-size: 1.2rem;
 }
 .mini-edit-menu i:hover {
   color: black;
@@ -103,10 +109,26 @@ export default {
 
 h1 {
   text-align: center;
-  font-size: 1.8rem;
 }
 
-h3 {
-  font-size: 1.5rem;
+h4 {
+  font-weight: bold;
+}
+
+.recipe-title {
+  margin-bottom: 0.8em;
+}
+
+.portions {
+  font-size: 0.9em;
+  padding-left: 0.2em;
+}
+
+.contents {
+  padding-top: 0.3em;
+}
+
+.recipe-source {
+  font-size: 0.8em;
 }
 </style>

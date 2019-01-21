@@ -27,7 +27,7 @@
     </div>
 
     <!-- No headroom on large screens -->
-    <header id="header" class="container d-none d-lg-block">
+    <header id="header" class="container d-none d-lg-block lg-screen-header">
       <div class="row">
         <!-- left column -->
         <div class="col-2">
@@ -46,6 +46,8 @@
         </div>
       </div>
     </header>
+    <div class="header-space d-none d-lg-block">
+    </div>
 
     <router-view/>
   </div>
@@ -94,6 +96,11 @@ body {
   height: 100%;
 }
 
+.lg-screen-header {
+  position: fixed;
+  z-index: 8888;
+}
+
 .header-img-container {
   display: inline-block;
   height: 100%;
@@ -122,10 +129,20 @@ body {
   height: 6vh;
 }
 
+.header-space {
+  height: 5vh;
+}
+
 h1 {
-  font-size: 1.6rem;
+  font-size: 1.6em;
   padding-top: 0.8em;
   margin: 0;
+}
+
+.dont-break-out {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 /* padding side-bars */
