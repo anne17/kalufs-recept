@@ -86,16 +86,24 @@
           </div>
         </div>
 
-        <div class="buttons">
-          <button type="button" class="btn btn-default btn-sm" v-on:click="getPreview">
-            <i class="far fa-eye"></i>
-            Granska
-          </button>
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="buttons col-sm-10">
+            <button type="button" class="btn btn-primary btn-sm" v-on:click="getPreview">
+              <i class="far fa-eye"></i>
+              Granska
+            </button>
 
-          <button type="button" class="btn btn-default btn-sm" v-on:click="save" disabled>
-            <i class="fas fa-save"></i>
-            Spara
-          </button>
+            <button type="button" class="btn btn-success btn-sm" v-on:click="save" disabled>
+              <i class="fas fa-save"></i>
+              Spara
+            </button>
+
+            <button type="button" class="btn btn-danger btn-sm" v-on:click="remove" disabled>
+              <i class="fas fa-trash-alt"></i>
+              Ta bort
+            </button>
+          </div>
         </div>
 
       </div>
@@ -111,6 +119,21 @@
       <h1>Förhandsvisning</h1>
 
       <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
+
+      <div class="row">
+        <div class="buttons">
+          <button type="button" class="btn btn-success btn-sm" v-on:click="save" disabled>
+            <i class="fas fa-save"></i>
+            Spara
+          </button>
+
+          <button type="button" class="btn btn-danger btn-sm" v-on:click="remove" disabled>
+            <i class="fas fa-trash-alt"></i>
+            Ta bort
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -284,9 +307,8 @@ export default {
       }
       return true;
     },
-    save() {
-      console.log("pretending to save some data");
-    },
+    save() {},
+    remove() {},
     packageData(data) {
       const form = new FormData();
       for (const key in data) {
@@ -351,6 +373,11 @@ textarea {
 
 #previewWindow h1 {
   padding-bottom: 0.8em;
+}
+
+.buttons {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button {
