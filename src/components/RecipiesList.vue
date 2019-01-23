@@ -81,8 +81,8 @@ export default {
 
 .main-entry > div {
   clear: left;
-  background: #a5c3f2;
-  border-right: 1px solid #a5c3f2;
+  background: var(--light-accent-color);
+  border-right: 1px solid var(--light-accent-color);
   border-radius: 0 15px 15px 0;
 }
 
@@ -117,9 +117,9 @@ export default {
   font-size: 0.8rem;
   font-weight: bold;
   border-style: solid;
-  border-color: #fff586;
+  border-color: var(--light-contrast-color);
   border-radius: 15px;
-  background: #fff586;
+  background: var(--light-contrast-color);
   display: inline-block;
 }
 

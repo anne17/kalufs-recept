@@ -73,21 +73,34 @@ export default {
 <!-- ####################################################################### -->
 
 <style>
+/* Global CSS variables */
+:root {
+  --standard-font-color: #2c3e50;
+  --light-background-color: ghostwhite;
+  --dark-accent-color: #3866bf;
+  --light-accent-color: #a5c3f2;
+  --light-contrast-color: #fff586;
+
+  --standardfont: "Krub", sans-serif;
+  --monofont: "Roboto Mono", monospace;
+}
+
 html,
 body {
   height: 100%;
-  background-color: ghostwhite;
+  background-color: var(--light-background-color);
 }
 #app {
   font-family: "Krub", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--standard-font-color);
   min-height: 100%;
 }
+
 #header {
-  background-color: #3866bf;
+  background-color: var(--dark-accent-color);
   max-width: 100%;
   height: 50px;
 }

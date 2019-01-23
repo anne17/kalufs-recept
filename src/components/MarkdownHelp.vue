@@ -72,7 +72,7 @@ h1 {
 .markdown-help ul {
   list-style-type: none;
   padding-left: 1em;
-  font-family: "Roboto Mono", monospace;
+  font-family: var(--monofont);
   font-weight: lighter;
 }
 
