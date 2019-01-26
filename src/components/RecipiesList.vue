@@ -35,7 +35,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(this.$backend + "recipe-data").then(response => {
+    axios.get(this.$backend + "recipe_data").then(response => {
       this.results = response.data.data.recipies;
       // this.pdfaddress = this.$backend + "pdf/";
     });
