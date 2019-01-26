@@ -359,7 +359,7 @@ textarea {
 
 #ingredients,
 #contents {
-  font-family: "Roboto Mono", monospace;
+  font-family: var(--monofont);
   font-weight: lighter;
 }
 
