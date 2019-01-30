@@ -75,7 +75,7 @@ export default {
 <style>
 /* Global CSS variables */
 :root {
-  --standard-font-color: #2c3e50;
+  --standard-font-color: #444444;
   --light-background-color: ghostwhite;
   --dark-accent-color: #3866bf;
   --light-accent-color: #a5c3f2;
@@ -150,6 +150,28 @@ h1 {
   font-size: 1.6em;
   padding-top: 0.8em;
   margin: 0;
+}
+
+/*Category tags (bubbles)*/
+.tag,
+.tag-dark {
+  /*      top right bottom left */
+  margin: 0.3em 0.3em 0.3em 0;
+  padding: 0em 0.3em 0em 0.3em;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-style: solid;
+  border-radius: 15px;
+  display: inline-block;
+}
+.tag {
+  border-color: var(--light-contrast-color);
+  background: var(--light-contrast-color);
+}
+.tag-dark {
+  color: white;
+  border-color: var(--dark-accent-color);
+  background: var(--dark-accent-color);
 }
 
 .dont-break-out {

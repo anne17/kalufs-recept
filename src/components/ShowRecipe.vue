@@ -7,7 +7,8 @@
         <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
       </div>
 
-      <h1 v-html="recipe.title" class="recipe-title"></h1>
+      <h2 v-html="recipe.title" class="recipe-title"></h2>
+
       <div v-if="showEditOption" class="mini-edit-menu">
         <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera" v-if="recipe.title">
           <i class="fas fa-pencil-alt"></i>
@@ -15,18 +16,23 @@
       </div>
 
       <div class="ingredients">
-        <h4 v-if="recipe.ingredients">Ingredienser</h4>
+        <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
         <p v-if="recipe.portions" class="portions">för <span v-html="recipe.portions"></span> portioner</p>
         <p v-html="recipe.ingredients"></p>
       </div>
 
-      <div class="contents">
-        <h4 v-if="recipe.contents">Gör så här</h4>
+      <div class="contents" v-if="recipe.contents">
+        <div class="small-header">Gör så här</div>
         <p v-html="recipe.contents"></p>
       </div>
 
+      <p v-if="recipe.tags" class="recipe-tags">
+        <span>Taggar: </span>
+        <span class="tag-dark" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
+      </p>
+
       <p v-if="recipe.source" class="recipe-source">
-        <span >Källa: </span>
+        <span>Källa: </span>
         <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
       </p>
@@ -76,16 +82,14 @@ export default {
 .mini-edit-menu {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;
+  float: right;
 }
-.mini-edit-menu i {
+.mini-edit-menu a {
+  color: inherit;
   float: right;
 }
 .mini-edit-menu i:hover {
   color: black;
-}
-
-.mini-edit-menu a {
-  color: inherit;
 }
 
 .img-container {
@@ -107,12 +111,17 @@ export default {
   margin-top: 1em;
 }
 
-h1 {
+h2 {
+  font-size: 1.4em;
   text-align: center;
+  padding-top: 0.5em;
+  margin: 0;
 }
 
-h4 {
-  font-weight: bold;
+.small-header {
+  font-weight: 600;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
 }
 
 .recipe-title {
@@ -120,14 +129,21 @@ h4 {
 }
 
 .portions {
-  font-size: 0.9em;
-  padding-left: 0.2em;
+  filter: brightness(150%);
+  font-size: 0.8em;
 }
 
+.ingredients,
 .contents {
-  padding-top: 0.3em;
+  padding: 0.3em;
+  /* box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2); */
 }
 
+.contents >>> li {
+  margin: 0.5em 0;
+}
+
+.recipe-tags,
 .recipe-source {
   font-size: 0.8em;
 }

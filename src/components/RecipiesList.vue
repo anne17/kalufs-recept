@@ -110,19 +110,6 @@ export default {
   text-decoration: underline;
 }
 
-.tag {
-  /*      top right bottom left */
-  margin: 0.3em 0.3em 0.3em 0;
-  padding: 0em 0.3em 0em 0.3em;
-  font-size: 0.8rem;
-  font-weight: bold;
-  border-style: solid;
-  border-color: var(--light-contrast-color);
-  border-radius: 15px;
-  background: var(--light-contrast-color);
-  display: inline-block;
-}
-
 .mini-edit-menu {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;

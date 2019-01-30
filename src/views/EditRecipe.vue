@@ -3,8 +3,8 @@
 
     <popover name="urlTooltip" class="url-popover">
       <span>Jag kan automatiskt extrahera recept från:</span>
-      <ul v-for="page in parsablePages" :key="page.id">
-        <li> {{ page }} </li>
+      <ul>
+        <li v-for="page in parsablePages" :key="page.id"> {{ page }} </li>
       </ul>
     </popover>
 

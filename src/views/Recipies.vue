@@ -14,7 +14,7 @@
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
         <h1>
-            Mina recept
+            Alla recept
         </h1>
         <div class="container">
         <div class="menu row">
