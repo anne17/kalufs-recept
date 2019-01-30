@@ -37,7 +37,6 @@ export default {
   mounted() {
     axios.get(this.$backend + "recipe_data").then(response => {
       this.results = response.data.data.recipies;
-      // this.pdfaddress = this.$backend + "pdf/";
     });
   },
   methods: {
@@ -93,6 +92,8 @@ export default {
   overflow: hidden;
   display: flex;
   align-items: center;
+  background-color: var(--lightish-accent-color);
+  /* background-color: blue; */
 }
 
 .default-img {
