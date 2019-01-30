@@ -99,7 +99,7 @@
               Spara
             </button>
 
-            <button type="button" class="btn btn-danger btn-sm" v-on:click="remove" disabled>
+            <button type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="remove" disabled>
               <i class="fas fa-trash-alt"></i>
               Ta bort
             </button>
@@ -127,7 +127,7 @@
             Spara
           </button>
 
-          <button type="button" class="btn btn-danger btn-sm" v-on:click="remove" disabled>
+          <button type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="remove" disabled>
             <i class="fas fa-trash-alt"></i>
             Ta bort
           </button>

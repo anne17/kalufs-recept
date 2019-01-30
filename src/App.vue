@@ -174,6 +174,13 @@ h1 {
   background: var(--dark-accent-color);
 }
 
+.button-danger-secondary {
+  background-color: unset !important;
+  color: #dc3545 !important;
+  border: 1px solid #ced4da !important;
+  /* border: 1px solid #dc3545 !important; */
+}
+
 .dont-break-out {
   overflow-wrap: break-word;
   word-wrap: break-word;
