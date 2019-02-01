@@ -89,7 +89,7 @@ export default {
       axios
         .post(this.$backend + "check_authentication")
         .then(response => {
-          if (response.data.status == "success") {
+          if (response.data.authenticated == true) {
             this.loggedIn = true;
             this.currentUser = response.data.user;
           } else {
@@ -112,9 +112,8 @@ export default {
     },
     onSubmit() {
       this.isError = false;
-      let formData = this.packageData(this.form);
       axios
-        .post(this.$backend + "login", formData)
+        .post(this.$backend + "login", this.form)
         .then(response => {
           this.closeLogin();
           this.currentUser = response.data.user;
@@ -131,13 +130,6 @@ export default {
             this.error = "Ett oväntat fel har inträffat :(";
           }
         });
-    },
-    packageData(data) {
-      const form = new FormData();
-      for (const key in data) {
-        form.append(key, data[key]);
-      }
-      return form;
     },
     logout() {
       axios

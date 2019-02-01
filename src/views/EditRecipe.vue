@@ -240,9 +240,8 @@ export default {
     getPreview() {
       this.valid = this.validateForm();
       if (this.valid) {
-        let formData = this.packageData(this.form);
         axios
-          .post(this.$backend + "preview_data", formData)
+          .post(this.$backend + "preview_data", this.form)
           .then(response => {
             if (response.data.status == "success") {
               this.previewActive = true;
@@ -312,14 +311,7 @@ export default {
       return true;
     },
     save() {},
-    remove() {},
-    packageData(data) {
-      const form = new FormData();
-      for (const key in data) {
-        form.append(key, data[key]);
-      }
-      return form;
-    }
+    remove() {}
   }
 };
 </script>
