@@ -12,6 +12,10 @@
       </ul>
     </popover>
 
+    <div class="loading-spinner" v-if="loading">
+      <img src="../assets/loading_spinner.gif"/>
+    </div>
+
 
     <div class="row">
 
@@ -157,6 +161,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       isError: false,
       titleError: false,
       urlError: false,
@@ -205,9 +210,11 @@ export default {
     },
     sendUrl() {
       if (this.validateUrl()) {
+        this.loading = true;
         axios
           .get(this.$backend + "parse_from_url?url=" + this.url)
           .then(response => {
+            this.loading = false;
             if (response.data.status == "success") {
               this.data = response.data.data;
               // Update form
@@ -320,6 +327,19 @@ export default {
 <style scoped>
 .url-popover ul {
   text-align: left;
+}
+
+.loading-spinner {
+  width: 8vw;
+  z-index: 20000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loading-spinner img {
+  width: 8vw;
 }
 
 .side-menu {
