@@ -224,6 +224,7 @@ export default {
                 }
               }
             } else {
+              this.loading = false;
               console.error(response.data);
             }
           })
@@ -317,7 +318,23 @@ export default {
       }
       return true;
     },
-    save() {},
+    save() {
+      this.loading = true;
+      axios
+        .get(this.$backend + "save_pretend")
+        .then(response => {
+          this.loading = false;
+          if (response.data.status == "success") {
+            // console.log("Pretended to save some data!");
+          } else {
+            console.error(response.data.message);
+          }
+        })
+        .catch(e => {
+          this.loading = false;
+          console.error(e.response.data);
+        });
+    },
     remove() {}
   }
 };
