@@ -13,7 +13,7 @@
     </popover>
 
     <div class="loading-spinner" v-if="loading">
-      <img src="../assets/loading_spinner.gif"/>
+      <img src="../assets/loading_spinner.svg"/>
     </div>
 
 
@@ -347,7 +347,7 @@ export default {
 }
 
 .loading-spinner {
-  width: 8vw;
+  width: 10em;
   z-index: 20000;
   position: fixed;
   top: 50%;
@@ -356,7 +356,7 @@ export default {
 }
 
 .loading-spinner img {
-  width: 8vw;
+  width: 10em;
 }
 
 .side-menu {
