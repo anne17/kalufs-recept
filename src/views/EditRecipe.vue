@@ -1,6 +1,8 @@
 <template>
   <div class="edit container">
 
+    <LoadingSpinner :loading="loading"/>
+
     <popover name="urlTooltip" class="url-popover">
       <span>Jag kan automatiskt extrahera recept från:</span>
       <ul>
@@ -11,11 +13,6 @@
         </li>
       </ul>
     </popover>
-
-    <div class="loading-spinner" v-if="loading">
-      <img src="../assets/loading_spinner.svg"/>
-    </div>
-
 
     <div class="row">
 
@@ -150,6 +147,7 @@
 <script>
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
 import ShowRecipe from "@/components/ShowRecipe.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -157,7 +155,8 @@ export default {
   name: "EditRecipe",
   components: {
     MarkdownHelp,
-    ShowRecipe
+    ShowRecipe,
+    LoadingSpinner
   },
   data() {
     return {
@@ -344,19 +343,6 @@ export default {
 <style scoped>
 .url-popover ul {
   text-align: left;
-}
-
-.loading-spinner {
-  width: 10em;
-  z-index: 20000;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.loading-spinner img {
-  width: 10em;
 }
 
 .side-menu {
