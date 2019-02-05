@@ -1,53 +1,6 @@
 <template>
   <div id="app" class="app">
-
-    <!-- Use headroom on narrow screens -->
-    <headroom class="d-lg-none">
-      <header id="header" class="container">
-        <div class="row">
-          <!-- left column -->
-          <div class="col-2">
-          </div>
-          <!-- middle column -->
-          <div class="col-8 header-img-container">
-            <router-link to="/" class="logo">
-              <span>kalufs. </span>
-              <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
-              <span> /recept</span>
-            </router-link>
-          </div>
-          <!-- right column -->
-          <div class="col-2">
-            <Login/>
-          </div>
-        </div>
-      </header>
-    </headroom>
-    <div class="headroom-space d-lg-none">
-    </div>
-
-    <!-- No headroom on large screens -->
-    <header id="header" class="container d-none d-lg-block lg-screen-header">
-      <div class="row">
-        <!-- left column -->
-        <div class="col-2">
-        </div>
-        <!-- middle column -->
-        <div class="col-8 header-img-container">
-          <router-link to="/" class="logo">
-            <span>kalufs. </span>
-            <img alt="Plate" src="./assets/plate-fork-and-knife_white.png">
-            <span> /recept</span>
-          </router-link>
-        </div>
-        <!-- right column -->
-        <div class="col-2">
-          <Login/>
-        </div>
-      </div>
-    </header>
-    <div class="header-space d-none d-lg-block">
-    </div>
+    <Header/>
 
     <router-view/>
   </div>
@@ -57,15 +10,13 @@
 
 <script>
 // @ is an alias to /src
-import { headroom } from "vue-headroom";
-import Login from "@/components/Login.vue";
+import Header from "@/components/Header.vue";
 // import MobileMenu from "@/components/MobileMenu.vue";
 
 export default {
   name: "app",
   components: {
-    Login,
-    headroom
+    Header
   }
 };
 </script>
@@ -98,53 +49,6 @@ body {
   text-align: center;
   color: var(--standard-font-color);
   min-height: 100%;
-}
-
-#header {
-  background-color: var(--dark-accent-color);
-  max-width: 100%;
-  height: 50px;
-}
-
-#header .row {
-  height: 100%;
-}
-
-.lg-screen-header {
-  position: fixed;
-  z-index: 8888;
-}
-
-.header-img-container {
-  display: inline-block;
-  height: 100%;
-  white-space: nowrap;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-.header-img-container img {
-  height: 93%;
-}
-
-#header .logo {
-  font-family: "Indie Flower", cursive;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.8rem;
-  color: white;
-}
-
-.logo span {
-  vertical-align: sub;
-}
-
-.headroom-space {
-  height: 6vh;
-}
-
-.header-space {
-  height: 5vh;
 }
 
 h1 {
