@@ -2,34 +2,34 @@
   <div class="login">
     <div id="grayout" @click="$emit('close')"></div>
 
-  	<div class="modal-dialog">
-  		<div class="modal-content" v-bind:class="{ error: isError }">
-        <div id="close-icon" v-on:click="$emit('close', loggedIn)">
-          <i class="far fa-times-circle"></i>
-        </div>
-  			<div class="modal-body">
-  				<form v-on:submit.prevent="onSubmit">
-  					<div class="form-group">
-  						<i class="fa fa-user"></i>
-  						<input type="text" class="form-control" placeholder="Användarnamn" required="required" autofocus v-model="form.login">
-  					</div>
-  					<div class="form-group">
-  						<i class="fa fa-lock"></i>
-  						<input type="password" class="form-control" placeholder="Lösenord" required="required" v-model="form.password">
-  					</div>
+    <div id="LoginModal">
+    	<div class="modal-dialog modal-login">
+    		<div class="modal-content" v-bind:class="{ error: isError }">
+    			<button type="button" class="close" v-on:click="$emit('close', loggedIn)" aria-hidden="true">&times;</button>
+    			<div class="modal-body">
+    				<form v-on:submit.prevent="onSubmit">
+    					<div class="form-group">
+    						<i class="fa fa-user"></i>
+    						<input type="text" class="form-control" placeholder="Användarnamn" autofocus required="required" oninvalid="this.setCustomValidity('Ange ditt användarnamn')" oninput="setCustomValidity('')" title="">
+    					</div>
+    					<div class="form-group">
+    						<i class="fa fa-lock"></i>
+    						<input type="password" class="form-control" placeholder="Lösenord" required="required" oninvalid="this.setCustomValidity('Ange ditt lösenord')" oninput="setCustomValidity('')" title="">
+    					</div>
+    					<div class="form-group">
+    						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in">
+    					</div>
+    				</form>
 
-  					<div class="form-group">
-  						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
-  					</div>
-            <div class="error error-message" v-if="isError">
-              {{ error }}
+            <div class="error-message">
+              <span v-if="isError">{{ error }}</span>
+              <span v-if="!isError">&nbsp;</span>
             </div>
-            <div class="error error-message" v-if="!isError">
-              &nbsp;
-            </div>
-  				</form>
-  			</div>
-  		</div>
+
+    			</div>
+
+    		</div>
+    	</div>
     </div>
 	</div>
 
@@ -46,6 +46,7 @@ export default {
   name: "login",
   data() {
     return {
+      error: "",
       loggedIn: false,
       currentUser: "User",
       isError: false,
@@ -96,24 +97,14 @@ export default {
   z-index: 9999;
 }
 
-.error .error-message {
-  color: red;
-  font-weight: bold;
-}
-
-.modal-dialog {
+.modal-login {
   color: #636363;
   width: 350px;
   z-index: 10000;
   position: fixed;
-  top: 10%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, 0%);
-}
-#close-icon i {
-  position: unset;
-  float: right;
-  cursor: pointer;
 }
 @keyframes blink {
   from {
@@ -123,67 +114,58 @@ export default {
     border-color: red;
   }
 }
-.modal-dialog .modal-content {
-  padding: 15px;
+.modal-dialog .error {
+  animation: blink 1s 2 alternate;
+}
+.modal-login .modal-content {
+  padding: 15px 15px 5px 15px;
   border-radius: 5px;
   border-color: transparent;
   border-width: 2.5px;
 }
-.modal-dialog .error {
-  animation: blink 1s 2 alternate;
-}
-.modal-dialog .modal-header {
-  border-bottom: none;
-  position: relative;
-  justify-content: center;
-}
-.modal-dialog h4 {
-  text-align: center;
-  font-size: 26px;
-}
-.modal-dialog .form-group {
+.modal-login .form-group {
   position: relative;
 }
-.modal-dialog i {
+.modal-login i {
   position: absolute;
   left: 13px;
   top: 11px;
   font-size: 18px;
 }
-.modal-dialog .form-control {
+.modal-login .form-control {
   padding-left: 40px;
 }
-.modal-dialog .form-control:focus {
-  border-color: #00ce81;
+.modal-login .form-control:focus {
+  border-color: var(--dark-accent-color);
 }
-.modal-dialog .form-control,
-.modal-dialog .btn {
+.modal-login .form-control,
+.modal-login .btn {
   min-height: 40px;
   border-radius: 3px;
 }
-.modal-dialog .hint-text {
+.modal-login .hint-text {
   text-align: center;
   padding-top: 10px;
 }
-.modal-dialog .close {
-  position: absolute;
-  top: -5px;
-  right: -5px;
+.modal-login .close {
+  position: fixed;
+  top: 8px;
+  right: 10px;
 }
-.modal-dialog .btn {
-  background: #00ce81;
+.modal-login .btn {
+  background: var(--dark-accent-color);
   border: none;
   line-height: normal;
+  font-weight: bolder;
 }
-.modal-dialog .btn:hover,
-.modal-dialog .btn:focus {
-  background: #00bf78;
+.modal-login .btn:hover,
+.modal-login .btn:focus {
+  background: var(--lightish-accent-color);
 }
-.modal-body {
-  padding-bottom: 5px;
-}
-.trigger-btn {
-  display: inline-block;
-  margin: 100px auto;
+
+.error-message {
+  color: red;
+  font-weight: 500;
+  font-size: 0.9em;
 }
 </style>
