@@ -1,28 +1,10 @@
 <template>
-<div>
-  <div id="grayout" v-if="grayoutShow" @click="closeLogin"></div>
-
   <div class="login">
-    <!-- Login feedback large screen -->
-    <div class="login-status d-none d-md-inline d-lg-inline">
-      <span v-if="!loggedIn" v-on:click="openLogin" title="Logga in">
-        <i class="fas fa-sign-in-alt"></i>
-      </span>
-      <span  v-if="loggedIn">
-        Hej {{ currentUser }}!&nbsp;
-      </span>
-      <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
-        <i class="fas fa-sign-out-alt"></i>
-      </span>
-    </div>
-    <!-- Login feedback small screen -->
-    <div class="login-status d-inline d-lg-none d-md-none">
-      <i class="fas fa-bars"></i>
-    </div>
+    <div id="grayout" @click="$emit('close')"></div>
 
-  	<div class="modal-dialog" v-if="!isHidden">
+  	<div class="modal-dialog">
   		<div class="modal-content" v-bind:class="{ error: isError }">
-        <div id="close-icon" v-on:click="closeLogin">
+        <div id="close-icon" v-on:click="$emit('close', loggedIn)">
           <i class="far fa-times-circle"></i>
         </div>
   			<div class="modal-body">
@@ -35,10 +17,7 @@
   						<i class="fa fa-lock"></i>
   						<input type="password" class="form-control" placeholder="Lösenord" required="required" v-model="form.password">
   					</div>
-            <!-- <div class="checkbox">
-                <input type="checkbox" name="remember" value="" id="remember" v-model="form.remember">
-                <label for="remember">Kom ihåg mig</label>
-            </div> -->
+
   					<div class="form-group">
   						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Login">
   					</div>
@@ -51,16 +30,14 @@
   				</form>
   			</div>
   		</div>
-  	</div>
+    </div>
+	</div>
 
-  </div>
-</div>
 </template>
 
 <!-- ####################################################################### -->
 
 <script>
-// https://vuejs.org/v2/examples/modal.html
 // https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
 import axios from "axios";
 axios.defaults.withCredentials = true;
@@ -70,46 +47,15 @@ export default {
   data() {
     return {
       loggedIn: false,
-      isHidden: true,
-      grayoutShow: false,
       currentUser: "User",
       isError: false,
       form: {
         login: "",
-        password: "" //,
-        // remember: true
+        password: ""
       }
     };
   },
-  created() {
-    this.checkLogin();
-  },
   methods: {
-    checkLogin() {
-      axios
-        .post(this.$backend + "check_authentication")
-        .then(response => {
-          if (response.data.authenticated == true) {
-            this.loggedIn = true;
-            this.currentUser = response.data.user;
-          } else {
-            this.loggedIn = false;
-          }
-        })
-        .catch(error => {
-          this.loggedIn = false;
-          console.error(error);
-        });
-    },
-    openLogin() {
-      this.isHidden = !this.isHidden;
-      this.grayoutShow = true;
-    },
-    closeLogin() {
-      this.isHidden = true;
-      this.grayoutShow = false;
-      this.isError = false;
-    },
     onSubmit() {
       this.isError = false;
       axios
@@ -130,21 +76,6 @@ export default {
             this.error = "Ett oväntat fel har inträffat :(";
           }
         });
-    },
-    logout() {
-      axios
-        .post(this.$backend + "logout")
-        .then(response => {
-          if (response.data.status == "success") {
-            this.loggedIn = false;
-          } else {
-            this.error = this.errorMessage(response.data.message);
-          }
-        })
-        .catch(error => {
-          console.error("Couldn't log out:", error);
-          // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
-        });
     }
   }
 };
@@ -153,27 +84,6 @@ export default {
 <!-- ####################################################################### -->
 
 <style scoped>
-.login-status {
-  color: white;
-  font-weight: bold;
-  float: right;
-  position: absolute;
-  right: 5%;
-  top: 15px;
-}
-
-.login-status i {
-  cursor: pointer;
-  font-size: 1.3em;
-  position: relative;
-  top: 2px;
-}
-
-.error .error-message {
-  color: red;
-  font-weight: bold;
-}
-
 /* Gray out background when login window opens */
 #grayout {
   position: fixed;
@@ -184,6 +94,11 @@ export default {
   background-color: black;
   opacity: 0.3;
   z-index: 9999;
+}
+
+.error .error-message {
+  color: red;
+  font-weight: bold;
 }
 
 .modal-dialog {
