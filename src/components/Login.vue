@@ -10,11 +10,11 @@
     				<form v-on:submit.prevent="onSubmit">
     					<div class="form-group">
     						<i class="fa fa-user"></i>
-    						<input type="text" class="form-control" placeholder="Användarnamn" autofocus required="required" oninvalid="this.setCustomValidity('Ange ditt användarnamn')" oninput="setCustomValidity('')" title="">
+    						<input type="text" class="form-control" placeholder="Användarnamn" v-model="form.login" autofocus required="required" oninvalid="this.setCustomValidity('Ange ditt användarnamn')" oninput="setCustomValidity('')" title="">
     					</div>
     					<div class="form-group">
     						<i class="fa fa-lock"></i>
-    						<input type="password" class="form-control" placeholder="Lösenord" required="required" oninvalid="this.setCustomValidity('Ange ditt lösenord')" oninput="setCustomValidity('')" title="">
+    						<input type="password" class="form-control" placeholder="Lösenord" v-model="form.password" required="required" oninvalid="this.setCustomValidity('Ange ditt lösenord')" oninput="setCustomValidity('')" title="">
     					</div>
     					<div class="form-group">
     						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in">
@@ -62,9 +62,9 @@ export default {
       axios
         .post(this.$backend + "login", this.form)
         .then(response => {
-          this.closeLogin();
           this.currentUser = response.data.user;
           this.loggedIn = true;
+          this.$emit("close", true);
         })
         .catch(e => {
           this.isError = true;
@@ -75,6 +75,7 @@ export default {
             this.error = "Felaktigt lösenord eller användarnamn!";
           } else {
             this.error = "Ett oväntat fel har inträffat :(";
+            console.error(e.response.data);
           }
         });
     }

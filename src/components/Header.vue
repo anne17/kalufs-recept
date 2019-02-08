@@ -189,7 +189,7 @@ export default {
   font-weight: bold;
   float: right;
   position: absolute;
-  right: 5%;
+  right: 10%;
   top: 15px;
 }
 
