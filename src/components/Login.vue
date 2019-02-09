@@ -75,7 +75,7 @@ export default {
             this.error = "Felaktigt lösenord eller användarnamn!";
           } else {
             this.error = "Ett oväntat fel har inträffat :(";
-            console.error(e.response.data);
+            console.error("Response from backend:", e.response);
           }
         });
     }

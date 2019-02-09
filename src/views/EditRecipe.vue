@@ -200,11 +200,11 @@ export default {
           if (response.data.status == "success") {
             this.parsablePages = response.data.data;
           } else {
-            console.error(response.data.message);
+            console.error("Message from backend:", response.data.message);
           }
         })
         .catch(e => {
-          console.error(e.response.data);
+          console.error("Response from backend:", e.response);
         });
     },
     sendUrl() {
@@ -224,23 +224,31 @@ export default {
               }
             } else {
               this.loading = false;
-              console.error(response.data);
+              console.error("Response from backend:", response.data);
             }
           })
           .catch(e => {
-            this.message = e.response.data.message;
-            if (this.message.startsWith("Invalid URL")) {
-              this.urlErrorMessage = this.urlErrorMessageDef;
-              this.urlError = true;
-            } else if (this.message.startsWith("No parser found")) {
-              this.urlErrorMessage =
-                "Adressen från den här sidan kan inte hanteras än :(";
-              this.urlError = true;
-            } else {
+            this.loading = false;
+
+            if (typeof e.response == "undefined") {
               this.urlErrorMessage = "Någonting blev fel :(";
               this.urlError = true;
+              console.error("Response from backend:", e.response);
+            } else {
+              this.message = e.response.data.message;
+              if (this.message.startsWith("Invalid URL")) {
+                this.urlErrorMessage = this.urlErrorMessageDef;
+                this.urlError = true;
+              } else if (this.message.startsWith("No parser found")) {
+                this.urlErrorMessage =
+                  "Adressen från den här sidan kan inte hanteras än :(";
+                this.urlError = true;
+              } else {
+                this.urlErrorMessage = "Någonting blev fel :(";
+                this.urlError = true;
+              }
+              console.error("Message from backend:", this.message);
             }
-            console.error(this.message);
           });
       }
     },
@@ -255,12 +263,12 @@ export default {
               this.preview = response.data.data;
               this.$nextTick(() => this.$refs.previewWindow.scrollIntoView());
             } else {
-              console.error(response.data);
+              console.error("Response from backend:", response.data);
               this.previewActive = false;
             }
           })
-          .catch(error => {
-            console.error(error);
+          .catch(e => {
+            console.error("Response from backend:", e);
             this.previewActive = false;
           });
       }
@@ -281,11 +289,11 @@ export default {
             this.heading.text = "Redigera ";
             this.heading.title = this.form.title;
           } else {
-            console.error(response.data);
+            console.error("Response from backend:", response.data);
           }
         })
         .catch(e => {
-          console.error(e.response.data);
+          console.error("Response from backend:", e.response);
           this.isError = true;
         });
     },
@@ -326,12 +334,12 @@ export default {
           if (response.data.status == "success") {
             // console.log("Pretended to save some data!");
           } else {
-            console.error(response.data.message);
+            console.error("Message from backend:", response.data.message);
           }
         })
         .catch(e => {
           this.loading = false;
-          console.error(e.response.data);
+          console.error("Response from backend:", e.response);
         });
     },
     remove() {}
