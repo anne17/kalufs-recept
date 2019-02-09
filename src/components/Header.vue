@@ -18,7 +18,10 @@
           </div>
           <!-- right column -->
           <div class="col-2">
-            <Login/>
+            <!-- Hamburger menu -->
+            <div class="login-status d-inline d-lg-none d-md-none">
+              <i class="fas fa-bars"></i>
+            </div>
           </div>
         </div>
       </header>
@@ -42,7 +45,7 @@
         </div>
         <!-- right column -->
         <div class="col-2">
-          <!-- Login feedback large screen -->
+          <!-- Login feedback -->
           <div class="login-status d-none d-md-inline d-lg-inline">
             <span v-if="!loggedIn" class="do-login" v-on:click="toggleLogin">
               Logga in
@@ -53,10 +56,6 @@
             <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
               <i class="fas fa-sign-out-alt"></i>
             </span>
-          </div>
-          <!-- Login feedback small screen -->
-          <div class="login-status d-inline d-lg-none d-md-none">
-            <i class="fas fa-bars"></i>
           </div>
           <Login v-if="!isHidden" @close="toggleLogin"/>
         </div>
