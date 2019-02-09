@@ -46,7 +46,7 @@
         <div class="form-group row">
           <label for="title" class="col-sm-2 col-form-label">*Receptnamn</label>
           <div class="col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" v-model="form.title" v-on:change="validateTitle" required>
+            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" v-model="form.title" v-on:change="validateTitle" required="required" title="">
             <div class="invalid-feedback">
               Du måste ange ett receptnamn!
             </div>
