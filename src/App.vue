@@ -37,6 +37,11 @@ export default {
   --monofont: "Roboto Mono", monospace;
 }
 
+/* Stop page from jumping when setting overflow:hidden */
+html {
+  margin-left: calc(100vw - 100%);
+}
+
 html,
 body {
   height: 100%;

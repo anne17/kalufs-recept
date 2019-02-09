@@ -107,6 +107,12 @@ export default {
         });
     },
     toggleLogin(login_success) {
+      if (this.isHidden == true) {
+        document.body.style.overflowY = "hidden";
+      } else {
+        document.body.style.overflowY = "auto";
+      }
+
       this.isHidden = !this.isHidden;
       this.isError = false;
 
