@@ -146,6 +146,8 @@ export default {
   background-color: var(--dark-accent-color);
   max-width: 100%;
   height: 50px;
+  /* Stop page from jumping when setting overflow:hidden */
+  padding-left: calc(100vw - 100%);
 }
 
 #header .row {

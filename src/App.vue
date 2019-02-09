@@ -2,7 +2,9 @@
   <div id="app" class="app">
     <Header/>
 
-    <router-view/>
+    <div class="app-body">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -37,11 +39,6 @@ export default {
   --monofont: "Roboto Mono", monospace;
 }
 
-/* Stop page from jumping when setting overflow:hidden */
-html {
-  margin-left: calc(100vw - 100%);
-}
-
 html,
 body {
   height: 100%;
@@ -54,6 +51,11 @@ body {
   text-align: center;
   color: var(--standard-font-color);
   min-height: 100%;
+}
+
+/* Stop page from jumping when setting overflow:hidden */
+.app-body {
+  margin-left: calc(100vw - 100%);
 }
 
 h1 {
