@@ -1,6 +1,8 @@
 <template>
   <div class="header">
 
+    <Login v-if="!isHidden" @close="toggleLogin"/>
+
     <!-- Use headroom on narrow screens -->
     <headroom class="d-lg-none">
       <header id="header" class="container">
@@ -19,9 +21,7 @@
           <!-- right column -->
           <div class="col-2">
             <!-- Hamburger menu -->
-            <div class="login-status d-inline d-lg-none d-md-none">
-              <i class="fas fa-bars"></i>
-            </div>
+            <MobileMenu :loggedIn="loggedIn" :isHidden="isHidden" :currentUser="currentUser" @openLogin="toggleLogin" @logout="logout"/>
           </div>
         </div>
       </header>
@@ -57,7 +57,6 @@
               <i class="fas fa-sign-out-alt"></i>
             </span>
           </div>
-          <Login v-if="!isHidden" @close="toggleLogin"/>
         </div>
       </div>
     </header>
@@ -70,6 +69,7 @@
 <script>
 import { headroom } from "vue-headroom";
 import Login from "@/components/Login.vue";
+import MobileMenu from "@/components/MobileMenu.vue";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -77,6 +77,7 @@ export default {
   name: "Header",
   components: {
     Login,
+    MobileMenu,
     headroom
   },
   created() {
