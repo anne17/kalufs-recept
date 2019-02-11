@@ -18,9 +18,7 @@
       <div class="ingredients">
         <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
         <p v-if="recipe.portions" class="portions">
-          för <span v-html="recipe.portions"></span>
-          <span v-if="recipe.portions == 1"> portion</span>
-          <span v-if="recipe.portions != 1"> portioner</span>
+          för <span v-html="recipe.portions"></span>{{ recipe.portions == 1 ? " portion" : " portioner" }}
         </p>
         <p v-html="recipe.ingredients"></p>
       </div>

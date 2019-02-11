@@ -3,35 +3,35 @@
     <div id="grayout" @click="$emit('close')"></div>
 
     <div id="LoginModal">
-    	<div class="modal-dialog modal-login">
-    		<div class="modal-content" v-bind:class="{ error: isError }">
-    			<button type="button" class="close" v-on:click="$emit('close', loggedIn)" aria-hidden="true">&times;</button>
-    			<div class="modal-body">
-    				<form v-on:submit.prevent="onSubmit">
-    					<div class="form-group">
-    						<i class="fa fa-user"></i>
-    						<input type="text" class="form-control" placeholder="Användarnamn" v-model="form.login" autofocus required="required" oninvalid="this.setCustomValidity('Ange ditt användarnamn')" oninput="setCustomValidity('')" title="">
-    					</div>
-    					<div class="form-group">
-    						<i class="fa fa-lock"></i>
-    						<input type="password" class="form-control" placeholder="Lösenord" v-model="form.password" required="required" oninvalid="this.setCustomValidity('Ange ditt lösenord')" oninput="setCustomValidity('')" title="">
-    					</div>
-    					<div class="form-group">
-    						<input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in">
-    					</div>
-    				</form>
+      <div class="modal-dialog modal-login">
+        <div class="modal-content" v-bind:class="{ error: isError }">
+          <button type="button" class="close" v-on:click="$emit('close', loggedIn)" aria-hidden="true">&times;</button>
+          <div class="modal-body">
+            <form v-on:submit.prevent="onSubmit">
+              <div class="form-group">
+                <i class="fa fa-user"></i>
+                <input type="text" class="form-control" placeholder="Användarnamn" v-model="form.login" autofocus required="required" oninvalid="this.setCustomValidity('Ange ditt användarnamn')" oninput="setCustomValidity('')" title="">
+              </div>
+              <div class="form-group">
+                <i class="fa fa-lock"></i>
+                <input type="password" class="form-control" placeholder="Lösenord" v-model="form.password" required="required" oninvalid="this.setCustomValidity('Ange ditt lösenord')" oninput="setCustomValidity('')" title="">
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in">
+              </div>
+            </form>
 
             <div class="error-message">
               <span v-if="isError">{{ error }}</span>
               <span v-if="!isError">&nbsp;</span>
             </div>
 
-    			</div>
+          </div>
 
-    		</div>
-    	</div>
+        </div>
+      </div>
     </div>
-	</div>
+  </div>
 
 </template>
 

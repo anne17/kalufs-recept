@@ -21,7 +21,7 @@
 
       <div class="col-lg-8 col-md-8 col-sm-12 middle editor">
         <h1 class="edit-title">
-            {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
+          {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
         </h1>
 
         <div class="form-group row">
@@ -34,17 +34,21 @@
           <div class="input-group col-sm-10">
             <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" v-on:change="validateUrl">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="url_search" @click="sendUrl">Fyll i recept</span>
+              <span class="input-group-text" id="url_search" @click="sendUrl">
+                Fyll i recept
+              </span>
             </div>
             <div class="invalid-feedback">
               {{ urlErrorMessage }}
             </div>
           </div>
         </div>
-        <hr>
+        <hr />
 
         <div class="form-group row">
-          <label for="title" class="col-sm-2 col-form-label">*Receptnamn</label>
+          <label for="title" class="col-sm-2 col-form-label">
+            *Receptnamn
+          </label>
           <div class="col-sm-10">
             <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" v-model="form.title" v-on:change="validateTitle" required="required" title="">
             <div class="invalid-feedback">
@@ -54,21 +58,27 @@
         </div>
 
         <div class="form-group row">
-          <label for="portions" class="col-sm-2 col-form-label">Portioner</label>
+          <label for="portions" class="col-sm-2 col-form-label">
+            Portioner
+          </label>
           <div class="col-sm-2">
             <input class="form-control" type="number" value="4" id="portions" v-model="form.portions">
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="ingredients" class="col-sm-2 col-form-label">Ingredienser</label>
+          <label for="ingredients" class="col-sm-2 col-form-label">
+            Ingredienser
+          </label>
           <div class="col-sm-10">
             <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients"></textarea>
           </div>
         </div>
 
         <div class="form-group row">
-          <label for="contents" class="col-sm-2 col-form-label">Beskrivning</label>
+          <label for="contents" class="col-sm-2 col-form-label">
+            Beskrivning
+          </label>
           <div class="col-sm-10">
             <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents"></textarea>
           </div>
@@ -79,7 +89,9 @@
           <div class="col-sm-10">
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
-              <label class="custom-file-label" for="image">{{ fileBrowseLabel }}</label>
+              <label class="custom-file-label" for="image">
+                {{ fileBrowseLabel }}
+              </label>
             </div>
           </div>
         </div>
@@ -114,13 +126,13 @@
       </div>
 
       <div class="col-2 d-none d-lg-block right">
-        <MarkdownHelp/>
+        <MarkdownHelp />
       </div>
 
     </div>
 
     <div id="previewWindow" v-if="previewActive" ref="previewWindow">
-      <hr>
+      <hr />
       <h1>Förhandsvisning</h1>
 
       <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
