@@ -1,7 +1,7 @@
 <template>
   <div class="header">
 
-    <Login v-if="!isHidden" @close="$router.push({hash: ''})"/>
+    <Login v-if="!isHidden" @close="closeLogin"/>
 
     <!-- Use headroom on narrow screens -->
     <headroom class="headroom d-lg-none">
@@ -21,7 +21,7 @@
           <!-- right column -->
           <div class="col-2">
             <!-- Hamburger menu -->
-            <MobileMenu :loggedIn="loggedIn" :isHidden="isHidden" :currentUser="currentUser" @openLogin="$router.push({hash: 'login'})" @logout="logout"/>
+            <MobileMenu :loggedIn="loggedIn" :isHidden="isHidden" :currentUser="currentUser" @openLogin="openLogin" @logout="logout"/>
           </div>
         </div>
       </header>
@@ -47,7 +47,7 @@
         <div class="col-2">
           <!-- Login feedback -->
           <div class="login-status d-none d-md-inline d-lg-inline">
-            <span v-if="!loggedIn" class="do-login" v-on:click="$router.push({hash: 'login'})">
+            <span v-if="!loggedIn" class="do-login" v-on:click="openLogin">
               Logga in
             </span>
             <span  v-if="loggedIn">
@@ -98,10 +98,10 @@ export default {
   watch : {
     "$route" (to, from) {
       if (to.hash == "#login") {
-        this.toggleLogin();
+        this.openLogin();
       }
       if (from.hash == "#login" && to.hash != "#login") {
-        this.toggleLogin();
+        this.closeLogin();
       }
     }
   },
@@ -124,17 +124,25 @@ export default {
     },
     toggleLogin(login_success) {
       if (this.isHidden == true) {
-        document.body.style.overflowY = "hidden";
+        this.openLogin();
       } else {
-        document.body.style.overflowY = "auto";
+        this.closeLogin();
       }
-
-      this.isHidden = !this.isHidden;
+    },
+    openLogin() {
+      this.$router.push({hash: "#login"});
+      document.body.style.overflowY = "hidden";
       this.isError = false;
-
+      this.isHidden = false;
+    },
+    closeLogin(login_success) {
+      this.$router.push({hash: ""});
       if (login_success == true) {
         this.loggedIn = true;
       }
+      document.body.style.overflowY = "auto";
+      this.isHidden = true;
+      this.isError = false;
     },
     logout() {
       axios

@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div id="grayout" @click="$emit('close')"></div>
+    <div id="grayout" @click="$emit('close', loggedIn)"></div>
 
     <div id="LoginModal">
       <div class="modal-dialog modal-login">
@@ -60,7 +60,7 @@ export default {
     document.onkeydown = evt => {
       evt = evt || window.event;
       if (evt.keyCode == 27) {
-        this.$emit("close");
+        this.$emit("close", loggedIn);
       }
     };
   },
