@@ -1,4 +1,3 @@
-
 <template>
   <div class="recipies container">
     <div class="row">

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
 
-    <Login v-if="!isHidden" @close="toggleLogin"/>
+    <Login v-if="!isHidden" @close="$router.push({hash: ''})"/>
 
     <!-- Use headroom on narrow screens -->
     <headroom class="d-lg-none">
@@ -21,7 +21,7 @@
           <!-- right column -->
           <div class="col-2">
             <!-- Hamburger menu -->
-            <MobileMenu :loggedIn="loggedIn" :isHidden="isHidden" :currentUser="currentUser" @openLogin="toggleLogin" @logout="logout"/>
+            <MobileMenu :loggedIn="loggedIn" :isHidden="isHidden" :currentUser="currentUser" @openLogin="$router.push({hash: 'login'})" @logout="logout"/>
           </div>
         </div>
       </header>
@@ -47,7 +47,7 @@
         <div class="col-2">
           <!-- Login feedback -->
           <div class="login-status d-none d-md-inline d-lg-inline">
-            <span v-if="!loggedIn" class="do-login" v-on:click="toggleLogin">
+            <span v-if="!loggedIn" class="do-login" v-on:click="$router.push({hash: 'login'})">
               Logga in
             </span>
             <span  v-if="loggedIn">
@@ -83,12 +83,27 @@ export default {
   created() {
     this.checkLogin();
   },
+  mounted() {
+    if (this.$route.hash == "#login") {
+      this.toggleLogin();
+    }
+  },
   data() {
     return {
       loggedIn: false,
       isHidden: true,
       currentUser: "User"
     };
+  },
+  watch : {
+    "$route" (to, from) {
+      if (to.hash == "#login") {
+        this.toggleLogin();
+      }
+      if (from.hash == "#login" && to.hash != "#login") {
+        this.toggleLogin();
+      }
+    }
   },
   methods: {
     checkLogin() {

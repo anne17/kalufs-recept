@@ -13,7 +13,6 @@
 <script>
 // @ is an alias to /src
 import Header from "@/components/Header.vue";
-// import MobileMenu from "@/components/MobileMenu.vue";
 
 export default {
   name: "app",
