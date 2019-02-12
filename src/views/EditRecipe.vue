@@ -7,7 +7,7 @@
       <span>Jag kan automatiskt extrahera recept från:</span>
       <ul>
         <li v-for="page in parsablePages" :key="page.id">
-          <a v-bind:href="page.address">
+          <a v-bind:href="page.address" target="_blank">
             {{ page.name }}
           </a>
         </li>
@@ -222,6 +222,7 @@ export default {
     sendUrl() {
       if (this.validateUrl()) {
         this.loading = true;
+        this.previewActive = false;
         axios
           .get(this.$backend + "parse_from_url?url=" + this.url)
           .then(response => {
@@ -234,8 +235,8 @@ export default {
                   this.form[key] = this.data[key];
                 }
               }
+              this.validateTitle();
             } else {
-              this.loading = false;
               console.error("Response from backend:", response.data);
             }
           })
@@ -265,6 +266,7 @@ export default {
       }
     },
     getPreview() {
+      this.previewActive = false;
       this.valid = this.validateForm();
       if (this.valid) {
         axios
