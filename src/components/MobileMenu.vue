@@ -1,5 +1,5 @@
 <template>
-  <Slide right width="350">
+  <Slide right width="350" class="sidebar">
     <div class="login-status">
       <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
         Logga in
@@ -35,32 +35,32 @@ export default {
 <!-- ####################################################################### -->
 
 <style>
-.bm-burger-button {
+.sidebar .bm-burger-button {
   top: 18px;
   right: 10px !important;
   width: 20px;
   height: 15px;
  }
- .bm-burger-bars {
+.sidebar .bm-burger-bars {
    background-color: white;
  }
-.bm-menu {
+.sidebar .bm-menu {
   height: 100vh;
   z-index: 1000; /* Stay on top */
   background-color: var(--light-background-color);
   transition: 0.3s;
 }
-.bm-item-list {
+.sidebar .bm-item-list {
   color: #b8b7ad;
   margin-left: 10%;
   font-size: 1.2em;
 }
-.bm-item-list > * > span {
+.sidebar .bm-item-list > * > span {
   margin-left: 10px;
   font-weight: 700;
   color: var(--dark-accent-color);
 }
-.bm-overlay {
+/* .bm-overlay { */
   /* background: rgba(0, 0, 0, 0.3); */
   /* position: fixed;
   left: 0px;
@@ -70,5 +70,5 @@ export default {
   background-color: black;
   opacity: 0.3;
   z-index: 99; */
-}
+/* } */
 </style>

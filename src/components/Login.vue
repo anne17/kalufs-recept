@@ -115,6 +115,9 @@ export default {
     border-color: red;
   }
 }
+.modal-dialog {
+  margin: 0;
+}
 .modal-dialog .error {
   animation: blink 1s 2 alternate;
 }
