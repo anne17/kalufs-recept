@@ -127,6 +127,13 @@ export default {
           console.error(error);
         });
     },
+    toggleLogin(login_success) {
+      if (this.isHidden == true) {
+        this.openLogin();
+      } else {
+        this.closeLogin();
+      }
+    },
     openLogin() {
       this.$router.push({hash: "#login"});
       document.body.style.overflowY = "hidden";
