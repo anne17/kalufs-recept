@@ -1,11 +1,11 @@
 <template>
   <div class="login">
-    <div id="grayout" @click="$emit('close')"></div>
+    <div id="grayout" @click="$emit('close', loggedIn, currentUser)"></div>
 
     <div id="LoginModal">
       <div class="modal-dialog modal-login">
         <div class="modal-content" v-bind:class="{ error: isError }">
-          <button type="button" class="close" v-on:click="$emit('close', loggedIn)" aria-hidden="true">&times;</button>
+          <button type="button" class="close" v-on:click="$emit('close', loggedIn, currentUser)" aria-hidden="true">&times;</button>
           <div class="modal-body">
             <form v-on:submit.prevent="onSubmit">
               <div class="form-group">
@@ -25,9 +25,7 @@
               <span v-if="isError">{{ error }}</span>
               <span v-if="!isError">&nbsp;</span>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
@@ -48,7 +46,7 @@ export default {
     return {
       error: "",
       loggedIn: false,
-      currentUser: "User",
+      currentUser: "",
       isError: false,
       form: {
         login: "",
@@ -60,7 +58,7 @@ export default {
     document.onkeydown = evt => {
       evt = evt || window.event;
       if (evt.keyCode == 27) {
-        this.$emit("close");
+        this.$emit("close", this.loggedIn, this.currentUser);
       }
     };
   },
@@ -72,7 +70,7 @@ export default {
         .then(response => {
           this.currentUser = response.data.user;
           this.loggedIn = true;
-          this.$emit("close", true);
+          this.$emit("close", true, this.currentUser);
         })
         .catch(e => {
           this.isError = true;
