@@ -4,7 +4,7 @@
     <Login v-if="!isHidden" @close="$router.push({hash: ''})"/>
 
     <!-- Use headroom on narrow screens -->
-    <headroom class="d-lg-none">
+    <headroom class="headroom d-lg-none">
       <header id="header" class="container">
         <div class="row">
           <!-- left column -->
@@ -168,6 +168,10 @@ export default {
 
 #header .row {
   height: 100%;
+}
+
+.headroom {
+  z-index: 8888 !important;
 }
 
 .lg-screen-header {
