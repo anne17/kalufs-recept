@@ -68,10 +68,10 @@
 <!-- ####################################################################### -->
 <script>
 import { headroom } from "vue-headroom";
+
 import Login from "@/components/Login.vue";
 import MobileMenu from "@/components/MobileMenu.vue";
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import { EventBus, axios } from "@/services.js";
 
 export default {
   name: "Header",
@@ -81,6 +81,7 @@ export default {
     headroom
   },
   created() {
+    EventBus.$on("login", this.updateLoginStatus);
     this.checkLogin();
   },
   mounted() {
@@ -127,18 +128,23 @@ export default {
           console.error(error);
         });
     },
+    updateLoginStatus(authObject) {
+      if (authObject.authenticated == true) {
+        this.loggedIn = true;
+        this.currentUser = authObject.user;
+      } else {
+        this.loggedIn = false;
+        this.currentUser = "";
+      }
+    },
     openLogin() {
       this.$router.push({hash: "#login"});
       document.body.style.overflowY = "hidden";
       this.isError = false;
       this.isHidden = false;
     },
-    closeLogin(login_success, username) {
+    closeLogin() {
       this.$router.push({hash: ""});
-      if (login_success == true) {
-        this.loggedIn = true;
-        this.currentUser = username;
-      }
       document.body.style.overflowY = "auto";
       this.isHidden = true;
       this.isError = false;
@@ -148,6 +154,7 @@ export default {
         .post(this.$backend + "logout")
         .then(response => {
           if (response.data.status == "success") {
+            EventBus.$emit("login", {authenticated: false});
             this.loggedIn = false;
           } else {
             this.error = this.errorMessage(response.data.message);

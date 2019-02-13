@@ -1,11 +1,11 @@
 <template>
   <div class="login">
-    <div id="grayout" @click="$emit('close', loggedIn, currentUser)"></div>
+    <div id="grayout" @click="$emit('close')"></div>
 
     <div id="LoginModal">
       <div class="modal-dialog modal-login">
         <div class="modal-content" v-bind:class="{ error: isError }">
-          <button type="button" class="close" v-on:click="$emit('close', loggedIn, currentUser)" aria-hidden="true">&times;</button>
+          <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
           <div class="modal-body">
             <form v-on:submit.prevent="onSubmit">
               <div class="form-group">
@@ -37,16 +37,13 @@
 
 <script>
 // https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import { EventBus, axios } from "@/services.js";
 
 export default {
   name: "login",
   data() {
     return {
       error: "",
-      loggedIn: false,
-      currentUser: "",
       isError: false,
       form: {
         login: "",
@@ -58,7 +55,7 @@ export default {
     document.onkeydown = evt => {
       evt = evt || window.event;
       if (evt.keyCode == 27) {
-        this.$emit("close", this.loggedIn, this.currentUser);
+        this.$emit("close");
       }
     };
   },
@@ -68,9 +65,9 @@ export default {
       axios
         .post(this.$backend + "login", this.form)
         .then(response => {
-          this.currentUser = response.data.user;
-          this.loggedIn = true;
-          this.$emit("close", true, this.currentUser);
+          this.username = response.data.user;
+          EventBus.$emit("login", {authenticated: true, user: this.username});
+          this.$emit("close");
         })
         .catch(e => {
           this.isError = true;

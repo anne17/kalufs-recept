@@ -160,8 +160,7 @@
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
 import ShowRecipe from "@/components/ShowRecipe.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import { axios } from "@/services.js";
 
 export default {
   name: "EditRecipe",

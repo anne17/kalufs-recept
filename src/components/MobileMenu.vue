@@ -16,8 +16,6 @@
 
 <script>
 import { Slide } from "vue-burger-menu";
-import axios from "axios";
-axios.defaults.withCredentials = true;
 
 export default {
   name: "Header",

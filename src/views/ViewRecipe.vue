@@ -10,7 +10,7 @@
         </div>
       </div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 middle">
-        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="true"></ShowRecipe>
+        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn"></ShowRecipe>
       </div>
 
       <!-- <div class="col-3 d-none d-lg-block left"></div> -->
@@ -21,8 +21,7 @@
 <!-- ####################################################################### -->
 <script>
 import ShowRecipe from "@/components/ShowRecipe.vue";
-import axios from "axios";
-axios.defaults.withCredentials = true;
+import { EventBus, axios } from "@/services.js";
 
 export default {
   name: "ViewRecipe",
@@ -31,11 +30,14 @@ export default {
   },
   data() {
     return {
+      loggedIn: false,
       isError: false,
       recipe: Object
     };
   },
   created() {
+    EventBus.$on("login", this.updateLoginStatus);
+    this.checkLogin();
     this.getData();
   },
   methods: {
@@ -53,7 +55,32 @@ export default {
           console.error(e.response.data.message);
           this.isError = true;
         });
-    }
+    },
+    checkLogin() {
+      axios
+        .post(this.$backend + "check_authentication")
+        .then(response => {
+          if (response.data.authenticated == true) {
+            this.loggedIn = true;
+            this.currentUser = response.data.user;
+          } else {
+            this.loggedIn = false;
+          }
+        })
+        .catch(error => {
+          this.loggedIn = false;
+          console.error(error);
+        });
+    },
+    updateLoginStatus(authObject) {
+      if (authObject.authenticated == true) {
+        this.loggedIn = true;
+        this.currentUser = authObject.user;
+      } else {
+        this.loggedIn = false;
+        this.currentUser = "";
+      }
+    },
   }
 };
 </script>

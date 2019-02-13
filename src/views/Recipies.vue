@@ -25,14 +25,14 @@
             <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" disabled>
           </div>
 
-          <div class="new-recipe-container col-6">
+          <div v-if="loggedIn" class="new-recipe-container col-6">
             <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
               <strong>&plus;</strong> Nytt recept
             </router-link>
           </div>
         </div>
         </div>
-        <RecipiesList/>
+        <RecipiesList :loggedIn="loggedIn"/>
       </div>
       <!-- <div class="col-2 d-none d-lg-block right">
       </div> -->
@@ -42,13 +42,49 @@
 
 <!-- ####################################################################### -->
 <script>
-// @ is an alias to /src
 import RecipiesList from "@/components/RecipiesList.vue";
+import { EventBus, axios } from "@/services.js";
 
 export default {
   name: "recipies",
   components: {
     RecipiesList
+  },
+  data() {
+    return {
+      loggedIn: false
+    };
+  },
+  created() {
+    EventBus.$on("login", this.updateLoginStatus);
+    this.checkLogin();
+  },
+  methods: {
+    checkLogin() {
+      axios
+        .post(this.$backend + "check_authentication")
+        .then(response => {
+          if (response.data.authenticated == true) {
+            this.loggedIn = true;
+            this.currentUser = response.data.user;
+          } else {
+            this.loggedIn = false;
+          }
+        })
+        .catch(error => {
+          this.loggedIn = false;
+          console.error(error);
+        });
+    },
+    updateLoginStatus(authObject) {
+      if (authObject.authenticated == true) {
+        this.loggedIn = true;
+        this.currentUser = authObject.user;
+      } else {
+        this.loggedIn = false;
+        this.currentUser = "";
+      }
+    },
   }
 };
 </script>

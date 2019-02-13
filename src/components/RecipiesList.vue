@@ -14,7 +14,7 @@
             </div>
           </div>
           <div class="mini-edit-menu container col-1">
-            <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
+            <router-link :to="{ name: 'edit', params: {title: recipe.title}}" v-if="loggedIn" title="redigera">
               <i class="fas fa-pencil-alt"></i>
             </router-link>
           </div>
@@ -25,7 +25,7 @@
 
 <!-- ####################################################################### -->
 <script>
-import axios from "axios";
+import { axios } from "@/services.js";
 
 export default {
   name: "RecipiesList",
@@ -33,6 +33,9 @@ export default {
     return {
       results: []
     };
+  },
+  props: {
+    loggedIn: Boolean
   },
   mounted() {
     axios.get(this.$backend + "recipe_data").then(response => {
