@@ -26,8 +26,6 @@
         </div>
       </header>
     </headroom>
-    <div class="headroom-space d-lg-none">
-    </div>
 
     <!-- No headroom on large screens -->
     <header id="header" class="container d-none d-lg-block lg-screen-header">
@@ -60,8 +58,8 @@
         </div>
       </div>
     </header>
-    <div class="header-space d-none d-lg-block">
-    </div>
+
+    <div class="header-space d-none d-lg-block" />
   </div>
 </template>
 
@@ -217,12 +215,8 @@ export default {
   vertical-align: sub;
 }
 
-.headroom-space {
-  height: 6vh;
-}
-
 .header-space {
-  height: 5vh;
+  height: 50px;
 }
 
 .login-status {
