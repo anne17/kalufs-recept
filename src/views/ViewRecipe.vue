@@ -21,23 +21,21 @@
 <!-- ####################################################################### -->
 <script>
 import ShowRecipe from "@/components/ShowRecipe.vue";
-import { EventBus, axios } from "@/services.js";
+import { axios, LoginMixin } from "@/services.js";
 
 export default {
   name: "ViewRecipe",
+  mixins: [LoginMixin],
   components: {
     ShowRecipe
   },
   data() {
     return {
-      loggedIn: false,
       isError: false,
       recipe: Object
     };
   },
   created() {
-    EventBus.$on("login", this.updateLoginStatus);
-    this.checkLogin();
     this.getData();
   },
   methods: {
@@ -55,32 +53,7 @@ export default {
           console.error(e.response.data.message);
           this.isError = true;
         });
-    },
-    checkLogin() {
-      axios
-        .post(this.$backend + "check_authentication")
-        .then(response => {
-          if (response.data.authenticated == true) {
-            this.loggedIn = true;
-            this.currentUser = response.data.user;
-          } else {
-            this.loggedIn = false;
-          }
-        })
-        .catch(error => {
-          this.loggedIn = false;
-          console.error(error);
-        });
-    },
-    updateLoginStatus(authObject) {
-      if (authObject.authenticated == true) {
-        this.loggedIn = true;
-        this.currentUser = authObject.user;
-      } else {
-        this.loggedIn = false;
-        this.currentUser = "";
-      }
-    },
+    }
   }
 };
 </script>

@@ -52,6 +52,7 @@ export default {
     };
   },
   created() {
+    // Emit close event on ESC
     document.onkeydown = evt => {
       evt = evt || window.event;
       if (evt.keyCode == 27) {

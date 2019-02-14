@@ -34,8 +34,7 @@
         </div>
         <RecipiesList :loggedIn="loggedIn"/>
       </div>
-      <!-- <div class="col-2 d-none d-lg-block right">
-      </div> -->
+      <!-- <div class="col-2 d-none d-lg-block right"></div> -->
     </div>
   </div>
 </template>
@@ -43,48 +42,13 @@
 <!-- ####################################################################### -->
 <script>
 import RecipiesList from "@/components/RecipiesList.vue";
-import { EventBus, axios } from "@/services.js";
+import { LoginMixin } from "@/services.js";
 
 export default {
   name: "recipies",
+  mixins: [LoginMixin],
   components: {
     RecipiesList
-  },
-  data() {
-    return {
-      loggedIn: false
-    };
-  },
-  created() {
-    EventBus.$on("login", this.updateLoginStatus);
-    this.checkLogin();
-  },
-  methods: {
-    checkLogin() {
-      axios
-        .post(this.$backend + "check_authentication")
-        .then(response => {
-          if (response.data.authenticated == true) {
-            this.loggedIn = true;
-            this.currentUser = response.data.user;
-          } else {
-            this.loggedIn = false;
-          }
-        })
-        .catch(error => {
-          this.loggedIn = false;
-          console.error(error);
-        });
-    },
-    updateLoginStatus(authObject) {
-      if (authObject.authenticated == true) {
-        this.loggedIn = true;
-        this.currentUser = authObject.user;
-      } else {
-        this.loggedIn = false;
-        this.currentUser = "";
-      }
-    },
   }
 };
 </script>

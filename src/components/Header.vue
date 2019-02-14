@@ -69,18 +69,15 @@ import { headroom } from "vue-headroom";
 
 import Login from "@/components/Login.vue";
 import MobileMenu from "@/components/MobileMenu.vue";
-import { EventBus, axios } from "@/services.js";
+import { axios, EventBus, LoginMixin } from "@/services.js";
 
 export default {
   name: "Header",
+  mixins: [LoginMixin],
   components: {
     Login,
     MobileMenu,
     headroom
-  },
-  created() {
-    EventBus.$on("login", this.updateLoginStatus);
-    this.checkLogin();
   },
   mounted() {
     if (this.$route.hash == "#login") {
@@ -90,9 +87,7 @@ export default {
   },
   data() {
     return {
-      loggedIn: false,
       isHidden: true,
-      currentUser: ""
     };
   },
   watch : {
@@ -110,31 +105,6 @@ export default {
     }
   },
   methods: {
-    checkLogin() {
-      axios
-        .post(this.$backend + "check_authentication")
-        .then(response => {
-          if (response.data.authenticated == true) {
-            this.loggedIn = true;
-            this.currentUser = response.data.user;
-          } else {
-            this.loggedIn = false;
-          }
-        })
-        .catch(error => {
-          this.loggedIn = false;
-          console.error(error);
-        });
-    },
-    updateLoginStatus(authObject) {
-      if (authObject.authenticated == true) {
-        this.loggedIn = true;
-        this.currentUser = authObject.user;
-      } else {
-        this.loggedIn = false;
-        this.currentUser = "";
-      }
-    },
     openLogin() {
       this.$router.push({hash: "#login"});
       document.body.style.overflowY = "hidden";
