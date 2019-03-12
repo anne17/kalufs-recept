@@ -10,7 +10,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "vue": "^2.6.5",
-    "vue-burger-menu": "^2.0.0",
     "vue-headroom": "^0.9.0",
     "vue-js-popover": "^1.1.8",
     "vue-router": "^3.0.2"
@@ -53,7 +52,10 @@
           "avoidEscape": true
         }
       ],
-      "semi": ["warn", "always"]
+      "semi": [
+        "warn",
+        "always"
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"
