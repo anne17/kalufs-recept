@@ -1,72 +1,93 @@
 <template>
-  <Slide right width="350" class="sidebar">
-    <div class="login-status">
-      <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
-        Logga in
-      </span>
-      <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-        Logga ut {{ currentUser }}&nbsp;
-        <i class="fas fa-sign-out-alt"></i>
-      </span>
-    </div>
-  </Slide>
+  <div ref="mobileSideBar" class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}">
+    <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
+
+      <div class="sidebar-body">
+        <div class="login-status">
+          <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
+            Logga in
+          </span>
+          <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+            Logga ut {{ currentUser }}&nbsp;
+            <i class="fas fa-sign-out-alt"></i>
+          </span>
+        </div>
+      </div>
+
+  </div>
 </template>
 
-<!-- ####################################################################### -->
-
 <script>
-import { Slide } from "vue-burger-menu";
-
 export default {
-  name: "Header",
-  components: {
-    Slide
-  },
+  name: "mobileSideBar",
   props: {
+    hideSideBar: Boolean,
     loggedIn: Boolean,
-    isHidden: Boolean,
     currentUser: String
+  },
+  created() {
+    // Emit close event on ESC
+    document.onkeydown = evt => {
+      evt = evt || window.event;
+      if (evt.keyCode == 27) {
+        this.$emit("close");
+      }
+    };
   }
 };
 </script>
 
-<!-- ####################################################################### -->
-
-<style>
-.sidebar .bm-burger-button {
-  top: 18px;
-  right: 10px !important;
-  width: 20px;
-  height: 15px;
- }
-.sidebar .bm-burger-bars {
-   background-color: white;
- }
-.sidebar .bm-menu {
-  height: 100vh;
-  z-index: 1000; /* Stay on top */
-  background-color: var(--light-background-color);
-  transition: 0.3s;
+<style scoped>
+.hidden {
+  width: 0%;
 }
-.sidebar .bm-item-list {
-  color: #b8b7ad;
+.shown {
+  width: 85%;
+}
+.mobileSideBar {
+  height: 100vh;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: auto;
+  right: 0px;
+  background-color: var(--light-background-color);
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: width 0.3s;
+}
+.sidebar-body {
+  color: var(--dark-accent-color);
   margin-left: 10%;
   font-size: 1.2em;
 }
-.sidebar .bm-item-list > * > span {
+.sidebar-body > * {
+  display: flex;
+  text-decoration: none;
+  padding: 0.7em;
+}
+.sidebar-body > * > span {
   margin-left: 10px;
   font-weight: 700;
   color: var(--dark-accent-color);
 }
-/* .bm-overlay { */
-  /* background: rgba(0, 0, 0, 0.3); */
-  /* position: fixed;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  opacity: 0.3;
-  z-index: 99; */
-/* } */
+.login-status {
+  color: white;
+  font-weight: bold;
+  float: right;
+  position: absolute;
+  right: 10%;
+  top: 15px;
+}
+
+.login-status .do-login {
+  cursor: pointer;
+}
+
+.login-status i {
+  cursor: pointer;
+  font-size: 1.3em;
+  position: relative;
+  top: 2px;
+}
 </style>

@@ -1,7 +1,9 @@
 <template>
   <div class="header">
 
-    <Login v-if="!isHidden" @close="closeLogin"/>
+    <div id="grayout" v-if="!hideSideBar" @click="closeSideBar"></div>
+
+    <Login v-if="!hideLogin" @close="closeLogin"/>
 
     <!-- Use headroom on narrow screens -->
     <headroom class="headroom d-lg-none">
@@ -21,7 +23,10 @@
           <!-- right column -->
           <div class="col-2">
             <!-- Hamburger menu -->
-            <MobileMenu :loggedIn="loggedIn" :isHidden="isHidden" :currentUser="currentUser" @openLogin="openLogin" @logout="logout"/>
+            <div class="login-status">
+              <i class="fas fa-bars" @click="openSideBar"></i>
+              <MobileMenu :hideSideBar="hideSideBar" @close="closeSideBar" :currentUser="currentUser" @openLogin="openLogin" @logout="logout"/>
+            </div>
           </div>
         </div>
       </header>
@@ -44,8 +49,8 @@
         <!-- right column -->
         <div class="col-2">
           <!-- Login feedback -->
-          <div class="login-status d-none d-md-inline d-lg-inline">
-            <span v-if="!loggedIn" class="do-login" v-on:click="openLogin">
+          <div class="login-status">
+            <span v-if="!loggedIn" class="do-login" @click="openLogin">
               Logga in
             </span>
             <span  v-if="loggedIn">
@@ -82,12 +87,13 @@ export default {
   mounted() {
     if (this.$route.hash == "#login") {
       document.body.style.overflowY = "hidden";
-      this.isHidden = false;
+      this.hideLogin = false;
     }
   },
   data() {
     return {
-      isHidden: true,
+      hideLogin: true,
+      hideSideBar: true,
     };
   },
   watch : {
@@ -95,11 +101,11 @@ export default {
       if (to.hash == "#login") {
         document.body.style.overflowY = "hidden";
         this.isError = false;
-        this.isHidden = false;
+        this.hideLogin = false;
       }
       if (from.hash == "#login" && to.hash != "#login") {
         document.body.style.overflowY = "auto";
-        this.isHidden = true;
+        this.hideLogin = true;
         this.isError = false;
       }
     }
@@ -109,12 +115,12 @@ export default {
       this.$router.push({hash: "#login"});
       document.body.style.overflowY = "hidden";
       this.isError = false;
-      this.isHidden = false;
+      this.hideLogin = false;
     },
     closeLogin() {
       this.$router.push({hash: ""});
       document.body.style.overflowY = "auto";
-      this.isHidden = true;
+      this.hideLogin = true;
       this.isError = false;
     },
     logout() {
@@ -132,7 +138,13 @@ export default {
           console.error("Couldn't log out:", error);
           // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
         });
-    }
+    },
+    openSideBar() {
+      this.hideSideBar = false;
+    },
+    closeSideBar() {
+      this.hideSideBar = true;
+    },
   }
 };
 </script>
@@ -140,6 +152,17 @@ export default {
 <!-- ####################################################################### -->
 
 <style scoped>
+#grayout .grayout-shown {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 9999;
+}
+
 #header {
   background-color: var(--dark-accent-color);
   max-width: 100%;
