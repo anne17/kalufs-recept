@@ -1,8 +1,6 @@
 <template>
   <div class="header">
 
-    <div id="grayout" v-if="!hideSideBar" @click="closeSideBar"></div>
-
     <Login v-if="!hideLogin" @close="closeLogin"/>
 
     <!-- Use headroom on narrow screens -->
@@ -108,6 +106,14 @@ export default {
         this.hideLogin = true;
         this.isError = false;
       }
+      if (to.hash == "#sidebar") {
+        document.body.style.overflowY = "hidden";
+        this.hideSideBar = false;
+      }
+      if (from.hash == "#sidebar" && to.hash != "#sidebar") {
+        document.body.style.overflowY = "auto";
+        this.hideSideBar = true;
+      }
     }
   },
   methods: {
@@ -122,6 +128,16 @@ export default {
       document.body.style.overflowY = "auto";
       this.hideLogin = true;
       this.isError = false;
+    },
+    openSideBar() {
+      this.hideSideBar = false;
+      this.$router.push({hash: "#sidebar"});
+      document.body.style.overflowY = "hidden";
+    },
+    closeSideBar() {
+      this.hideSideBar = true;
+      this.$router.push({hash: ""});
+      document.body.style.overflowY = "auto";
     },
     logout() {
       axios
@@ -138,13 +154,7 @@ export default {
           console.error("Couldn't log out:", error);
           // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
         });
-    },
-    openSideBar() {
-      this.hideSideBar = false;
-    },
-    closeSideBar() {
-      this.hideSideBar = true;
-    },
+    }
   }
 };
 </script>
@@ -152,16 +162,6 @@ export default {
 <!-- ####################################################################### -->
 
 <style scoped>
-#grayout .grayout-shown {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  opacity: 0.3;
-  z-index: 9999;
-}
 
 #header {
   background-color: var(--dark-accent-color);

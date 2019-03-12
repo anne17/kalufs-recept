@@ -1,16 +1,20 @@
 <template>
-  <div ref="mobileSideBar" class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}">
-    <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
+  <div class="sideBarScreen">
+    <div id="grayout" v-if="!hideSideBar" @click="$emit('close')"></div>
 
-      <div class="sidebar-body">
-        <div class="login-status">
-          <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
-            Logga in
-          </span>
-          <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-            Logga ut {{ currentUser }}&nbsp;
-            <i class="fas fa-sign-out-alt"></i>
-          </span>
+    <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}">
+      <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
+
+        <div class="sidebar-body">
+          <div class="login-status">
+            <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
+              Logga in
+            </span>
+            <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+              Logga ut {{ currentUser }}&nbsp;
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -38,6 +42,21 @@ export default {
 </script>
 
 <style scoped>
+.sideBarScreen {
+  overflow: hidden;
+}
+
+#grayout {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100vh;
+  width: 100%;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 9999;
+}
+
 .hidden {
   width: 0%;
 }
@@ -71,19 +90,10 @@ export default {
   font-weight: 700;
   color: var(--dark-accent-color);
 }
-.login-status {
-  color: white;
-  font-weight: bold;
-  float: right;
-  position: absolute;
-  right: 10%;
-  top: 15px;
-}
 
 .login-status .do-login {
   cursor: pointer;
 }
-
 .login-status i {
   cursor: pointer;
   font-size: 1.3em;
