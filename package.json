@@ -12,7 +12,8 @@
     "vue": "^2.6.5",
     "vue-headroom": "^0.9.0",
     "vue-js-popover": "^1.1.8",
-    "vue-router": "^3.0.2"
+    "vue-router": "^3.0.2",
+    "vue2-touch-events": "^1.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

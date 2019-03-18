@@ -2,8 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import Popover from "vue-js-popover";
+import Vue2TouchEvents from "vue2-touch-events";
 
 Vue.use(Popover);
+Vue.use(Vue2TouchEvents);
 
 Vue.config.productionTip = false;
 Vue.prototype.$backend =

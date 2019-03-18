@@ -2,7 +2,8 @@
   <div class="sideBarScreen">
     <div id="grayout" v-if="!hideSideBar" @click="$emit('close')"></div>
 
-    <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}">
+    <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}" v-touch:swipe.right="swipeRightHandler" v-touch:swipe.left="swipeLeftHandler">
+
       <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
 
         <div class="sidebar-body">
@@ -37,6 +38,14 @@ export default {
         this.$emit("close");
       }
     };
+  },
+  methods: {
+    swipeRightHandler() {
+      this.$emit("close");
+    },
+    swipeLeftHandler() {
+      this.$emit("open");
+    }
   }
 };
 </script>
@@ -58,7 +67,8 @@ export default {
 }
 
 .hidden {
-  width: 0%;
+  width: 3%;
+  opacity: 0;
 }
 .shown {
   width: 85%;

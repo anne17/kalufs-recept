@@ -23,7 +23,7 @@
             <!-- Hamburger menu -->
             <div class="login-status">
               <i class="fas fa-bars" @click="openSideBar"></i>
-              <MobileMenu :hideSideBar="hideSideBar" @close="closeSideBar" :currentUser="currentUser" @openLogin="openLogin" @logout="logout"/>
+              <MobileMenu :hideSideBar="hideSideBar" @close="closeSideBar" @open="openSideBar" :currentUser="currentUser" @openLogin="openLogin" @logout="logout"/>
             </div>
           </div>
         </div>
