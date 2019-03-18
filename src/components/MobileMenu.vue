@@ -80,13 +80,18 @@ export default {
   top: 0;
   left: auto;
   right: 0px;
-  background-color: var(--light-background-color);
+  background-color: var(--dark-accent-color);
   overflow-x: hidden;
-  padding-top: 60px;
+  padding-top: 10px;
   transition: width 0.3s;
 }
+.close {
+  padding-right: 10px;
+  color: var(--light-background-color);
+  opacity: 0.9;
+}
 .sidebar-body {
-  color: var(--dark-accent-color);
+  color: var(--light-background-color);
   margin-left: 10%;
   font-size: 1.2em;
 }
@@ -98,10 +103,11 @@ export default {
 .sidebar-body > * > span {
   margin-left: 10px;
   font-weight: 700;
-  color: var(--dark-accent-color);
+  color: var(--light-background-color);
 }
 
 .login-status .do-login {
+  padding-top: 40px;
   cursor: pointer;
 }
 .login-status i {
