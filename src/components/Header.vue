@@ -2,6 +2,7 @@
   <div class="header">
 
     <Login v-if="!hideLogin" @close="closeLogin"/>
+    <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
 
     <!-- Use headroom on narrow screens -->
     <headroom class="headroom d-lg-none">
@@ -21,9 +22,8 @@
           <!-- right column -->
           <div class="col-2">
             <!-- Hamburger menu -->
-            <div class="login-status">
-              <i class="fas fa-bars" @click="openSideBar"></i>
-              <MobileMenu :hideSideBar="hideSideBar" @close="closeSideBar" @open="openSideBar" :currentUser="currentUser" @openLogin="openLogin" @logout="logout"/>
+            <div class="login-status burger">
+              <i class="fas fa-bars" v-touch:swipe.left="openSideBar" @click="openSideBar"></i>
             </div>
           </div>
         </div>
@@ -219,6 +219,10 @@ export default {
   position: absolute;
   right: 10%;
   top: 15px;
+}
+
+.burger {
+  padding-right: 10px;
 }
 
 .login-status .do-login {

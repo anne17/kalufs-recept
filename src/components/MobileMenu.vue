@@ -1,20 +1,26 @@
 <template>
   <div class="sideBarScreen">
-    <div id="grayout" v-if="!hideSideBar" @click="$emit('close')"></div>
+    <div id="grayout" v-if="!hideSideBar" @click="closeHandler"></div>
 
-    <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}" v-touch:swipe.right="swipeRightHandler" v-touch:swipe.left="swipeLeftHandler">
+    <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}" v-touch:swipe.right="closeHandler" v-touch:swipe.left="openHandler">
 
-      <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
+    <button ref="closeButton" type="button" class="close" @click="closeHandler">&times;</button>
 
         <div class="sidebar-body">
-          <div class="login-status">
-            <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
-              Logga in
-            </span>
-            <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-              Logga ut {{ currentUser }}&nbsp;
-              <i class="fas fa-sign-out-alt"></i>
-            </span>
+          <div class="container">
+
+            <div class="menu row">
+              <div class="login-status">
+                <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
+                  Logga in
+                </span>
+                <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+                  Logga ut {{ currentUser }}&nbsp;
+                  <i class="fas fa-sign-out-alt"></i>
+                </span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -40,10 +46,11 @@ export default {
     };
   },
   methods: {
-    swipeRightHandler() {
+    closeHandler() {
+      this.$refs.closeButton.blur();
       this.$emit("close");
     },
-    swipeLeftHandler() {
+    openHandler() {
       this.$emit("open");
     }
   }
@@ -59,7 +66,7 @@ export default {
   position: fixed;
   left: 0px;
   top: 0px;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: black;
   opacity: 0.3;
@@ -67,14 +74,15 @@ export default {
 }
 
 .hidden {
-  width: 3%;
+  width: 20%;
   opacity: 0;
+  margin-top: 50px;
 }
 .shown {
   width: 85%;
 }
 .mobileSideBar {
-  height: 100vh;
+  height: 100%;
   position: fixed;
   z-index: 10000;
   top: 0;
@@ -89,6 +97,10 @@ export default {
   padding-right: 10px;
   color: var(--light-background-color);
   opacity: 0.9;
+}
+/* Hack to stop the color button from changing to gray */
+.close:not(:disabled):not(.disabled):hover {
+  color: var(--light-background-color);
 }
 .sidebar-body {
   color: var(--light-background-color);

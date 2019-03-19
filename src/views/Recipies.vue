@@ -16,21 +16,21 @@
           Alla recept
         </h1>
         <div class="container">
-        <div class="menu row">
+          <div class="menu row">
 
-          <div class="input-group input-group-sm mb-3 col-6">
-            <div class="input-group-prepend d-inline d-lg-none">
-              <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
+            <div class="input-group input-group-sm mb-3 col-6">
+              <div class="input-group-prepend d-inline d-lg-none">
+                <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
+              </div>
+              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" disabled>
             </div>
-            <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" disabled>
-          </div>
 
-          <div v-if="loggedIn" class="new-recipe-container col-6">
-            <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
-              <strong>&plus;</strong> Nytt recept
-            </router-link>
+            <div v-if="loggedIn" class="new-recipe-container col-6">
+              <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+                <strong>&plus;</strong> Nytt recept
+              </router-link>
+            </div>
           </div>
-        </div>
         </div>
         <RecipiesList :loggedIn="loggedIn"/>
       </div>
