@@ -267,9 +267,10 @@ export default {
     getPreview() {
       this.previewActive = false;
       this.valid = this.validateForm();
+      this.formData = this.makeForm();
       if (this.valid) {
         axios
-          .post(this.$backend + "preview_data", this.form)
+          .post(this.$backend + "preview_data", this.formData)
           .then(response => {
             if (response.data.status == "success") {
               this.previewActive = true;
@@ -340,12 +341,13 @@ export default {
     },
     save() {
       this.loading = true;
+      this.formData = this.makeForm();
       axios
-        .get(this.$backend + "save_pretend")
+        .post(this.$backend + "save_recipe", this.formData)
         .then(response => {
           this.loading = false;
           if (response.data.status == "success") {
-            // console.log("Pretended to save some data!");
+            // console.log("Successfully saved data!");
           } else {
             console.error("Message from backend:", response.data.message);
           }
@@ -355,7 +357,15 @@ export default {
           console.error("Response from backend:", e.response);
         });
     },
-    remove() {}
+    remove() {},
+    makeForm() {
+      let data = new FormData();
+      for (var property in this.form) {
+        data.append(property, this.form[property]);
+      }
+      data.append("image", this.form.image);
+      return data;
+    }
   }
 };
 </script>
