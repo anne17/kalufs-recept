@@ -1,5 +1,8 @@
 <template>
 <div id="recipe-data" class="recipe-list">
+    <div v-if="!results">
+      <span>Inga recept kunde visas 😟</span>
+    </div>
     <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
       <div class="row">
           <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
@@ -40,7 +43,11 @@ export default {
   mounted() {
     axios.get(this.$backend + "recipe_data").then(response => {
       this.results = response.data.data.recipies;
-    });
+    })
+      .catch(e => {
+        console.error("Response from backend:", e.response);
+        this.results = false;
+      });
   },
   methods: {
     openLink: function(title) {
