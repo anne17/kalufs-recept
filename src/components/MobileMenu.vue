@@ -74,7 +74,7 @@ export default {
 }
 
 .hidden {
-  width: 20%;
+  width: 5%;
   opacity: 0;
   margin-top: 50px;
 }
