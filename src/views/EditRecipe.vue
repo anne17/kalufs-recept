@@ -52,7 +52,7 @@
           <div class="col-sm-10">
             <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" v-model="form.title" v-on:change="validateTitle" required="required" title="">
             <div class="invalid-feedback">
-              Du måste ange ett receptnamn!
+              Du måste ange ett unikt receptnamn!
             </div>
           </div>
         </div>
@@ -103,6 +103,13 @@
           </div>
         </div>
 
+        <div class="save-error" v-if="saveError">
+          <label class="col-sm-2"/>
+          <div calss="col-sm-10">
+            {{ saveError }}
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-sm-2"></div>
           <div class="buttons col-sm-10">
@@ -111,12 +118,12 @@
               Granska
             </button>
 
-            <button type="button" class="btn btn-success btn-sm" v-on:click="save" disabled>
+            <button type="button" class="btn btn-success btn-sm" v-on:click="save">
               <i class="fas fa-save"></i>
               Spara
             </button>
 
-            <button type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="remove" disabled>
+            <button v-if="edit_existing" type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="remove">
               <i class="fas fa-trash-alt"></i>
               Ta bort
             </button>
@@ -139,14 +146,9 @@
 
       <div class="row">
         <div class="buttons">
-          <button type="button" class="btn btn-success btn-sm" v-on:click="save" disabled>
+          <button type="button" class="btn btn-success btn-sm" v-on:click="save">
             <i class="fas fa-save"></i>
             Spara
-          </button>
-
-          <button type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="remove" disabled>
-            <i class="fas fa-trash-alt"></i>
-            Ta bort
           </button>
         </div>
       </div>
@@ -171,12 +173,14 @@ export default {
   },
   data() {
     return {
+      edit_existing: false,
       loading: false,
       isError: false,
       titleError: false,
       urlError: false,
       urlErrorMessageDef: "Det här är inte en giltig adress!",
       urlErrorMessage: "",
+      saveError: "",
       parsablePages: [],
       fileBrowseLabel: "Välj fil...",
       previewActive: false,
@@ -187,19 +191,23 @@ export default {
       },
       url: "",
       form: {
+        id: "",
         title: "Nytt recept",
         portions: 4,
         ingredients: "",
         contents: "",
         image: "",
-        source: "",
-        tags: ""
+        source: ""
+        // tags: ""
       }
     };
   },
   created() {
     if (this.$route.params.title !== "New") {
       this.getData();
+      this.edit_existing = true;
+    } else {
+      this.edit_existing = false;
     }
     this.get_parsable_pages();
   },
@@ -267,6 +275,9 @@ export default {
     getPreview() {
       this.previewActive = false;
       this.valid = this.validateForm();
+      if (!this.valid) {
+        return;
+      }
       this.formData = this.makeForm();
       if (this.valid) {
         axios
@@ -326,7 +337,7 @@ export default {
       return true;
     },
     validateTitle() {
-      if (this.form.title == "") {
+      if (this.form.title == "" || this.form.title == "New") {
         this.titleError = true;
         return false;
       }
@@ -340,24 +351,62 @@ export default {
       return true;
     },
     save() {
+      this.saveError = "";
       this.loading = true;
+      this.valid = this.validateForm();
       this.formData = this.makeForm();
+      if (this.edit_existing) {
+        this.call = "edit_recipe";
+      } else {
+        this.call = "add_recipe";
+      }
       axios
-        .post(this.$backend + "save_recipe", this.formData)
+        .post(this.$backend + this.call, this.formData)
         .then(response => {
           this.loading = false;
           if (response.data.status == "success") {
-            // console.log("Successfully saved data!");
+            this.$router.push({ name: "view", params: { title: this.form.title } });
           } else {
             console.error("Message from backend:", response.data.message);
+            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :(";
+          }
+        })
+        .catch(e => {
+          this.loading = false;
+          if (
+            typeof e.response !== "undefined" &&
+            e.response.data.message == "Recipe title already exists!"
+          ) {
+            this.saveError = "Receptnamn måste vara unika. Receptet '" + this.form.title + "' finns redan i databasen.";
+            this.titleError = true;
+          }
+          else {
+            console.error("Response from backend:", e.response);
+            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :(";
+          }
+        });
+    },
+    remove() {
+      // ToDo: Pop-up with delete confirmation?
+      this.saveError = "";
+      this.loading = true;
+      axios
+        .get(this.$backend + "delete_recipe", { params: { id: this.form.id } })
+        .then(response => {
+          this.loading = false;
+          if (response.data.status == "success") {
+            this.$router.push({ name: "recipies" });
+          } else {
+            console.error("Message from backend:", response.data.message);
+            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";
           }
         })
         .catch(e => {
           this.loading = false;
           console.error("Response from backend:", e.response);
-        });
+          this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";
+        })
     },
-    remove() {},
     makeForm() {
       let data = new FormData();
       for (var property in this.form) {
@@ -432,6 +481,14 @@ textarea {
 
 button {
   margin: 1em;
+}
+
+.save-error {
+  color: red;
+  font-weight: 500;
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  text-align: left;
 }
 
 .right {

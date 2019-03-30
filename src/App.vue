@@ -84,6 +84,10 @@ h1 {
   border-color: var(--dark-accent-color);
   background: var(--dark-accent-color);
 }
+.tag-placeholder {
+  border-color: unset;
+  background: unset;
+}
 
 .button-danger-secondary {
   background-color: unset !important;

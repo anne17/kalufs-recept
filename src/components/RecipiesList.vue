@@ -14,6 +14,7 @@
             </div>
             <div class="tags-container row">
               <span class="tag" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
+              <span class="tag-placeholder" v-if="!recipe.tags">&nbsp;</span>
             </div>
           </div>
           <div class="mini-edit-menu container col-1">
@@ -42,7 +43,7 @@ export default {
   },
   mounted() {
     axios.get(this.$backend + "recipe_data").then(response => {
-      this.results = response.data.data.recipies;
+      this.results = response.data.data;
     })
       .catch(e => {
         console.error("Response from backend:", e.response);
@@ -54,7 +55,7 @@ export default {
       this.$router.push({ name: "view", params: { title: title } });
     },
     getImgUrl: function(recipe_data) {
-      if (recipe_data.image !== undefined) {
+      if (recipe_data.image !== undefined && recipe_data.image !== "") {
         return this.$backend + recipe_data.image;
       } else {
         return "";
