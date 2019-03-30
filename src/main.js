@@ -13,7 +13,7 @@ Vue.prototype.$backend =
     ? "https://api.kalufs.lol/recapi/"
     : "http://0.0.0.0:9005/";
 
-Vue.prototype.$defaultimg = Vue.prototype.$backend + "img/default.png";
+Vue.prototype.$defaultimg = Vue.prototype.$backend + "defaultimg";
 
 global.Vue = Vue;
 

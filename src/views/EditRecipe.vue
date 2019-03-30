@@ -352,8 +352,11 @@ export default {
     },
     save() {
       this.saveError = "";
-      this.loading = true;
       this.valid = this.validateForm();
+      if (!this.valid) {
+        return;
+      }
+      this.loading = true;
       this.formData = this.makeForm();
       if (this.edit_existing) {
         this.call = "edit_recipe";
@@ -405,7 +408,7 @@ export default {
           this.loading = false;
           console.error("Response from backend:", e.response);
           this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";
-        })
+        });
     },
     makeForm() {
       let data = new FormData();
