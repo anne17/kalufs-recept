@@ -62,7 +62,7 @@
       </div>
     </header>
 
-    <div class="header-space d-none d-lg-block" />
+    <div class="header-space"/>
   </div>
 </template>
 

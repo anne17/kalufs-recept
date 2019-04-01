@@ -43,7 +43,11 @@ export default {
   },
   mounted() {
     axios.get(this.$backend + "recipe_data").then(response => {
-      this.results = response.data.data;
+      if (response.data.status != "success"){
+        this.results = false;
+      } else {
+        this.results = response.data.data;
+      }
     })
       .catch(e => {
         console.error("Response from backend:", e.response);
