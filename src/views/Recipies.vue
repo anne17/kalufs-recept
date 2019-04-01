@@ -1,28 +1,31 @@
 <template>
   <div class="recipies container">
+
+    <LoadingSpinner :loading="loading"/>
+
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
 
         <div class="input-group input-group-sm mb-3">
-          <div class="input-group-prepend">
+          <div class="search-icon input-group-prepend" v-on:click="search">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="Sök" disabled>
+          <input type="text" class="form-control" placeholder="Sök" v-model="searchString">
         </div>
 
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
         <h1>
-          Alla recept
+          {{ tableTitle }}
         </h1>
         <div class="container">
           <div class="menu row">
 
             <div class="input-group input-group-sm mb-3 col-6">
-              <div class="input-group-prepend d-inline d-lg-none">
+              <div class="search-icon input-group-prepend d-inline d-lg-none" v-on:click="search">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
-              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" disabled>
+              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString">
             </div>
 
             <div v-if="loggedIn" class="new-recipe-container col-6">
@@ -71,15 +74,22 @@
 <!-- ####################################################################### -->
 <script>
 import { LoginMixin, axios } from "@/services.js";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 export default {
   name: "recipies",
+  components: {
+    LoadingSpinner
+  },
   mixins: [LoginMixin],
   data() {
     return {
-      results: [],
+      tableTitle: "Alla recept",
+      results: false,
       loggedIn: false,
-      loading: false
+      loading: false,
+      searchString: ""
+      // searchError: "",
     };
   },
   mounted() {
@@ -105,7 +115,29 @@ export default {
       } else {
         return "";
       }
-    }
+    },
+    search() {
+      // this.searchError = "";
+      this.loading = true;
+      axios
+        .get(this.$backend + "search", { params: { q: this.searchString } })
+        .then(response => {
+          this.loading = false;
+          if (response.data.status == "success") {
+            this.results = response.data.data;
+            this.tableTitle = "Recept med '" + this.searchString + "'";
+          } else {
+            this.results = false;
+            console.error("Message from backend:", response.data.message);
+          }
+        })
+        .catch(e => {
+          this.loading = false;
+          this.results = false;
+          console.error("Response from backend:", e.response);
+          this.saveError = "Ett oväntat fel har inträffat :(";
+        });
+    },
   }
 };
 </script>
@@ -135,6 +167,10 @@ export default {
 
 .input-group {
   padding-left: 0;
+}
+
+.search-icon {
+  cursor: pointer;
 }
 
 .main-list {
