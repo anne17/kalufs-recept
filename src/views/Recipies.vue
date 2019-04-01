@@ -94,7 +94,7 @@ export default {
   },
   mounted() {
     axios.get(this.$backend + "recipe_data").then(response => {
-      if (response.data.status != "success"){
+      if (response.data.status != "success" && response.data.data.length > 0){
         this.results = false;
       } else {
         this.results = response.data.data;
@@ -126,8 +126,13 @@ export default {
           if (response.data.status == "success") {
             this.results = response.data.data;
             this.tableTitle = "Recept med '" + this.searchString + "'";
+            // Todo: check if data is not empty
+            if (this.results.length == 0) {
+              this.results = false;
+            }
           } else {
             this.results = false;
+            this.tableTitle = "Recept med '" + this.searchString + "'";
             console.error("Message from backend:", response.data.message);
           }
         })
