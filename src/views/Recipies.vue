@@ -5,27 +5,26 @@
 
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
-
         <div class="input-group input-group-sm mb-3">
           <div class="search-icon input-group-prepend" v-on:click="search">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="Sök" v-model="searchString">
+          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="search()">
         </div>
-
       </div>
+
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
         <h1>
           {{ tableTitle }}
         </h1>
-        <div class="container">
+        <div class="menu container">
           <div class="menu row">
 
             <div class="input-group input-group-sm mb-3 col-6">
               <div class="search-icon input-group-prepend d-inline d-lg-none" v-on:click="search">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
-              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString">
+              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="search()">
             </div>
 
             <div v-if="loggedIn" class="new-recipe-container col-6">
@@ -39,9 +38,13 @@
 
         <!-- Recipe list -->
         <div id="recipe-data" class="recipe-list">
-            <div v-if="!results">
-              <span>Inga recept kunde visas 😟</span>
-            </div>
+          <div class="search-error" v-if="searchError">
+            <span>{{ searchError }}</span>
+          </div>
+          <div v-if="!results">
+            <span>Inga recept kunde visas 😟</span>
+          </div>
+
             <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
               <div class="row">
                   <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
@@ -88,28 +91,48 @@ export default {
       results: false,
       loggedIn: false,
       loading: false,
-      searchString: ""
-      // searchError: "",
+      searchString: "",
+      searchError: ""
     };
   },
   mounted() {
-    axios.get(this.$backend + "recipe_data").then(response => {
-      if (response.data.status != "success" && response.data.data.length > 0){
-        this.results = false;
+    if (this.$route.query.q !== undefined) {
+      // Execute search if there is something in the query string
+      this.searchString = this.$route.query.q;
+      this.search();
+    } else {
+      // Otherwise, get all data
+      this.loadAll();
+    }
+  },
+  watch : {
+    "$route" (to) {
+      if (to.query.q !== undefined) {
+        this.searchString = to.query.q;
+        this.search();
       } else {
-        this.results = response.data.data;
+        this.loadAll();
       }
-    })
-      .catch(e => {
-        console.error("Response from backend:", e.response);
-        this.results = false;
-      });
+    }
   },
   methods: {
-    openLink: function(title) {
+    loadAll() {
+      axios.get(this.$backend + "recipe_data").then(response => {
+        if (response.data.status !== "success" && response.data.data.length > 0){
+          this.results = false;
+        } else {
+          this.results = response.data.data;
+        }
+      })
+        .catch(e => {
+          console.error("Response from backend:", e.response);
+          this.results = false;
+        });
+    },
+    openLink(title) {
       this.$router.push({ name: "view", params: { title: title } });
     },
-    getImgUrl: function(recipe_data) {
+    getImgUrl(recipe_data) {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
         return this.$backend + recipe_data.image;
       } else {
@@ -117,31 +140,35 @@ export default {
       }
     },
     search() {
-      // this.searchError = "";
-      this.loading = true;
-      axios
-        .get(this.$backend + "search", { params: { q: this.searchString } })
-        .then(response => {
-          this.loading = false;
-          if (response.data.status == "success") {
-            this.results = response.data.data;
-            this.tableTitle = "Recept med '" + this.searchString + "'";
-            // Todo: check if data is not empty
-            if (this.results.length == 0) {
+      this.searchError = "";
+      this.searchString = this.searchString.trim();
+      if (this.searchString !== "") {
+        this.$router.push({query: { q: this.searchString }});
+        this.loading = true;
+        axios
+          .get(this.$backend + "search", { params: { q: this.searchString } })
+          .then(response => {
+            this.loading = false;
+            if (response.data.status == "success") {
+              this.results = response.data.data;
+              this.tableTitle = "Recept med '" + this.searchString + "'";
+              if (this.results.length == 0) {
+                this.results = false;
+              }
+            } else {
               this.results = false;
+              this.tableTitle = "Recept med '" + this.searchString + "'";
+              console.error("Message from backend:", response.data.message);
+              this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
             }
-          } else {
+          })
+          .catch(e => {
+            this.loading = false;
             this.results = false;
-            this.tableTitle = "Recept med '" + this.searchString + "'";
-            console.error("Message from backend:", response.data.message);
-          }
-        })
-        .catch(e => {
-          this.loading = false;
-          this.results = false;
-          console.error("Response from backend:", e.response);
-          this.saveError = "Ett oväntat fel har inträffat :(";
-        });
+            console.error("Response from backend:", e.response);
+            this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
+          });
+      }
     },
   }
 };
@@ -151,6 +178,12 @@ export default {
 <style scoped>
 * {
   box-sizing: border-box;
+}
+
+.recipies,
+.menu {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .new-recipe-container {
@@ -176,6 +209,12 @@ export default {
 
 .search-icon {
   cursor: pointer;
+}
+
+.search-error {
+  color: red;
+  font-weight: 500;
+  padding-bottom: 1em;
 }
 
 .main-list {
