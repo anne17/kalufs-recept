@@ -398,7 +398,7 @@ export default {
         .then(response => {
           this.loading = false;
           if (response.data.status == "success") {
-            this.$router.push({ name: "recipies" });
+            this.$router.push({ name: "recipes" });
           } else {
             console.error("Message from backend:", response.data.message);
             this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";

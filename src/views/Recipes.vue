@@ -1,5 +1,5 @@
 <template>
-  <div class="recipies container">
+  <div class="recipes container">
 
     <LoadingSpinner :loading="loading"/>
 
@@ -34,7 +34,6 @@
             </div>
           </div>
         </div>
-        <!-- <RecipiesList :loggedIn="loggedIn"/> -->
 
         <!-- Recipe list -->
         <div id="recipe-data" class="recipe-list">
@@ -80,7 +79,7 @@ import { LoginMixin, axios } from "@/services.js";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 export default {
-  name: "recipies",
+  name: "recipes",
   components: {
     LoadingSpinner
   },
@@ -180,7 +179,7 @@ export default {
   box-sizing: border-box;
 }
 
-.recipies,
+.recipes,
 .menu {
   padding-left: 0px;
   padding-right: 0px;

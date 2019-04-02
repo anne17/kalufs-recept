@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Recipies from "./views/Recipies.vue";
+import Recipes from "./views/Recipes.vue";
 import EditRecipe from "./views/EditRecipe.vue";
 import ViewRecipe from "./views/ViewRecipe.vue";
 
@@ -12,8 +12,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "recipies",
-      component: Recipies
+      name: "recipes",
+      component: Recipes
     },
     {
       path: "/edit/:title",

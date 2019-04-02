@@ -101,7 +101,7 @@ export default {
         this.isError = false;
         this.hideLogin = false;
       }
-      if (from.hash == "#login" && to.hash != "#login") {
+      if (from.hash == "#login" && to.hash !== "#login") {
         document.body.style.overflowY = "auto";
         this.hideLogin = true;
         this.isError = false;
@@ -110,7 +110,7 @@ export default {
         document.body.style.overflowY = "hidden";
         this.hideSideBar = false;
       }
-      if (from.hash == "#sidebar" && to.hash != "#sidebar") {
+      if (from.hash == "#sidebar" && to.hash !== "#sidebar") {
         document.body.style.overflowY = "auto";
         this.hideSideBar = true;
       }
