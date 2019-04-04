@@ -1,6 +1,7 @@
 <template>
   <div class="edit container">
 
+    <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
     <LoadingSpinner :loading="loading"/>
 
     <popover name="urlTooltip" class="url-popover">
@@ -123,7 +124,7 @@
               Spara
             </button>
 
-            <button v-if="edit_existing" type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="remove">
+            <button v-if="edit_existing" type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="toggleConfirm">
               <i class="fas fa-trash-alt"></i>
               Ta bort
             </button>
@@ -161,6 +162,7 @@
 <script>
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
 import ShowRecipe from "@/components/ShowRecipe.vue";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { axios } from "@/services.js";
 
@@ -169,11 +171,14 @@ export default {
   components: {
     MarkdownHelp,
     ShowRecipe,
+    ConfirmDialog,
     LoadingSpinner
   },
   data() {
     return {
       edit_existing: false,
+      showConfirm: false,
+      confirmDeleteMsg: "Ta bort det här receptet?",
       loading: false,
       isError: false,
       titleError: false,
@@ -390,7 +395,6 @@ export default {
         });
     },
     remove() {
-      // ToDo: Pop-up with delete confirmation?
       this.saveError = "";
       this.loading = true;
       axios
@@ -409,6 +413,9 @@ export default {
           console.error("Response from backend:", e.response);
           this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";
         });
+    },
+    toggleConfirm() {
+      this.showConfirm = !this.showConfirm;
     },
     makeForm() {
       let data = new FormData();
