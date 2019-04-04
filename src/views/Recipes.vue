@@ -104,7 +104,7 @@ export default {
       this.loadAll();
     }
   },
-  watch : {
+  watch: {
     "$route" (to) {
       if (to.query.q !== undefined) {
         this.searchString = to.query.q;

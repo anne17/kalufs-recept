@@ -94,7 +94,7 @@ export default {
       hideSideBar: true,
     };
   },
-  watch : {
+  watch: {
     "$route" (to, from) {
       if (to.hash == "#login") {
         document.body.style.overflowY = "hidden";

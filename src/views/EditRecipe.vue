@@ -207,6 +207,18 @@ export default {
       }
     };
   },
+  watch: {
+    "$route" (to, from) {
+      if (to.hash == "#confirmDelete") {
+        document.body.style.overflowY = "hidden";
+        this.showConfirm = true;
+      }
+      if (from.hash == "#confirmDelete" && to.hash !== "#login") {
+        document.body.style.overflowY = "auto";
+        this.showConfirm = false;
+      }
+    }
+  },
   created() {
     if (this.$route.params.title !== "New") {
       this.getData();
@@ -415,6 +427,14 @@ export default {
         });
     },
     toggleConfirm() {
+      if (this.showConfirm == false) {
+        this.$router.push({hash: "#confirmDelete"});
+        document.body.style.overflowY = "hidden";
+      }
+      else {
+        this.$router.push({hash: ""});
+        document.body.style.overflowY = "auto";
+      }
       this.showConfirm = !this.showConfirm;
     },
     makeForm() {
