@@ -17,8 +17,8 @@
 
       <div class="ingredients">
         <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
-        <p v-if="recipe.portions" class="portions">
-          för <span v-html="recipe.portions"></span>{{ recipe.portions == 1 ? " portion" : " portioner" }}
+        <p v-if="recipe.portions_text" class="portions">
+          för <span v-html="recipe.portions_text"></span>{{ recipe.portions == 1 ? " portion" : " portioner" }}
         </p>
         <p v-html="recipe.ingredients"></p>
       </div>
@@ -51,6 +51,7 @@ export default {
     isError: Boolean,
     recipe: {
       title: "",
+      portions_text: "",
       portions: 0,
       ingredients: "",
       contents: "",

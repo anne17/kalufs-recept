@@ -61,8 +61,8 @@
           <label for="portions" class="col-sm-2 col-form-label">
             Portioner
           </label>
-          <div class="col-sm-2">
-            <input class="form-control" type="number" value="4" id="portions" v-model="form.portions">
+          <div class="col-sm-4">
+            <input class="form-control" type="text" id="portions" v-model="form.portions_text">
           </div>
         </div>
 
@@ -193,7 +193,7 @@ export default {
       form: {
         id: "",
         title: "Nytt recept",
-        portions: 4,
+        portions_text: "4",
         ingredients: "",
         contents: "",
         image: "",
