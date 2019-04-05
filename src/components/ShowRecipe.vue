@@ -18,7 +18,7 @@
       <div class="ingredients">
         <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
         <p v-if="recipe.portions_text" class="portions">
-          för <span v-html="recipe.portions_text"></span>{{ recipe.portions == 1 ? " portion" : " portioner" }}
+          portioner: <span v-html="recipe.portions_text"></span>
         </p>
         <p v-html="recipe.ingredients"></p>
       </div>
@@ -38,6 +38,20 @@
         <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
       </p>
+
+      <p class="recipe-metadata">
+        <i v-if="!showMeta" class="fas fa-info-circle" @click="showMeta=!showMeta" title="visa metadata"></i>
+        <span v-if="showMeta">
+          <span>Skapat av: </span>
+          <span>{{ getUsername(recipe.created_by) }} </span>
+          <span>({{ convertDatetime(recipe.created) }})</span>
+          <br>
+          <span v-if="recipe.changed">Ändrat av: </span>
+          <span v-if="recipe.changed">{{ getUsername(recipe.changed_by) }} </span>
+          <span v-if="recipe.changed">({{ convertDatetime(recipe.changed) }})</span>
+        </span>
+      </p>
+
     </div>
   </div>
 </template>
@@ -56,8 +70,21 @@ export default {
       ingredients: "",
       contents: "",
       source: "",
-      image: ""
+      image: "",
+      created_by: {
+        displayname: ""
+      },
+      created: "",
+      changed_by: {
+        displayname: ""
+      },
+      changed: ""
     }
+  },
+  data() {
+    return {
+      showMeta: false
+    };
   },
   methods: {
     getImgUrl(recipe_data) {
@@ -70,6 +97,14 @@ export default {
     isUrl(s) {
       this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;
       return this.regexp.test(s);
+    },
+    getUsername(user) {
+      if (user !== undefined) {
+        return user.displayname;
+      }
+    },
+    convertDatetime(datetime) {
+      return this.$moment(datetime, "ddd, DD MMM YYYY hh:mm:ss").format("DD MMM YYYY, hh:mm");
     }
   }
 };
@@ -147,7 +182,12 @@ h2 {
 }
 
 .recipe-tags,
-.recipe-source {
+.recipe-source,
+.recipe-metadata {
   font-size: 0.8em;
+}
+
+.recipe-metadata > i {
+  cursor: pointer;
 }
 </style>

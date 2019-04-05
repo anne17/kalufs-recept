@@ -3,9 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import Popover from "vue-js-popover";
 import Vue2TouchEvents from "vue2-touch-events";
+import moment from "moment";
 
 Vue.use(Popover);
 Vue.use(Vue2TouchEvents);
+
+Vue.prototype.$moment = moment;
 
 Vue.config.productionTip = false;
 Vue.prototype.$backend =
