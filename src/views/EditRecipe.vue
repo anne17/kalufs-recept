@@ -407,6 +407,7 @@ export default {
         });
     },
     remove() {
+      document.body.style.overflowY = "auto";
       this.saveError = "";
       this.loading = true;
       axios
@@ -428,12 +429,12 @@ export default {
     },
     toggleConfirm() {
       if (this.showConfirm == false) {
-        this.$router.push({hash: "#confirmDelete"});
         document.body.style.overflowY = "hidden";
+        this.$router.push({hash: "#confirmDelete"});
       }
       else {
-        this.$router.push({hash: ""});
         document.body.style.overflowY = "auto";
+        this.$router.push({hash: ""});
       }
       this.showConfirm = !this.showConfirm;
     },

@@ -33,24 +33,25 @@
         <span class="tag-dark" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
       </p>
 
+
       <p v-if="recipe.source" class="recipe-source">
         <span>Källa: </span>
         <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
+        <br>
+        <i v-if="!showMeta" class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </p>
 
-      <p class="recipe-metadata">
-        <i v-if="!showMeta" class="fas fa-info-circle" @click="showMeta=!showMeta" title="visa metadata"></i>
-        <span v-if="showMeta">
-          <span>Skapat av: </span>
-          <span>{{ getUsername(recipe.created_by) }} </span>
-          <span>({{ convertDatetime(recipe.created) }})</span>
-          <br>
-          <span v-if="recipe.changed">Ändrat av: </span>
-          <span v-if="recipe.changed">{{ getUsername(recipe.changed_by) }} </span>
-          <span v-if="recipe.changed">({{ convertDatetime(recipe.changed) }})</span>
-        </span>
+      <p v-if="showMeta" class="recipe-metadata" ref="metaData">
+        <span>Skapat av: </span>
+        <span>{{ getUsername(recipe.created_by) }} </span>
+        <span>({{ convertDatetime(recipe.created) }})</span>
+        <br>
+        <span v-if="recipe.changed">Ändrat av: </span>
+        <span v-if="recipe.changed">{{ getUsername(recipe.changed_by) }} </span>
+        <span v-if="recipe.changed">({{ convertDatetime(recipe.changed) }})</span>
       </p>
+
 
     </div>
   </div>
@@ -97,6 +98,10 @@ export default {
     isUrl(s) {
       this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;
       return this.regexp.test(s);
+    },
+    displayMetadata() {
+      this.showMeta =! this.showMeta;
+      this.$nextTick(() => this.$refs.metaData.scrollIntoView());
     },
     getUsername(user) {
       if (user !== undefined) {
@@ -167,7 +172,7 @@ h2 {
 }
 
 .portions {
-  filter: brightness(150%);
+  filter: brightness(130%);
   font-size: 0.8em;
 }
 
@@ -187,7 +192,11 @@ h2 {
   font-size: 0.8em;
 }
 
-.recipe-metadata > i {
+.recipe-source > i {
+  filter: brightness(130%);
   cursor: pointer;
+}
+.recipe-source > i:hover {
+  color: black;
 }
 </style>
