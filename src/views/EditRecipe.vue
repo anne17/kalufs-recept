@@ -143,7 +143,7 @@
       <hr />
       <h1>Förhandsvisning</h1>
 
-      <ShowRecipe :recipe="preview" :isError="isError"></ShowRecipe>
+      <ShowRecipe :recipe="preview" :isError="isError" :preview="true"></ShowRecipe>
 
       <div class="row">
         <div class="buttons">

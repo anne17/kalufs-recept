@@ -39,7 +39,7 @@
         <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
         <br>
-        <i v-if="!showMeta" class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
+        <i v-if="!showMeta && !preview" class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </p>
 
       <p v-if="showMeta" class="recipe-metadata" ref="metaData">
@@ -64,6 +64,7 @@ export default {
   props: {
     showEditOption: Boolean,
     isError: Boolean,
+    preview: Boolean,
     recipe: {
       title: "",
       portions_text: "",
