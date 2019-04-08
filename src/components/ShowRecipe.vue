@@ -14,6 +14,9 @@
           <i class="fas fa-pencil-alt"></i>
         </router-link>
       </div>
+      <div class="info-button" v-if="!showMeta && !preview">
+        <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
+      </div>
 
       <div class="ingredients">
         <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
@@ -39,7 +42,6 @@
         <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
         <br>
-        <i v-if="!showMeta && !preview" class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </p>
 
       <p v-if="showMeta" class="recipe-metadata" ref="metaData">
@@ -110,7 +112,7 @@ export default {
       }
     },
     convertDatetime(datetime) {
-      return this.$moment(datetime, "ddd, DD MMM YYYY hh:mm:ss").format("DD MMM YYYY, hh:mm");
+      return this.$moment(datetime, "ddd, DD MMM YYYY hh:mm:ss").locale("sv").format("DD MMM YYYY, HH:mm");
     }
   }
 };
@@ -121,9 +123,11 @@ export default {
 .show-recipe {
   text-align: left;
   font-size: 1.3rem;
+  cursor: pointer;
 }
 
-.mini-edit-menu {
+.mini-edit-menu,
+.info-button {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;
   float: right;
@@ -132,7 +136,8 @@ export default {
   color: inherit;
   float: right;
 }
-.mini-edit-menu i:hover {
+.mini-edit-menu i:hover,
+.info-button i:hover {
   color: black;
 }
 
@@ -193,11 +198,15 @@ h2 {
   font-size: 0.8em;
 }
 
-.recipe-source > i {
-  filter: brightness(130%);
-  cursor: pointer;
+@keyframes blink {
+  from {
+    background: inherit;
+  }
+  to {
+    background: var(--light-accent-color);
+  }
 }
-.recipe-source > i:hover {
-  color: black;
+.recipe-metadata > span {
+  animation: blink 0.7s 2 alternate;
 }
 </style>
