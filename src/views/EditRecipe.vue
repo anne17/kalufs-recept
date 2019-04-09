@@ -98,10 +98,24 @@
         </div>
 
         <div class="form-group row">
-          <label for="source" class="col-sm-2 col-form-label">Källa</label>
+          <label for="source" class="col-sm-2 col-form-label">
+            Källa
+          </label>
           <div class="col-sm-10">
             <input class="form-control" type="url" placeholder="https://example.com" id="source" v-model="form.source">
           </div>
+        </div>
+
+        <div v-if="suggestion" class="form-group row">
+          <label for="source" class="col-sm-2 col-form-label">
+            *Ditt namn
+          </label>
+          <div class="col-sm-4">
+            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" v-model="form.suggestor" required="required" v-on:change="validateName" v-bind:class="{ 'is-invalid': nameError }">
+            <div class="invalid-feedback">
+              Du måste ange ditt namn!
+            </div>
+        </div>
         </div>
 
         <div class="save-error" v-if="saveError">
@@ -119,9 +133,14 @@
               Granska
             </button>
 
-            <button type="button" class="btn btn-success btn-sm" v-on:click="save">
+            <button v-if="!suggestion" type="button" class="btn btn-success btn-sm" v-on:click="save">
               <i class="fas fa-save"></i>
               Spara
+            </button>
+
+            <button v-if="suggestion" type="button" class="btn btn-success btn-sm" v-on:click="makeSuggestion">
+              <i class="fas fa-envelope"></i>
+              Skicka förslag
             </button>
 
             <button v-if="edit_existing" type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="toggleConfirm">
@@ -147,9 +166,14 @@
 
       <div class="row">
         <div class="buttons">
-          <button type="button" class="btn btn-success btn-sm" v-on:click="save">
+          <button v-if="!suggestion" type="button" class="btn btn-success btn-sm" v-on:click="save">
             <i class="fas fa-save"></i>
             Spara
+          </button>
+
+          <button v-if="suggestion" type="button" class="btn btn-success btn-sm" v-on:click="makeSuggestion">
+            <i class="fas fa-envelope"></i>
+            Skicka förslag
           </button>
         </div>
       </div>
@@ -177,6 +201,7 @@ export default {
   data() {
     return {
       edit_existing: false,
+      suggestion: false,
       showConfirm: false,
       confirmDeleteMsg: "Ta bort det här receptet?",
       loading: false,
@@ -186,6 +211,7 @@ export default {
       urlErrorMessageDef: "Det här är inte en giltig adress!",
       urlErrorMessage: "",
       saveError: "",
+      nameError: false,
       parsablePages: [],
       fileBrowseLabel: "Välj fil...",
       previewActive: false,
@@ -202,7 +228,8 @@ export default {
         ingredients: "",
         contents: "",
         image: "",
-        source: ""
+        source: "",
+        suggestor: "",
         // tags: ""
       }
     };
@@ -220,11 +247,19 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.title !== "New") {
+    if (this.$route.params.title !== "New" && this.$route.params.title !== undefined) {
       this.getData();
       this.edit_existing = true;
     } else {
       this.edit_existing = false;
+    }
+    if (this.$router.currentRoute.name == "suggest") {
+      this.suggestion = true;
+    } else {
+      this.suggestion = false;
+    }
+    if (this.$route.query !== undefined) {
+      this.parseQueryString();
     }
     this.get_parsable_pages();
   },
@@ -242,6 +277,29 @@ export default {
         .catch(e => {
           console.error("Response from backend:", e.response);
         });
+    },
+    parseQueryString() {
+      if (this.$route.query.title !== undefined) {
+        this.form.title = this.$route.query.title;
+      }
+      if (this.$route.query.portions !== undefined) {
+        this.form.portions_text = this.$route.query.portions_text;
+      }
+      if (this.$route.query.ingredients !== undefined) {
+        this.form.ingredients = this.$route.query.ingredients;
+      }
+      if (this.$route.query.contents !== undefined) {
+        this.form.contents = this.$route.query.contents;
+      }
+      if (this.$route.query.image !== undefined) {
+        this.form.image = this.$route.query.image;
+      }
+      if (this.$route.query.source !== undefined) {
+        this.form.source = this.$route.query.source;
+      }
+      if (this.$route.query.suggestor !== undefined) {
+        this.form.suggestor = this.$route.query.suggestor;
+      }
     },
     sendUrl() {
       if (this.validateUrl()) {
@@ -367,6 +425,14 @@ export default {
       }
       return true;
     },
+    validateName() {
+      if (this.form.suggestor == "") {
+        this.nameError = true;
+        return false;
+      }
+      this.nameError = false;
+      return true;
+    },
     save() {
       this.saveError = "";
       this.valid = this.validateForm();
@@ -437,6 +503,19 @@ export default {
         this.$router.push({hash: ""});
       }
       this.showConfirm = !this.showConfirm;
+    },
+    makeSuggestion() {
+      this.nameError = "";
+      this.valid = this.validateName();
+      if (!this.valid) {
+        return;
+      }
+      var queryString = Object.keys(this.form).map((key) => {
+        if (this.form[key] !== "" && this.form[key] !== undefined)
+          return "&" + encodeURIComponent(key) + "=" + encodeURIComponent(this.form[key]);
+      }).join("").substring(1);
+      console.log("/edit/New?" + queryString);
+      // Todo: Send to backend, confirm with dialog, loading spinner
     },
     makeForm() {
       let data = new FormData();
