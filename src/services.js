@@ -10,6 +10,7 @@ export const LoginMixin = {
   data() {
     return {
       loggedIn: false,
+      admin: false,
       currentUser: ""
     };
   },
@@ -28,9 +29,15 @@ export const LoginMixin = {
           } else {
             this.loggedIn = false;
           }
+          if (response.data.admin == true) {
+            this.admin = true;
+          } else {
+            this.admin = false;
+          }
         })
         .catch(error => {
           this.loggedIn = false;
+          this.admin = false;
           console.error(error);
         });
     },
@@ -41,6 +48,11 @@ export const LoginMixin = {
       } else {
         this.loggedIn = false;
         this.currentUser = "";
+      }
+      if (authObject.admin == true) {
+        this.admin = true;
+      } else {
+        this.admin = false;
       }
     },
   }

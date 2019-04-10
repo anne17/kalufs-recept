@@ -10,7 +10,7 @@
         </div>
       </div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 middle">
-        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn"></ShowRecipe>
+        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn && admin"></ShowRecipe>
       </div>
 
       <!-- <div class="col-3 d-none d-lg-block left"></div> -->

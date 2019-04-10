@@ -28,7 +28,10 @@
             </div>
 
             <div v-if="loggedIn" class="new-recipe-container col-6">
-              <router-link class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+                <strong>&plus;</strong> Nytt recept
+              </router-link>
+              <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest'}">
                 <strong>&plus;</strong> Nytt recept
               </router-link>
             </div>
@@ -126,6 +129,7 @@ export default {
         } else {
           this.results = response.data.data;
           this.nHits = response.data.hits;
+          this.tableTitle = "Alla recept";
         }
       })
         .catch(e => {
