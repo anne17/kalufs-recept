@@ -1,14 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <!-- <div class="col-2 d-none d-lg-block side-menu right">
-        <div class="buttons">
-          <button type="button" class="btn btn-default btn-sm" v-on:click="save" disabled>
-            <i class="fas fa-save"></i>
-            Spara
-          </button>
-        </div>
-      </div> -->
+      <!-- <div class="col-2 d-none d-lg-block side-menu right"></div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 middle">
         <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn && admin"></ShowRecipe>
       </div>

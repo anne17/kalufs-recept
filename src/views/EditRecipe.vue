@@ -2,6 +2,7 @@
   <div class="edit container">
 
     <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
+    <!-- <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" @close="toggleOkSuggest" @confirm="toggleOkSuggest"/> -->
     <LoadingSpinner :loading="loading"/>
 
     <popover name="urlTooltip" class="url-popover">
@@ -51,7 +52,7 @@
             *Receptnamn
           </label>
           <div class="col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" v-model="form.title" v-on:change="validateTitle" required="required" title="">
+            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" ref="title" v-model="form.title" v-on:change="validateTitle" required="required" title="">
             <div class="invalid-feedback">
               Du måste ange ett unikt receptnamn!
             </div>
@@ -111,7 +112,7 @@
             *Ditt namn
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" v-model="form.suggestor" required="required" v-on:change="validateName" v-bind:class="{ 'is-invalid': nameError }">
+            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" ref="suggestor" v-model="form.suggestor" required="required" v-on:change="validateName" v-bind:class="{ 'is-invalid': nameError }">
             <div class="invalid-feedback">
               Du måste ange ditt namn!
             </div>
@@ -419,18 +420,24 @@ export default {
       this.titleError = false;
       return true;
     },
-    validateForm() {
-      if (!this.validateTitle()) {
-        return false;
-      }
-      return true;
-    },
     validateName() {
+      // When suggestion is active, user must provide a name
       if (this.form.suggestor == "") {
         this.nameError = true;
         return false;
       }
       this.nameError = false;
+      return true;
+    },
+    validateForm() {
+      if (!this.validateTitle()) {
+        this.$nextTick(() => this.$refs.title.scrollIntoView());
+        return false;
+      }
+      if (this.suggestion && !this.validateName()) {
+        this.$nextTick(() => this.$refs.title.scrollIntoView());
+        return false;
+      }
       return true;
     },
     save() {
@@ -505,8 +512,7 @@ export default {
       this.showConfirm = !this.showConfirm;
     },
     makeSuggestion() {
-      this.nameError = "";
-      this.valid = this.validateName();
+      this.valid = this.validateForm();
       if (!this.valid) {
         return;
       }
