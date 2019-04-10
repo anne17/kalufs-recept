@@ -15,7 +15,7 @@
 
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
         <h1>
-          {{ tableTitle }}
+          {{ tableTitle }} <span class="hits" v-if="nHits!==-1"> ({{ nHits }})</span>
         </h1>
         <div class="menu container">
           <div class="menu row">
@@ -42,6 +42,9 @@
           </div>
           <div v-if="!results">
             <span>Inga recept kunde visas 😟</span>
+          </div>
+          <div v-if="results==0">
+            <span>Sökningen gav inga träffar 😟</span>
           </div>
 
             <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
@@ -87,6 +90,7 @@ export default {
   data() {
     return {
       tableTitle: "Alla recept",
+      nHits: -1,
       results: false,
       loggedIn: false,
       loading: false,
@@ -117,10 +121,11 @@ export default {
   methods: {
     loadAll() {
       axios.get(this.$backend + "recipe_data").then(response => {
-        if (response.data.status !== "success" && response.data.data.length > 0){
+        if (response.data.status !== "success"){
           this.results = false;
         } else {
           this.results = response.data.data;
+          this.nHits = response.data.hits;
         }
       })
         .catch(e => {
@@ -150,10 +155,8 @@ export default {
             this.loading = false;
             if (response.data.status == "success") {
               this.results = response.data.data;
+              this.nHits = response.data.hits;
               this.tableTitle = "Recept med '" + this.searchString + "'";
-              if (this.results.length == 0) {
-                this.results = false;
-              }
             } else {
               this.results = false;
               this.tableTitle = "Recept med '" + this.searchString + "'";
@@ -177,6 +180,11 @@ export default {
 <style scoped>
 * {
   box-sizing: border-box;
+}
+
+.hits {
+  font-size: 0.8em;
+  filter: brightness(130%);
 }
 
 .recipes,
