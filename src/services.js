@@ -26,13 +26,13 @@ export const LoginMixin = {
           if (response.data.authenticated == true) {
             this.loggedIn = true;
             this.currentUser = response.data.user;
+            if (response.data.admin == true) {
+              this.admin = true;
+            } else {
+              this.admin = false;
+            }
           } else {
             this.loggedIn = false;
-          }
-          if (response.data.admin == true) {
-            this.admin = true;
-          } else {
-            this.admin = false;
           }
         })
         .catch(error => {
@@ -45,14 +45,14 @@ export const LoginMixin = {
       if (authObject.authenticated == true) {
         this.loggedIn = true;
         this.currentUser = authObject.user;
+        if (authObject.admin == true) {
+          this.admin = true;
+        } else {
+          this.admin = false;
+        }
       } else {
         this.loggedIn = false;
         this.currentUser = "";
-      }
-      if (authObject.admin == true) {
-        this.admin = true;
-      } else {
-        this.admin = false;
       }
     },
   }

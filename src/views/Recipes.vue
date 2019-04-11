@@ -65,7 +65,7 @@
                     </div>
                   </div>
                   <div class="mini-edit-menu container col-1">
-                    <router-link :to="{ name: 'edit', params: {title: recipe.title}}" v-if="loggedIn" title="redigera">
+                    <router-link :to="{ name: 'edit', params: {title: recipe.title}}" v-if="loggedIn && admin" title="redigera">
                       <i class="fas fa-pencil-alt"></i>
                     </router-link>
                   </div>

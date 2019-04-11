@@ -10,7 +10,7 @@
 
             <div class="message"> {{ message }} </div>
 
-              <div class="row">
+              <div v-if="showCancel" class="row">
                 <div class="col-2"/>
 
                 <div class="col-4">
@@ -28,6 +28,16 @@
                 <div class="col-2"/>
               </div>
 
+              <div v-if="!showCancel" class="row">
+                <div class="col-4"/>
+                <div class="col-4">
+                  <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
+                    Ok
+                  </button>
+                </div>
+                <div class="col-4"/>
+              </div>
+
           </div>
         </div>
       </div>
@@ -42,7 +52,11 @@
 export default {
   name: "confirm",
   props: {
-    message: String
+    message: String,
+    showCancel: {
+      type: Boolean,
+      default: true
+    }
   },
   created() {
     // Emit close event on ESC
