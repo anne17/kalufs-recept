@@ -11,7 +11,9 @@ export const LoginMixin = {
     return {
       loggedIn: false,
       admin: false,
-      currentUser: ""
+      currentUser: "",
+      suggestions: false,
+      nSuggestions: -1
     };
   },
   created() {
@@ -28,16 +30,18 @@ export const LoginMixin = {
             this.currentUser = response.data.user;
             if (response.data.admin == true) {
               this.admin = true;
+              this.getSuggestions();
             } else {
               this.admin = false;
+              this.suggestions = false;
+              this.nSuggestions = -1;
             }
           } else {
-            this.loggedIn = false;
+            this.setAllLogout();
           }
         })
         .catch(error => {
-          this.loggedIn = false;
-          this.admin = false;
+          this.setAllLogout();
           console.error(error);
         });
     },
@@ -47,13 +51,34 @@ export const LoginMixin = {
         this.currentUser = authObject.user;
         if (authObject.admin == true) {
           this.admin = true;
+          this.getSuggestions();
         } else {
           this.admin = false;
         }
       } else {
-        this.loggedIn = false;
-        this.currentUser = "";
+        this.setAllLogout();
       }
     },
+    getSuggestions() {
+      axios.get(this.$backend + "recipe_data", {params: {published: "false"}} ).then(response => {
+        if (response.data.status !== "success"){
+          this.suggestions = false;
+        } else {
+          this.suggestions = response.data.data;
+          this.nSuggestions = response.data.hits;
+        }
+      })
+        .catch(e => {
+          console.error("Response from backend:", e.response);
+          this.suggestions = false;
+        });
+    },
+    setAllLogout() {
+      this.loggedIn = false;
+      this.currentUser = "";
+      this.admin = false;
+      this.suggestions = false;
+      this.nSuggestions = -1;
+    }
   }
 };

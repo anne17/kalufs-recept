@@ -67,7 +67,8 @@ export default {
         .post(this.$backend + "login", this.form)
         .then(response => {
           this.username = response.data.user;
-          EventBus.$emit("login", {authenticated: true, user: this.username});
+          this.admin = response.data.admin;
+          EventBus.$emit("login", {authenticated: true, user: this.username, admin: this.admin});
           this.$emit("close");
         })
         .catch(e => {

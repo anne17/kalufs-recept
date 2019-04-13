@@ -9,7 +9,7 @@
         <div class="sidebar-body">
           <div class="container">
 
-            <div class="menu row">
+            <div class="row">
               <div class="login-status">
                 <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
                   Logga in
@@ -19,6 +19,13 @@
                   <i class="fas fa-sign-out-alt"></i>
                 </span>
               </div>
+            </div>
+
+            <div class="row" v-if="admin && suggestions">
+              <!-- <span title="Visa förslag"> -->
+                Visa förslag &nbsp;
+                <i class="fas fa-bell"></i>
+              <!-- </span> -->
             </div>
 
           </div>
@@ -34,7 +41,10 @@ export default {
   props: {
     hideSideBar: Boolean,
     loggedIn: Boolean,
-    currentUser: String
+    currentUser: String,
+    admin: Boolean,
+    suggestions: Boolean,
+    nSuggestions: Number
   },
   created() {
     // Emit close event on ESC
@@ -106,16 +116,10 @@ export default {
   color: var(--light-background-color);
   margin-left: 10%;
   font-size: 1.2em;
+  padding-top: 2em;
 }
-.sidebar-body > * {
-  display: flex;
-  text-decoration: none;
-  padding: 0.7em;
-}
-.sidebar-body > * > span {
-  margin-left: 10px;
-  font-weight: 700;
-  color: var(--light-background-color);
+.sidebar-body .row {
+  padding: 0.3em;
 }
 
 .login-status .do-login {

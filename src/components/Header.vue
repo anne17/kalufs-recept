@@ -2,7 +2,7 @@
   <div class="header">
 
     <Login v-if="!hideLogin" @close="closeLogin"/>
-    <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
+    <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" :admin="admin" :suggestions="suggestions" :nSuggestions="nSuggestions" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
 
     <!-- Use headroom on narrow screens -->
     <headroom class="headroom d-lg-none">
@@ -51,8 +51,14 @@
             <span v-if="!loggedIn" class="do-login" @click="openLogin">
               Logga in
             </span>
-            <span  v-if="loggedIn">
+            <span v-if="loggedIn">
               Hej {{ currentUser }}!&nbsp;
+            </span>
+            <span v-if="admin && suggestions" title="Visa förslag" class="bell active-bell">
+              <i class="fas fa-bell"></i>&nbsp;
+            </span>
+            <span v-if="admin && !suggestions" title="Inga nya förslag" class="bell inactive-bell">
+              <i class="fas fa-bell"></i>&nbsp;
             </span>
             <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
               <i class="fas fa-sign-out-alt"></i>
@@ -219,6 +225,15 @@ export default {
   position: absolute;
   right: 10%;
   top: 15px;
+}
+
+.active-bell i {
+  color: orange;
+}
+
+.inactive-bell i {
+  color: var(--lightish-accent-color);
+  cursor: default !important;
 }
 
 .burger {

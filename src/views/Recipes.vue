@@ -102,6 +102,7 @@ export default {
     };
   },
   mounted() {
+    document.body.style.overflowY = "auto";
     if (this.$route.query.q !== undefined) {
       // Execute search if there is something in the query string
       this.searchString = this.$route.query.q;
@@ -110,6 +111,7 @@ export default {
       // Otherwise, get all data
       this.loadAll();
     }
+    this.searchError = "";
   },
   watch: {
     "$route" (to) {

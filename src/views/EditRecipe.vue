@@ -156,7 +156,7 @@
 
       <div class="row">
         <div class="buttons">
-          <button v-if="!suggestion" type="button" class="btn btn-success btn-sm" v-on:click="save">
+          <button v-if="!suggestion" type="button" class="btn btn-success btn-sm" v-on:click="save(false)">
             <i class="fas fa-save"></i>
             Spara
           </button>
@@ -239,6 +239,7 @@ export default {
     }
   },
   created() {
+    document.body.style.overflowY = "auto";
     if (this.$route.params.title !== "New" && this.$route.params.title !== undefined) {
       this.getData();
       this.edit_existing = true;
