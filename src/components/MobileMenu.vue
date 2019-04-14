@@ -21,7 +21,7 @@
               </div>
             </div>
 
-            <div class="row" v-if="admin && suggestions">
+            <div class="row" v-if="admin && hasSuggestions">
               <!-- <span title="Visa förslag"> -->
                 Visa förslag &nbsp;
                 <i class="fas fa-bell"></i>
@@ -43,7 +43,7 @@ export default {
     loggedIn: Boolean,
     currentUser: String,
     admin: Boolean,
-    suggestions: Boolean,
+    hasSuggestions: Boolean,
     nSuggestions: Number
   },
   created() {

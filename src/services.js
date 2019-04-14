@@ -12,7 +12,8 @@ export const LoginMixin = {
       loggedIn: false,
       admin: false,
       currentUser: "",
-      suggestions: false,
+      hasSuggestions: false,
+      suggestions: [],
       nSuggestions: -1
     };
   },
@@ -33,7 +34,7 @@ export const LoginMixin = {
               this.getSuggestions();
             } else {
               this.admin = false;
-              this.suggestions = false;
+              this.hasSuggestions = false;
               this.nSuggestions = -1;
             }
           } else {
@@ -62,22 +63,23 @@ export const LoginMixin = {
     getSuggestions() {
       axios.get(this.$backend + "recipe_data", {params: {published: "false"}} ).then(response => {
         if (response.data.status !== "success"){
-          this.suggestions = false;
+          this.hasSuggestions = false;
         } else {
+          this.hasSuggestions = true;
           this.suggestions = response.data.data;
           this.nSuggestions = response.data.hits;
         }
       })
         .catch(e => {
           console.error("Response from backend:", e.response);
-          this.suggestions = false;
+          this.hasSuggestions = false;
         });
     },
     setAllLogout() {
       this.loggedIn = false;
       this.currentUser = "";
       this.admin = false;
-      this.suggestions = false;
+      this.hasSuggestions = false;
       this.nSuggestions = -1;
     }
   }

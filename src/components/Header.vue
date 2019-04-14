@@ -2,7 +2,7 @@
   <div class="header">
 
     <Login v-if="!hideLogin" @close="closeLogin"/>
-    <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" :admin="admin" :suggestions="suggestions" :nSuggestions="nSuggestions" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
+    <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" :admin="admin" :hasSuggestions="hasSuggestions" :nSuggestions="nSuggestions" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
 
     <!-- Use headroom on narrow screens -->
     <headroom class="headroom d-lg-none">
@@ -54,10 +54,10 @@
             <span v-if="loggedIn">
               Hej {{ currentUser }}!&nbsp;
             </span>
-            <span v-if="admin && suggestions" title="Visa förslag" class="bell active-bell">
+            <span v-if="admin && hasSuggestions" title="Visa förslag" class="bell active-bell">
               <i class="fas fa-bell"></i>&nbsp;
             </span>
-            <span v-if="admin && !suggestions" title="Inga nya förslag" class="bell inactive-bell">
+            <span v-if="admin && !hasSuggestions" title="Inga nya förslag" class="bell inactive-bell">
               <i class="fas fa-bell"></i>&nbsp;
             </span>
             <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
