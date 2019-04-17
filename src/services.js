@@ -14,7 +14,7 @@ export const LoginMixin = {
       currentUser: "",
       hasSuggestions: false,
       suggestions: [],
-      nSuggestions: -1
+      nSuggestions: -1,
     };
   },
   created() {
@@ -61,15 +61,17 @@ export const LoginMixin = {
       }
     },
     getSuggestions() {
-      axios.get(this.$backend + "recipe_data", {params: {published: "false"}} ).then(response => {
-        if (response.data.status !== "success"){
-          this.hasSuggestions = false;
-        } else {
-          this.hasSuggestions = true;
-          this.suggestions = response.data.data;
-          this.nSuggestions = response.data.hits;
-        }
-      })
+      axios
+        .get(this.$backend + "recipe_data", {params: {published: "false"}} )
+        .then(response => {
+          if (response.data.status !== "success"){
+            this.hasSuggestions = false;
+          } else {
+            this.hasSuggestions = true;
+            this.suggestions = response.data.data;
+            this.nSuggestions = response.data.hits;
+          }
+        })
         .catch(e => {
           console.error("Response from backend:", e.response);
           this.hasSuggestions = false;
@@ -81,6 +83,43 @@ export const LoginMixin = {
       this.admin = false;
       this.hasSuggestions = false;
       this.nSuggestions = -1;
+    }
+  }
+};
+
+export const TagMixin = {
+  data() {
+    return {
+      tagCateogires: [],
+      tagStructure: []
+    };
+  },
+  created() {
+    this.getTagCategories();
+    this.getTagStructure();
+  },
+  methods: {
+    getTagCategories() {
+      axios
+        .get(this.$backend + "get_tag_categories")
+        .then(response => {
+          if (response.data.status == "success"){
+            for (var i in response.data.data) {
+              Vue.set(this.tagCateogires, i, response.data.data[i]);
+            }
+          }
+        });
+    },
+    getTagStructure() {
+      axios
+        .get(this.$backend + "get_tag_structure")
+        .then(response => {
+          if (response.data.status == "success"){
+            for (var i in response.data.data) {
+              Vue.set(this.tagStructure, i, response.data.data[i]);
+            }
+          }
+        });
     }
   }
 };

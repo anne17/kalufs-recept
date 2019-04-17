@@ -28,6 +28,8 @@ export default {
 /* Global CSS variables */
 :root {
   --standard-font-color: #444444;
+  --bright-font-color: white;
+  --placeholder-font-color: #808080;
   --light-background-color: ghostwhite;
   --dark-accent-color: #3866bf;
   --light-accent-color: #a5c3f2;

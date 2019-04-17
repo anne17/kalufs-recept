@@ -87,7 +87,9 @@
         </div>
 
         <div class="form-group row">
-          <label for="image" class="col-sm-2 col-form-label">Bild</label>
+          <label for="image" class="col-sm-2 col-form-label">
+            Bild
+          </label>
           <div class="col-sm-10">
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
@@ -97,6 +99,17 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group row">
+          <label for="tags" class="col-sm-2 col-form-label">
+            Taggar
+          </label>
+         <div class="col-sm-10 tags" id="tags">
+           <multiselect v-model="form.tags" :options="tagStructure" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" track-by="name" label="name" @tag="addTag">
+           </multiselect>
+         </div>
+       </div>
+
 
         <div class="form-group row">
           <label for="source" class="col-sm-2 col-form-label">
@@ -178,7 +191,7 @@ import MarkdownHelp from "@/components/MarkdownHelp.vue";
 import ShowRecipe from "@/components/ShowRecipe.vue";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import { axios } from "@/services.js";
+import { axios, TagMixin } from "@/services.js";
 
 export default {
   name: "EditRecipe",
@@ -188,6 +201,7 @@ export default {
     ConfirmDialog,
     LoadingSpinner
   },
+  mixins: [TagMixin],
   data() {
     return {
       edit_existing: false,
@@ -222,7 +236,7 @@ export default {
         image: "",
         source: "",
         suggestor: "",
-        // tags: ""
+        tags: []
       }
     };
   },
@@ -252,6 +266,7 @@ export default {
       this.suggestion = false;
     }
     this.get_parsable_pages();
+    // EventBus.$emit("getTagCategories");
   },
   methods: {
     get_parsable_pages() {
@@ -370,6 +385,12 @@ export default {
       this.form.image = this.$refs.image.files[0];
       // Replace the "Choose a file" label
       this.fileBrowseLabel = this.form.image.name;
+    },
+    addTag(newTag) {
+      console.log("tag:", newTag);
+      this.form.tags.push(newTag);
+      console.log("tags:");
+      console.log(this.form.tags);
     },
     validateUrl() {
       if (this.url == "") {
@@ -511,6 +532,8 @@ export default {
 </script>
 
 <!-- ####################################################################### -->
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style scoped>
 .url-popover ul {
   text-align: left;
@@ -547,6 +570,20 @@ textarea {
   color: #28292b;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder-font-color);
+}
+
+.tags div {
+  float: left;
+}
+
+.force-scroll {
+  overflow-y: scroll;
+  height: 20vh;
+}
+
 #ingredients,
 #contents {
   font-family: var(--monofont);
@@ -570,7 +607,7 @@ textarea {
   margin-right: auto;
 }
 
-button {
+.buttons button {
   margin: 1em;
 }
 
@@ -584,5 +621,26 @@ button {
 .right {
   padding-top: 20vh;
   padding-right: 0;
+}
+</style>
+
+<style>
+.tags .multiselect__option--highlight,
+.tags .multiselect__option--highlight:after {
+  background: var(--dark-accent-color);
+}
+.tags .multiselect .multiselect__tags {
+  border: 1px solid #ced4da;
+
+}
+.multiselect__tags span,
+.multiselect__tag-icon,
+.multiselect__tag-icon:hover {
+  color: var(--bright-font-color);
+  background: var(--dark-accent-color);
+}
+span.multiselect__placeholder {
+  background: white;
+  color: var(--placeholder-font-color);
 }
 </style>
