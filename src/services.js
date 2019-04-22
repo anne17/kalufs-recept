@@ -91,12 +91,14 @@ export const TagMixin = {
   data() {
     return {
       tagCateogires: [],
-      tagStructure: []
+      tagStructure: [],
+      tagStructureSimple: []
     };
   },
   created() {
     this.getTagCategories();
     this.getTagStructure();
+    this.getTagStructureSimple();
   },
   methods: {
     getTagCategories() {
@@ -117,6 +119,17 @@ export const TagMixin = {
           if (response.data.status == "success"){
             for (var i in response.data.data) {
               Vue.set(this.tagStructure, i, response.data.data[i]);
+            }
+          }
+        });
+    },
+    getTagStructureSimple() {
+      axios
+        .get(this.$backend + "get_tag_structure_simple")
+        .then(response => {
+          if (response.data.status == "success"){
+            for (var i in response.data.data) {
+              Vue.set(this.tagStructureSimple, i, response.data.data[i]);
             }
           }
         });

@@ -3,6 +3,7 @@
 
     <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
     <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" :showCancel=false @close="$router.push('/')" @confirm="$router.push('/')"/>
+    <DropdownDialog v-if="showDropdown" :tag="newTag" :categories="tagCateogires" :defaultCat="tagCateogires[0]" @close="closeDropdown" @confirm="addTag"/>
     <LoadingSpinner :loading="loading"/>
 
     <popover name="urlTooltip" class="url-popover">
@@ -105,7 +106,7 @@
             Taggar
           </label>
          <div class="col-sm-10 tags" id="tags">
-           <multiselect v-model="form.tags" :options="tagStructure" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" track-by="name" label="name" @tag="addTag">
+           <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @tag="chooseCat">
            </multiselect>
          </div>
        </div>
@@ -190,6 +191,7 @@
 import MarkdownHelp from "@/components/MarkdownHelp.vue";
 import ShowRecipe from "@/components/ShowRecipe.vue";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import DropdownDialog from "@/components/DropdownDialog.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import { axios, TagMixin } from "@/services.js";
 
@@ -199,6 +201,7 @@ export default {
     MarkdownHelp,
     ShowRecipe,
     ConfirmDialog,
+    DropdownDialog,
     LoadingSpinner
   },
   mixins: [TagMixin],
@@ -209,6 +212,8 @@ export default {
       showOkSuggest: false,
       okSuggestMsg: "Tack! Ditt förslag har sparats och kommer att granskas av en kalufs-administratör!",
       showConfirm: false,
+      showDropdown: false,
+      newTag: "",
       confirmDeleteMsg: "Ta bort det här receptet?",
       loading: false,
       isError: false,
@@ -236,7 +241,8 @@ export default {
         image: "",
         source: "",
         suggestor: "",
-        tags: []
+        tags: [],
+        tagsParents : [],
       }
     };
   },
@@ -266,7 +272,6 @@ export default {
       this.suggestion = false;
     }
     this.get_parsable_pages();
-    // EventBus.$emit("getTagCategories");
   },
   methods: {
     get_parsable_pages() {
@@ -386,11 +391,25 @@ export default {
       // Replace the "Choose a file" label
       this.fileBrowseLabel = this.form.image.name;
     },
-    addTag(newTag) {
-      console.log("tag:", newTag);
-      this.form.tags.push(newTag);
-      console.log("tags:");
-      console.log(this.form.tags);
+    closeDropdown() {
+      this.showDropdown = false;
+      document.body.style.overflowY = "auto";
+    },
+    chooseCat(newTag) {
+      this.newTag = newTag;
+      this.showDropdown = true;
+      document.body.style.overflowY = "hidden";
+    },
+    addTag(newCat) {
+      this.showDropdown = false;
+      document.body.style.overflowY = "auto";
+      var index = this.tagCateogires.indexOf(newCat);
+      this.tagStructureSimple[index].tags.push(this.newTag);
+      this.form.tags.push(this.newTag);
+      // Save parent category for tag
+      var newParent = new Object();
+      newParent[this.newTag] = newCat;
+      this.form.tagsParents.push(newParent);
     },
     validateUrl() {
       if (this.url == "") {
@@ -521,9 +540,15 @@ export default {
     },
     makeForm() {
       let data = new FormData();
+      // Stringify tags array
+      data.append("tags", JSON.stringify(this.form.tags));
+      // Stringify tag parents
+      data.append("newTags", JSON.stringify(this.form.tagsParents));
+      // Append formData
       for (var property in this.form) {
         data.append(property, this.form[property]);
       }
+      // Append image blob
       data.append("image", this.form.image);
       return data;
     }
