@@ -31,7 +31,7 @@
         <p v-html="recipe.contents"></p>
       </div>
 
-      <p v-if="recipe.tags.length !== 0" class="recipe-tags">
+      <p v-if="recipe.tags !== undefined && recipe.tags.length !== 0" class="recipe-tags">
         <span>Taggar: </span>
         <span class="tag-dark" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
       </p>

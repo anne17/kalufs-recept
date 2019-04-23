@@ -242,7 +242,7 @@ export default {
         source: "",
         suggestor: "",
         tags: [],
-        tagsParents : [],
+        tagsParents: {},
       }
     };
   },
@@ -407,9 +407,7 @@ export default {
       this.tagStructureSimple[index].tags.push(this.newTag);
       this.form.tags.push(this.newTag);
       // Save parent category for tag
-      var newParent = new Object();
-      newParent[this.newTag] = newCat;
-      this.form.tagsParents.push(newParent);
+      this.form.tagsParents[this.newTag] = newCat;
     },
     validateUrl() {
       if (this.url == "") {
@@ -660,7 +658,8 @@ textarea::placeholder {
 }
 .multiselect__tags span,
 .multiselect__tag-icon,
-.multiselect__tag-icon:hover {
+.multiselect__tag-icon:hover,
+.multiselect__tag i::after {
   color: var(--bright-font-color);
   background: var(--dark-accent-color);
 }
