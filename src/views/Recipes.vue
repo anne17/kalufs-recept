@@ -5,7 +5,7 @@
 
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
-        <div class="input-group input-group-sm mb-3">
+        <div v-if="showPublished" class="input-group input-group-sm mb-3">
           <div class="search-icon input-group-prepend" v-on:click="search">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
@@ -20,14 +20,14 @@
         <div class="menu container">
           <div class="menu row">
 
-            <div class="input-group input-group-sm mb-3 col-6">
+            <div v-if="showPublished" class="input-group input-group-sm mb-3 col-6">
               <div class="search-icon input-group-prepend d-inline d-lg-none" v-on:click="search">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
               <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="search()">
             </div>
 
-            <div v-if="loggedIn" class="new-recipe-container col-6">
+            <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
               <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
                 <strong>&plus;</strong> Nytt recept
               </router-link>
@@ -60,8 +60,8 @@
                       <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
                     </div>
                     <div class="tags-container row">
-                      <span class="tag" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
-                      <span class="tag-placeholder" v-if="!recipe.tags">&nbsp;</span>
+                      <span class="tag-dark" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
+                      <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
                     </div>
                   </div>
                   <div class="mini-edit-menu container col-1">
@@ -92,13 +92,15 @@ export default {
   mixins: [LoginMixin],
   data() {
     return {
-      tableTitle: "Alla recept",
+      tableTitle: "",
+      defaultTableTitle: "",
       nHits: -1,
       results: false,
       loggedIn: false,
       loading: false,
       searchString: "",
-      searchError: ""
+      searchError: "",
+      showPublished: true
     };
   },
   mounted() {
@@ -108,7 +110,12 @@ export default {
       this.searchString = this.$route.query.q;
       this.search();
     } else {
-      // Otherwise, get all data
+      // Otherwise, get all data (or suggestions)
+      if (this.$router.currentRoute.name == "suggestions") {
+        this.showSuggestions();
+      } else {
+        this.showRecipes();
+      }
       this.loadAll();
     }
     this.searchError = "";
@@ -119,21 +126,40 @@ export default {
         this.searchString = to.query.q;
         this.search();
       } else {
+        if (this.$router.currentRoute.name == "suggestions") {
+          this.showSuggestions();
+        } else {
+          this.showRecipes();
+        }
         this.loadAll();
       }
     }
   },
   methods: {
+    showSuggestions() {
+      this.showPublished = false;
+      this.defaultTableTitle = "Alla förslag";
+    },
+    showRecipes() {
+      this.showPublished = true;
+      this.defaultTableTitle = "Alla recept";
+    },
     loadAll() {
-      axios.get(this.$backend + "recipe_data").then(response => {
-        if (response.data.status !== "success"){
-          this.results = false;
-        } else {
-          this.results = response.data.data;
-          this.nHits = response.data.hits;
-          this.tableTitle = "Alla recept";
-        }
-      })
+      var call = "recipe_data";
+      if (!this.showPublished) {
+        call = "recipe_suggestions";
+      }
+      axios
+        .get(this.$backend + call, { params: { title: this.$route.params.title } })
+        .then(response => {
+          if (response.data.status !== "success"){
+            this.results = false;
+          } else {
+            this.results = response.data.data;
+            this.nHits = response.data.hits;
+            this.tableTitle = this.defaultTableTitle;
+          }
+        })
         .catch(e => {
           console.error("Response from backend:", e.response);
           this.results = false;

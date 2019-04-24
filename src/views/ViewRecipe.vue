@@ -35,7 +35,7 @@ export default {
   methods: {
     getData() {
       axios
-        .get(this.$backend + "view_recipe?title=" + this.$route.params.title)
+        .get(this.$backend + "view_recipe", { params: { title: this.$route.params.title } })
         .then(response => {
           if (response.data.status == "success") {
             this.recipe = response.data.data;
