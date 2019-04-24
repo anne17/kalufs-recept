@@ -27,6 +27,11 @@
               <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="search()">
             </div>
 
+            <div v-if="!showPublished" class="unpublished-notice">
+              <i class="fas fa-info-circle"></i>
+              Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
+            </div>
+
             <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
               <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
                 <strong>&plus;</strong> Nytt recept
@@ -236,6 +241,13 @@ export default {
 }
 .new-recipe:hover {
   color: black;
+}
+
+.unpublished-notice {
+  text-align: center;
+  color: var(--warning-color);
+  font-weight: bold;
+  margin-bottom: 0.5em;
 }
 
 .menu {

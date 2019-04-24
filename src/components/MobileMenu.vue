@@ -22,10 +22,15 @@
             </div>
 
             <div class="row" v-if="admin && hasSuggestions">
-              <!-- <span title="Visa förslag"> -->
-                Visa förslag &nbsp;
-                <i class="fas fa-bell"></i>
-              <!-- </span> -->
+              <span v-if="admin && hasSuggestions" class="bell active-bell">
+                <router-link to="/suggestions">
+                  Visa förslag &nbsp;
+                  <i class="fas fa-bell"></i>&nbsp;
+                </router-link>
+              </span>
+              <span v-if="admin && !hasSuggestions" title="Inga nya förslag" class="bell inactive-bell">
+                <i class="fas fa-bell"></i>&nbsp;
+              </span>
             </div>
 
           </div>
@@ -122,6 +127,10 @@ export default {
   padding: 0.3em;
 }
 
+.sidebar-body a {
+  color: var(--bright-font-color);
+}
+
 .login-status .do-login {
   padding-top: 40px;
   cursor: pointer;
@@ -131,5 +140,14 @@ export default {
   font-size: 1.3em;
   position: relative;
   top: 2px;
+}
+
+.active-bell i {
+  color: var(--warning-color);
+}
+
+.inactive-bell i {
+  color: var(--lightish-accent-color);
+  cursor: default !important;
 }
 </style>

@@ -55,7 +55,7 @@
               Hej {{ currentUser }}!&nbsp;
             </span>
             <span v-if="admin && hasSuggestions" title="Visa förslag" class="bell active-bell">
-              <router-link to="suggestions">
+              <router-link to="/suggestions">
                 <i class="fas fa-bell"></i>&nbsp;
               </router-link>
             </span>
@@ -230,7 +230,7 @@ export default {
 }
 
 .active-bell i {
-  color: orange;
+  color: var(--warning-color);
 }
 
 .inactive-bell i {

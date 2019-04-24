@@ -35,6 +35,7 @@ export default {
   --light-accent-color: #a5c3f2;
   --lightish-accent-color: #77a7f5;
   --light-contrast-color: #fff586;
+  --warning-color: orange;
 
   --standardfont: "Krub", sans-serif;
   --monofont: "Roboto Mono", monospace;

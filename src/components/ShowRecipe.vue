@@ -9,6 +9,11 @@
 
       <h2 v-html="recipe.title" class="recipe-title"></h2>
 
+      <div v-if="!recipe.published && !preview" class="unpublished-notice">
+        <i class="fas fa-info-circle"></i>
+        Receptet är opublicerat. Gå in i redigeringsläget och spara för att publicera.
+      </div>
+
       <div v-if="showEditOption" class="mini-edit-menu">
         <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera" v-if="recipe.title">
           <i class="fas fa-pencil-alt"></i>
@@ -52,6 +57,14 @@
         <span v-if="recipe.changed">Ändrat av: </span>
         <span v-if="recipe.changed">{{ getUsername(recipe.changed_by) }} </span>
         <span v-if="recipe.changed">({{ convertDatetime(recipe.changed) }})</span>
+        <br>
+        <span v-if="recipe.suggestor">Föreslagit av: </span>
+        <span v-if="recipe.suggestor">{{ recipe.suggestor }} </span>
+      </p>
+
+      <p v-if="preview" class="recipe-metadata">
+        <span v-if="recipe.suggestor">Föreslagit av: </span>
+        <span v-if="recipe.suggestor">{{ recipe.suggestor }} </span>
       </p>
 
 
@@ -83,7 +96,9 @@ export default {
       changed_by: {
         displayname: ""
       },
-      changed: ""
+      changed: "",
+      suggestor: "",
+      published: true
     }
   },
   data() {
@@ -124,7 +139,12 @@ export default {
 .show-recipe {
   text-align: left;
   font-size: 1.3rem;
-  cursor: pointer;
+}
+
+.unpublished-notice {
+  text-align: center;
+  color: var(--warning-color);
+  font-weight: bold;
 }
 
 .mini-edit-menu,
@@ -140,6 +160,7 @@ export default {
 .mini-edit-menu i:hover,
 .info-button i:hover {
   color: black;
+  cursor: pointer;
 }
 
 .img-container {
