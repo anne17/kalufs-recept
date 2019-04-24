@@ -16,6 +16,11 @@ export default new Router({
       component: Recipes
     },
     {
+      path: "/suggestions",
+      name: "suggestions",
+      component: Recipes
+    },
+    {
       path: "/edit/:title",
       name: "edit",
       component: EditRecipe

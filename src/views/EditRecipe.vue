@@ -130,7 +130,16 @@
             <div class="invalid-feedback">
               Du måste ange ditt namn!
             </div>
+          </div>
         </div>
+
+        <div v-if="form.suggestor !== 'null'" class="form-group row">
+          <label for="suggestor" class="col-sm-2 col-form-label">
+            Föreslagit av
+          </label>
+          <div class="col-sm-4">
+            <input class="form-control" type="text" id="suggestor" ref="suggestor" v-model="form.suggestor">
+          </div>
         </div>
 
         <div class="save-error" v-if="saveError" ref="saveErrorBox">

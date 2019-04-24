@@ -55,7 +55,9 @@
               Hej {{ currentUser }}!&nbsp;
             </span>
             <span v-if="admin && hasSuggestions" title="Visa förslag" class="bell active-bell">
-              <i class="fas fa-bell"></i>&nbsp;
+              <router-link to="suggestions">
+                <i class="fas fa-bell"></i>&nbsp;
+              </router-link>
             </span>
             <span v-if="admin && !hasSuggestions" title="Inga nya förslag" class="bell inactive-bell">
               <i class="fas fa-bell"></i>&nbsp;
