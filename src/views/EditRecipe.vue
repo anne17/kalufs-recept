@@ -133,7 +133,7 @@
           </div>
         </div>
 
-        <div v-if="form.suggestor !== 'null'" class="form-group row">
+        <div v-if="form.suggestor !== 'null' && !suggestion && edit_existing" class="form-group row">
           <label for="suggestor" class="col-sm-2 col-form-label">
             Föreslagit av
           </label>
@@ -405,6 +405,7 @@ export default {
       document.body.style.overflowY = "auto";
     },
     chooseCat(newTag) {
+      newTag = newTag.trim().toLowerCase();
       this.newTag = newTag;
       this.showDropdown = true;
       document.body.style.overflowY = "hidden";

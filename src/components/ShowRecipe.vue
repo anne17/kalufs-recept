@@ -58,13 +58,13 @@
         <span v-if="recipe.changed">{{ getUsername(recipe.changed_by) }} </span>
         <span v-if="recipe.changed">({{ convertDatetime(recipe.changed) }})</span>
         <br>
-        <span v-if="recipe.suggestor">Föreslagit av: </span>
-        <span v-if="recipe.suggestor">{{ recipe.suggestor }} </span>
+        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
+        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
       </p>
 
       <p v-if="preview" class="recipe-metadata">
-        <span v-if="recipe.suggestor">Föreslagit av: </span>
-        <span v-if="recipe.suggestor">{{ recipe.suggestor }} </span>
+        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
+        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
       </p>
 
 
