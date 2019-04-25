@@ -62,14 +62,18 @@ export const LoginMixin = {
     },
     getSuggestions() {
       axios
-        .get(this.$backend + "recipe_data", {params: {published: "false"}} )
+        .get(this.$backend + "recipe_suggestions")
         .then(response => {
           if (response.data.status !== "success"){
             this.hasSuggestions = false;
           } else {
-            this.hasSuggestions = true;
-            this.suggestions = response.data.data;
             this.nSuggestions = response.data.hits;
+            if (this.nSuggestions > 0) {
+              this.hasSuggestions = true;
+              this.suggestions = response.data.data;
+            } else {
+              this.hasSuggestions = false;
+            }
           }
         })
         .catch(e => {
@@ -110,6 +114,9 @@ export const TagMixin = {
               Vue.set(this.tagCateogires, i, response.data.data[i]);
             }
           }
+        })
+        .catch(e => {
+          console.error("Response from backend:", e.response);
         });
     },
     getTagStructure() {
@@ -121,6 +128,9 @@ export const TagMixin = {
               Vue.set(this.tagStructure, i, response.data.data[i]);
             }
           }
+        })
+        .catch(e => {
+          console.error("Response from backend:", e.response);
         });
     },
     getTagStructureSimple() {
@@ -132,6 +142,9 @@ export const TagMixin = {
               Vue.set(this.tagStructureSimple, i, response.data.data[i]);
             }
           }
+        })
+        .catch(e => {
+          console.error("Response from backend:", e.response);
         });
     }
   }
