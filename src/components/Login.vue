@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+
+    <LoadingSpinner :loading="loading"/>
+
     <div id="grayout" @click="$emit('close')"></div>
 
     <div id="LoginModal">
@@ -20,6 +23,10 @@
                 <input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in">
               </div>
             </form>
+
+            <span class="loading-spinner" v-if="loading">
+              <img src="../assets/loading_spinner.svg"/>
+            </span>
 
             <div class="error-message">
               <span v-if="isError">{{ error }}</span>
@@ -45,6 +52,7 @@ export default {
     return {
       error: "",
       isError: false,
+      loading: false,
       form: {
         login: "",
         password: ""
@@ -63,9 +71,11 @@ export default {
   methods: {
     onSubmit() {
       this.isError = false;
+      this.loading = true;
       axios
         .post(this.$backend + "login", this.form)
         .then(response => {
+          this.loading = false;
           this.username = response.data.user;
           this.admin = response.data.admin;
           EventBus.$emit("login", {authenticated: true, user: this.username, admin: this.admin});
@@ -73,6 +83,7 @@ export default {
         })
         .catch(e => {
           this.isError = true;
+          this.loading = false;
           if (
             typeof e.response !== "undefined" &&
             e.response.data.message == "Invalid username or password!"
@@ -170,6 +181,14 @@ export default {
 .modal-login .btn:hover,
 .modal-login .btn:focus {
   background: var(--lightish-accent-color);
+}
+
+.loading-spinner img {
+  width: 5em;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .error-message {
