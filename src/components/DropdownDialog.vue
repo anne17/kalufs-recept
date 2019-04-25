@@ -124,12 +124,29 @@ export default {
 
 .dropdown {
   padding-bottom: 20px;
+  display: inline-block;
+  position: relative;
 }
-.dropdown > select {
+.dropdown select {
   background-color: white;
   border: 1px solid #ccc;
   padding: 6px 20px 6px 10px;
   border-radius: 4px;
-  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none; /* remove default caret on Safari and Chrome */
+  -moz-appearance:none; /* remove default caret on Firefox */
+  background: transparent;
+}
+.dropdown::after{
+  position: absolute;
+  top: 30%;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #023F55;
+  content: "";
+  pointer-events: none;
 }
 </style>
