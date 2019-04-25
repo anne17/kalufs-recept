@@ -51,7 +51,7 @@
           <div v-if="!results">
             <span>Inga recept kunde visas 😟</span>
           </div>
-          <div v-if="results==0">
+          <div v-if="nHits==0">
             <span>Sökningen gav inga träffar 😟</span>
           </div>
 
@@ -100,7 +100,7 @@ export default {
       tableTitle: "",
       defaultTableTitle: "",
       nHits: -1,
-      results: false,
+      results: true,
       loggedIn: false,
       loading: false,
       searchString: "",
