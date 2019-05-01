@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       isError: false,
-      recipe: Object
+      recipe: {}
     };
   },
   created() {

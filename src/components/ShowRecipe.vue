@@ -81,24 +81,27 @@ export default {
     isError: Boolean,
     preview: Boolean,
     recipe: {
-      title: "",
-      portions_text: "",
-      portions: 0,
-      ingredients: "",
-      contents: "",
-      source: "",
-      image: "",
-      tags: [],
-      created_by: {
-        displayname: ""
-      },
-      created: "",
-      changed_by: {
-        displayname: ""
-      },
-      changed: "",
-      suggestor: "",
-      published: true
+      type: Object,
+      default: {
+        title: "",
+        portions_text: "",
+        portions: 0,
+        ingredients: "",
+        contents: "",
+        source: "",
+        image: "",
+        tags: [],
+        created_by: {
+          displayname: ""
+        },
+        created: "",
+        changed_by: {
+          displayname: ""
+        },
+        changed: "",
+        suggestor: "",
+        published: true
+      }
     }
   },
   data() {
@@ -113,6 +116,8 @@ export default {
       } else {
         return "";
       }
+      // Temporary hack: when should this be executed??
+      this.getPublished();
     },
     isUrl(s) {
       this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;
