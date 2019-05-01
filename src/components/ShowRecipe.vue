@@ -9,7 +9,7 @@
 
       <h2 v-html="recipe.title" class="recipe-title"></h2>
 
-      <div v-if="!recipe.published && !preview" class="unpublished-notice">
+      <div v-if="!published && !preview" class="unpublished-notice">
         <i class="fas fa-info-circle"></i>
         Receptet är opublicerat. Gå in i redigeringsläget och spara för att publicera.
       </div>
@@ -80,27 +80,30 @@ export default {
     showEditOption: Boolean,
     isError: Boolean,
     preview: Boolean,
+    published: Boolean,
     recipe: {
       type: Object,
-      default: {
-        title: "",
-        portions_text: "",
-        portions: 0,
-        ingredients: "",
-        contents: "",
-        source: "",
-        image: "",
-        tags: [],
-        created_by: {
-          displayname: ""
-        },
-        created: "",
-        changed_by: {
-          displayname: ""
-        },
-        changed: "",
-        suggestor: "",
-        published: true
+      default() {
+        return {
+          title: "",
+          portions_text: "",
+          portions: 0,
+          ingredients: "",
+          contents: "",
+          source: "",
+          image: "",
+          tags: [],
+          created_by: {
+            displayname: ""
+          },
+          created: "",
+          changed_by: {
+            displayname: ""
+          },
+          changed: "",
+          suggestor: "",
+          published: true
+        };
       }
     }
   },
@@ -116,8 +119,6 @@ export default {
       } else {
         return "";
       }
-      // Temporary hack: when should this be executed??
-      this.getPublished();
     },
     isUrl(s) {
       this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;

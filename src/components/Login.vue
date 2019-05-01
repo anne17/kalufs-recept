@@ -1,8 +1,6 @@
 <template>
   <div class="login">
 
-    <LoadingSpinner :loading="loading"/>
-
     <div id="grayout" @click="$emit('close')"></div>
 
     <div id="LoginModal">

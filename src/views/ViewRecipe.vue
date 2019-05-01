@@ -3,7 +3,7 @@
     <div class="row">
       <!-- <div class="col-2 d-none d-lg-block side-menu right"></div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 middle">
-        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn && admin"></ShowRecipe>
+        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn && admin" :published="published"></ShowRecipe>
       </div>
 
       <!-- <div class="col-3 d-none d-lg-block left"></div> -->
@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       isError: false,
-      recipe: {}
+      recipe: {},
+      published: true
     };
   },
   created() {
@@ -39,6 +40,8 @@ export default {
         .then(response => {
           if (response.data.status == "success") {
             this.recipe = response.data.data;
+            // This is needed to avoid a flashing unpublished message
+            this.published = this.recipe.published;
           } else {
             console.error(response.data);
           }
