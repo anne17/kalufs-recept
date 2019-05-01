@@ -19,6 +19,8 @@ export const LoginMixin = {
   },
   created() {
     EventBus.$on("login", this.updateLoginStatus);
+    // Check if there are suggestions still after saving
+    EventBus.$on("save", this.getSuggestions);
     this.checkLogin();
   },
   methods: {
@@ -92,6 +94,7 @@ export const LoginMixin = {
 };
 
 export const TagMixin = {
+  // Provides functionality for getting tags and categories from the backend
   data() {
     return {
       tagCateogires: [],

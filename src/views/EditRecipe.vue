@@ -38,7 +38,7 @@
             <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" v-on:change="validateUrl">
             <div class="input-group-prepend">
               <span class="input-group-text" id="url_search" @click="sendUrl">
-                Fyll i recept
+                Hämta recept
               </span>
             </div>
             <div class="invalid-feedback">
@@ -202,7 +202,7 @@ import ShowRecipe from "@/components/ShowRecipe.vue";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import DropdownDialog from "@/components/DropdownDialog.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import { axios, TagMixin } from "@/services.js";
+import { EventBus, axios, TagMixin } from "@/services.js";
 
 export default {
   name: "EditRecipe",
@@ -480,6 +480,7 @@ export default {
               this.toggleOkSuggest();
             } else {
               this.$router.push({ name: "view", params: { title: this.form.title } });
+              EventBus.$emit("save");
             }
           } else {
             console.error("Message from backend:", response.data.message);
