@@ -94,7 +94,7 @@
           </label>
           <div class="col-sm-10">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" @change="handleFileUpload(); unsaved=true">
+              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" title="" @change="handleFileUpload(); unsaved=true">
               <label class="custom-file-label" for="image">
                 {{ fileBrowseLabel }}
               </label>
@@ -337,6 +337,9 @@ export default {
                 }
               }
               this.validateTitle();
+              if (this.form.image) {
+                this.fileBrowseLabel = this.form.image;
+              }
             } else {
               console.error("Response from backend:", response.data);
             }
