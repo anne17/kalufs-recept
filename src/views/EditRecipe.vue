@@ -101,16 +101,26 @@
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" v-if="!suggestion">
           <label for="tags" class="col-sm-2 col-form-label">
             Taggar
           </label>
-         <div class="col-sm-10 tags" id="tags">
-           <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @tag="chooseCat">
-           </multiselect>
-         </div>
-       </div>
+          <div class="col-sm-10 tags" id="tags">
+            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @tag="chooseCat">
+            </multiselect>
+          </div>
+        </div>
 
+        <div class="form-group row" v-if="suggestion">
+          <label for="tags-suggest" class="col-sm-2 col-form-label">
+            Taggar
+          </label>
+          <div class="col-sm-10 tags" id="tags-suggest">
+            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false">
+              <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
+            </multiselect>
+          </div>
+        </div>
 
         <div class="form-group row">
           <label for="source" class="col-sm-2 col-form-label">
