@@ -300,6 +300,8 @@ export default {
     if (this.unsaved) {
       this.showLeaveConfirm = true;
       this.next = next;
+    } else {
+      next();
     }
   },
   methods: {
@@ -529,6 +531,7 @@ export default {
       document.body.style.overflowY = "auto";
       this.saveError = "";
       this.loading = true;
+      this.showConfirm = false;
       axios
         .get(this.$backend + "delete_recipe", { params: { id: this.form.id } })
         .then(response => {
