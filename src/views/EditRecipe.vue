@@ -2,6 +2,7 @@
   <div class="edit container">
 
     <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
+    <ConfirmDialog v-if="showLeaveConfirm" :message="confirmLeaveMsg" @close="next(false); showLeaveConfirm=false" @confirm="next()"/>
     <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" :showCancel=false @close="$router.push('/')" @confirm="$router.push('/')"/>
     <DropdownDialog v-if="showDropdown" :tag="newTag" :categories="tagCateogires" :defaultCat="tagCateogires[0]" @close="closeDropdown" @confirm="addTag"/>
     <LoadingSpinner :loading="loading"/>
@@ -35,7 +36,7 @@
             </span>
           </label>
           <div class="input-group col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" v-on:change="validateUrl">
+            <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" @change="validateUrl()">
             <div class="input-group-prepend">
               <span class="input-group-text" id="url_search" @click="sendUrl">
                 Hämta recept
@@ -53,7 +54,7 @@
             *Receptnamn
           </label>
           <div class="col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" ref="title" v-model="form.title" v-on:change="validateTitle" required="required" title="">
+            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" ref="title" v-model="form.title" @change="validateTitle()" @input="unsaved=true" required="required" title="">
             <div class="invalid-feedback">
               Du måste ange ett unikt receptnamn!
             </div>
@@ -65,7 +66,7 @@
             Portioner
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="portions" v-model="form.portions_text">
+            <input class="form-control" type="text" id="portions" v-model="form.portions_text" @input="unsaved=true">
           </div>
         </div>
 
@@ -74,7 +75,7 @@
             Ingredienser
           </label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients"></textarea>
+            <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients" @input="unsaved=true"></textarea>
           </div>
         </div>
 
@@ -83,7 +84,7 @@
             Beskrivning
           </label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents"></textarea>
+            <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents" @input="unsaved=true"></textarea>
           </div>
         </div>
 
@@ -93,7 +94,7 @@
           </label>
           <div class="col-sm-10">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" v-on:change="handleFileUpload()">
+              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" @change="handleFileUpload(); unsaved=true">
               <label class="custom-file-label" for="image">
                 {{ fileBrowseLabel }}
               </label>
@@ -106,7 +107,7 @@
             Taggar
           </label>
           <div class="col-sm-10 tags" id="tags">
-            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @tag="chooseCat">
+            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @tag="chooseCat" @change="unsaved=true">
             </multiselect>
           </div>
         </div>
@@ -116,7 +117,7 @@
             Taggar
           </label>
           <div class="col-sm-10 tags" id="tags-suggest">
-            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false">
+            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @change="unsaved=true">
               <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
             </multiselect>
           </div>
@@ -127,7 +128,7 @@
             Källa
           </label>
           <div class="col-sm-10">
-            <input class="form-control" type="url" placeholder="https://example.com" id="source" v-model="form.source">
+            <input class="form-control" type="url" placeholder="https://example.com" id="source" v-model="form.source" @input="unsaved=true">
           </div>
         </div>
 
@@ -136,7 +137,7 @@
             *Ditt namn
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" ref="suggestor" v-model="form.suggestor" required="required" v-on:change="validateName" v-bind:class="{ 'is-invalid': nameError }">
+            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" ref="suggestor" v-model="form.suggestor" required="required" @change="validateName()" @input="unsaved=true" v-bind:class="{ 'is-invalid': nameError }">
             <div class="invalid-feedback">
               Du måste ange ditt namn!
             </div>
@@ -148,7 +149,7 @@
             Föreslagit av
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="suggestor" ref="suggestor" v-model="form.suggestor">
+            <input class="form-control" type="text" id="suggestor" ref="suggestor" v-model="form.suggestor" @input="unsaved=true">
           </div>
         </div>
 
@@ -227,10 +228,13 @@ export default {
   data() {
     return {
       edit_existing: false,
+      unsaved: false,
       suggestion: false,
       showOkSuggest: false,
       okSuggestMsg: "Tack! Ditt förslag har sparats och kommer att granskas av en kalufs-administratör!",
       showConfirm: false,
+      showLeaveConfirm: false,
+      confirmLeaveMsg: "Du har inte sparat än. Vill du verkligen lämna den här sidan?",
       showDropdown: false,
       newTag: "",
       confirmDeleteMsg: "Ta bort det här receptet?",
@@ -291,6 +295,12 @@ export default {
       this.suggestion = false;
     }
     this.get_parsable_pages();
+  },
+  beforeRouteLeave (to, from, next) {
+    if (this.unsaved) {
+      this.showLeaveConfirm = true;
+      this.next = next;
+    }
   },
   methods: {
     get_parsable_pages() {
@@ -486,6 +496,7 @@ export default {
         .then(response => {
           this.loading = false;
           if (response.data.status == "success") {
+            this.unsaved = false;
             if (suggest) {
               this.toggleOkSuggest();
             } else {
@@ -522,6 +533,7 @@ export default {
         .get(this.$backend + "delete_recipe", { params: { id: this.form.id } })
         .then(response => {
           this.loading = false;
+          this.unsaved = false;
           if (response.data.status == "success") {
             this.$router.push({ name: "recipes" });
           } else {
