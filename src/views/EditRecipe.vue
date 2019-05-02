@@ -337,6 +337,7 @@ export default {
                 }
               }
               this.validateTitle();
+              // Replace the "Choose a file" label if there is an image
               if (this.form.image) {
                 this.fileBrowseLabel = this.form.image;
               }
@@ -411,6 +412,10 @@ export default {
             // Set heading
             this.heading.text = "Redigera ";
             this.heading.title = this.form.title;
+            // Replace the "Choose a file" label if there is an image
+            if (this.form.image) {
+              this.fileBrowseLabel = this.form.image;
+            }
           } else {
             console.error("Response from backend:", response.data);
           }
@@ -635,6 +640,10 @@ textarea {
 input::placeholder,
 textarea::placeholder {
   color: var(--placeholder-font-color);
+}
+
+.custom-file-input ~ .custom-file-label::after {
+  content: "Blä" "ddra";
 }
 
 .tags div {
