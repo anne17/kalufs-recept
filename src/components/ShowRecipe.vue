@@ -51,12 +51,16 @@
 
       <p v-if="showMeta" class="recipe-metadata" ref="metaData">
         <span>Skapat av: </span>
-        <span>{{ getUsername(recipe.created_by) }} </span>
-        <span>({{ convertDatetime(recipe.created) }})</span>
+        <router-link class="user-link" :to="{ name: 'recipes', query: {user: recipe.created_by.displayname}}" title="Sök på recept av denna användare">
+          <span>{{ getUsername(recipe.created_by) }}</span>
+        </router-link>
+        <span> ({{ convertDatetime(recipe.created) }})</span>
         <br>
         <span v-if="recipe.changed">Ändrat av: </span>
-        <span v-if="recipe.changed">{{ getUsername(recipe.changed_by) }} </span>
-        <span v-if="recipe.changed">({{ convertDatetime(recipe.changed) }})</span>
+        <router-link v-if="recipe.changed" class="user-link" :to="{ name: 'recipes', query: {user: recipe.changed_by.displayname}}" title="Sök på recept av denna användare">
+          <span>{{ getUsername(recipe.changed_by) }}</span>
+        </router-link>
+        <span v-if="recipe.changed"> ({{ convertDatetime(recipe.changed) }})</span>
         <br>
         <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
         <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
@@ -234,7 +238,12 @@ h2 {
     background: var(--light-accent-color);
   }
 }
-.recipe-metadata > span {
+.recipe-metadata > span,
+.recipe-metadata a {
   animation: blink 0.7s 2 alternate;
+}
+
+.user-link {
+  color: var(--standard-font-color);
 }
 </style>

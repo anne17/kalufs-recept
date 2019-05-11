@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
         <div v-if="showPublished" class="input-group input-group-sm mb-3">
-          <div class="search-icon input-group-prepend" v-on:click="search">
+          <div class="search-icon input-group-prepend" @click="preSearch('string')">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="search()">
+          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch('string')">
         </div>
       </div>
 
@@ -21,10 +21,10 @@
           <div class="menu row">
 
             <div v-if="showPublished" class="input-group input-group-sm mb-3 col-6">
-              <div class="search-icon input-group-prepend d-inline d-lg-none" v-on:click="search">
+              <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch('string')">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
-              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="search()">
+              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch('string')">
             </div>
 
             <div v-if="!showPublished" class="unpublished-notice">
@@ -104,16 +104,15 @@ export default {
       loggedIn: false,
       loading: false,
       searchString: "",
+      searchUser: "",
       searchError: "",
       showPublished: true
     };
   },
   mounted() {
     document.body.style.overflowY = "auto";
-    if (this.$route.query.q !== undefined) {
-      // Execute search if there is something in the query string
-      this.searchString = this.$route.query.q;
-      this.search();
+    if (Object.keys(this.$route.query).length !== 0) {
+      this.search(this.$route.query);
     } else {
       // Otherwise, get all data (or suggestions)
       if (this.$router.currentRoute.name == "suggestions") {
@@ -126,10 +125,9 @@ export default {
     this.searchError = "";
   },
   watch: {
-    "$route" (to) {
-      if (to.query.q !== undefined) {
-        this.searchString = to.query.q;
-        this.search();
+    "$route" () {
+      if (Object.keys(this.$route.query).length !== 0) {
+        this.search(this.$route.query);
       } else {
         if (this.$router.currentRoute.name == "suggestions") {
           this.showSuggestions();
@@ -180,34 +178,48 @@ export default {
         return "";
       }
     },
-    search() {
-      this.searchError = "";
-      this.searchString = this.searchString.trim();
-      if (this.searchString !== "") {
-        this.$router.push({query: { q: this.searchString }});
-        this.loading = true;
-        axios
-          .get(this.$backend + "search", { params: { q: this.searchString } })
-          .then(response => {
-            this.loading = false;
-            if (response.data.status == "success") {
-              this.results = response.data.data;
-              this.nHits = response.data.hits;
-              this.tableTitle = "Recept med '" + this.searchString + "'";
-            } else {
-              this.results = false;
-              this.tableTitle = "Recept med '" + this.searchString + "'";
-              console.error("Message from backend:", response.data.message);
-              this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
-            }
-          })
-          .catch(e => {
-            this.loading = false;
-            this.results = false;
-            console.error("Response from backend:", e.response);
-            this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
-          });
+    preSearch(searchFor) {
+      var queryParams = {};
+      if (searchFor == "string") {
+        this.searchString = this.searchString.trim();
+        if (this.searchString !== "") {
+          queryParams = { q: this.searchString };
+        } else {
+          return;
+        }
+      } else if (searchFor == "user") {
+        queryParams = { user: this.searchUser };
       }
+      this.$router.push({ query: queryParams });
+    },
+    search(queryParams) {
+      this.searchError = "";
+      this.loading = true;
+      axios
+        .get(this.$backend + "search", { params: queryParams })
+        .then(response => {
+          this.loading = false;
+          if (response.data.status == "success") {
+            this.results = response.data.data;
+            this.nHits = response.data.hits;
+            if (queryParams.user !== undefined) {
+              this.tableTitle = "Recept av " + queryParams.user;
+            } else {
+              this.tableTitle = "Recept med '" + queryParams.q + "'";
+            }
+          } else {
+            this.results = false;
+            this.tableTitle = "Recept med '" + this.searchString + "'";
+            console.error("Message from backend:", response.data.message);
+            this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
+          }
+        })
+        .catch(e => {
+          this.loading = false;
+          this.results = false;
+          console.error("Response from backend:", e.response);
+          this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
+        });
     },
   }
 };
