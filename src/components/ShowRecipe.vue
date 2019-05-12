@@ -38,7 +38,9 @@
 
       <p v-if="recipe.tags !== undefined && recipe.tags.length !== 0" class="recipe-tags">
         <span>Taggar: </span>
-        <span class="tag" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
+        <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
+          <span class="tag">{{ tag }}</span>
+        </router-link>
       </p>
 
 
