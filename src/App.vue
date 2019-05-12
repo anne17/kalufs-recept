@@ -67,8 +67,7 @@ h1 {
 }
 
 /*Category tags (bubbles)*/
-.tag,
-.tag-dark {
+.tag {
   /*      top right bottom left */
   margin: 0.3em 0.3em 0.3em 0;
   padding: 0em 0.3em 0em 0.3em;
@@ -77,16 +76,11 @@ h1 {
   border-style: solid;
   border-radius: 15px;
   display: inline-block;
-}
-.tag {
-  border-color: var(--light-contrast-color);
-  background: var(--light-contrast-color);
-}
-.tag-dark {
   color: white;
   border-color: var(--dark-accent-color);
   background: var(--dark-accent-color);
 }
+
 .tag-placeholder {
   border-color: unset;
   background: unset;

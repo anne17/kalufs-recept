@@ -66,7 +66,7 @@
                     </div>
                     <div class="tags-container row">
                       <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
-                        <span class="tag-dark">{{ tag }}</span>
+                        <span class="tag">{{ tag }}</span>
                       </router-link>
                       <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
                     </div>
