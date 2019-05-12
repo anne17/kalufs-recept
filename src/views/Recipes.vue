@@ -5,12 +5,28 @@
 
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
-        <div v-if="showPublished" class="input-group input-group-sm mb-3">
+        <div v-if="showPublished" class="sidebar-search input-group input-group-sm">
           <div class="search-icon input-group-prepend" @click="preSearch">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
           <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
         </div>
+
+        <div class="row">
+          &nbsp;
+        </div>
+
+        <div class="filter">
+          <div class="filter-category container" v-for="cat in tagStructureSimple" :key="cat.id">
+            <div class="filter-category-header row">
+              {{ cat.category }}
+            </div>
+            <router-link class="filter-tag row" v-for="tag in cat.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Filtrera på denna tagg">
+              {{ tag }}
+            </router-link>
+          </div>
+        </div>
+
       </div>
 
       <div class="col-lg-8 col-md-8 col-sm-12 middle">
@@ -88,7 +104,7 @@
 
 <!-- ####################################################################### -->
 <script>
-import { LoginMixin, axios } from "@/services.js";
+import { LoginMixin, TagMixin, axios } from "@/services.js";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 export default {
@@ -96,7 +112,7 @@ export default {
   components: {
     LoadingSpinner
   },
-  mixins: [LoginMixin],
+  mixins: [LoginMixin, TagMixin],
   data() {
     return {
       tableTitle: "",
@@ -224,6 +240,48 @@ export default {
 <style scoped>
 * {
   box-sizing: border-box;
+}
+
+.filter-category {
+  text-align: left;
+  margin-bottom: 0.5em;
+  padding: 0px;
+}
+.filter-category-header {
+  background: var(--light-accent-color);
+  border: 1px solid var(--light-accent-color);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0.3em 0.5em 0.3em 1em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.filter-category-header::before{
+  position: relative;
+  top: 9px;
+  right: 4px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #023F55;
+  content: "";
+  pointer-events: none;
+}
+.filter-tag {
+  background: var(--lighter-accent-color);
+  padding: 0.2em 0.5em 0.2em 1.5em;
+  font-weight: normal;
+  border: 1px solid var(--lighter-accent-color);
+  text-decoration: none;
+  color: unset;
+}
+.filter-tag:hover {
+  background: var(--light-accent-color);
+  border: 1px solid var(--light-accent-color);
+}
+.filter-category-header:last-child,
+.filter-tag:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .hits {

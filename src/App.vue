@@ -34,6 +34,8 @@ export default {
   --dark-accent-color: #3866bf;
   --light-accent-color: #a5c3f2;
   --lightish-accent-color: #77a7f5;
+  --lighter-accent-color: #c9dbf9;
+
   --light-contrast-color: #fff586;
   --warning-color: orange;
 

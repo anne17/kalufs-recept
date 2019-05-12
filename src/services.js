@@ -104,7 +104,7 @@ export const TagMixin = {
   },
   created() {
     this.getTagCategories();
-    this.getTagStructure();
+    // this.getTagStructure();
     this.getTagStructureSimple();
   },
   methods: {
