@@ -6,10 +6,10 @@
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
         <div v-if="showPublished" class="input-group input-group-sm mb-3">
-          <div class="search-icon input-group-prepend" @click="preSearch('string')">
+          <div class="search-icon input-group-prepend" @click="preSearch">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch('string')">
+          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
         </div>
       </div>
 
@@ -21,10 +21,10 @@
           <div class="menu row">
 
             <div v-if="showPublished" class="input-group input-group-sm mb-3 col-6">
-              <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch('string')">
+              <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
-              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch('string')">
+              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
             </div>
 
             <div v-if="!showPublished" class="unpublished-notice">
@@ -65,7 +65,9 @@
                       <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
                     </div>
                     <div class="tags-container row">
-                      <span class="tag-dark" v-for="tag in recipe.tags" :key="tag.id">{{ tag }}</span>
+                      <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
+                        <span class="tag-dark">{{ tag }}</span>
+                      </router-link>
                       <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
                     </div>
                   </div>
@@ -104,7 +106,6 @@ export default {
       loggedIn: false,
       loading: false,
       searchString: "",
-      searchUser: "",
       searchError: "",
       showPublished: true
     };
@@ -178,19 +179,11 @@ export default {
         return "";
       }
     },
-    preSearch(searchFor) {
-      var queryParams = {};
-      if (searchFor == "string") {
-        this.searchString = this.searchString.trim();
-        if (this.searchString !== "") {
-          queryParams = { q: this.searchString };
-        } else {
-          return;
-        }
-      } else if (searchFor == "user") {
-        queryParams = { user: this.searchUser };
+    preSearch() {
+      this.searchString = this.searchString.trim();
+      if (this.searchString !== "") {
+        this.$router.push({ query: { q: this.searchString } });
       }
-      this.$router.push({ query: queryParams });
     },
     search(queryParams) {
       this.searchError = "";
@@ -204,6 +197,8 @@ export default {
             this.nHits = response.data.hits;
             if (queryParams.user !== undefined) {
               this.tableTitle = "Recept av " + queryParams.user;
+            } else if (queryParams.tag !== undefined) {
+              this.tableTitle = "Recept med tagg " + queryParams.tag;
             } else {
               this.tableTitle = "Recept med '" + queryParams.q + "'";
             }
