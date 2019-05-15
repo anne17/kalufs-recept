@@ -18,12 +18,14 @@
 
         <div class="filter">
           <div class="filter-category container" v-for="cat in tagStructureSimple" :key="cat.id">
-            <div class="filter-category-header row">
+            <div class="filter-category-header row" :class="{'no-children': cat.tags.length == 0}" @click="toggleCategoryFilter(cat.category)" :id="cat.category">
               {{ cat.category }}
             </div>
-            <router-link class="filter-tag row" v-for="tag in cat.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Filtrera på denna tagg">
-              {{ tag }}
-            </router-link>
+            <div>
+              <div class="filter-tag row" v-for="tag in cat.tags" :key="tag.id" title="Filtrera på denna tagg" @click="clickTag(tag)">
+                <span :id="tag">{{ tag }}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -123,11 +125,13 @@ export default {
       loading: false,
       searchString: "",
       searchError: "",
-      showPublished: true
+      showPublished: true,
+      activeTags: []
     };
   },
   mounted() {
     document.body.style.overflowY = "auto";
+    this.updateTags();
     if (Object.keys(this.$route.query).length !== 0) {
       this.search(this.$route.query);
     } else {
@@ -143,6 +147,7 @@ export default {
   },
   watch: {
     "$route" () {
+      this.updateTags();
       if (Object.keys(this.$route.query).length !== 0) {
         this.search(this.$route.query);
       } else {
@@ -156,6 +161,30 @@ export default {
     }
   },
   methods: {
+    updateTags() {
+      // Update tag style in filter sidebar
+      if (this.$route.query.tag !== undefined) {
+        this.activeTags = this.$route.query.tag.split(",");
+      } else {
+        this.activeTags = [];
+      }
+      for (var i in this.tagList) {
+        if (this.activeTags.includes(this.tagList[i])) {
+          document.getElementById(this.tagList[i]).classList.add("tag");
+        } else {
+          document.getElementById(this.tagList[i]).classList.remove("tag");
+        }
+      }
+    },
+    toggleCategoryFilter(category) {
+      // Displays or hides the tags belonging to a category in a filter
+      document.getElementById(category).nextSibling.classList.toggle("hidden");
+      document.getElementById(category).classList.toggle("tags-hidden");
+      document.getElementById(category).classList.toggle("closed");
+    },
+    clickTag(tag) {
+      this.$router.push({ name: "recipes", query: {tag: tag}});
+    },
     showSuggestions() {
       this.showPublished = false;
       this.defaultTableTitle = "Alla förslag";
@@ -255,16 +284,38 @@ export default {
   padding: 0.3em 0.5em 0.3em 1em;
   font-weight: 500;
   text-transform: uppercase;
+  cursor: pointer;
 }
 .filter-category-header::before{
   position: relative;
-  top: 9px;
+  top: 10px;
   right: 4px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid #023F55;
   content: "";
   pointer-events: none;
+}
+.filter-category-header.closed::before{
+  position: relative;
+  top: 6px;
+  right: 4px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid #023F55;
+  content: "";
+  pointer-events: none;
+  height: 0;
+}
+.filter-category-header.tags-hidden,
+.filter-category-header.no-children
+ {
+  border: 1px solid var(--light-accent-color);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.filter-category-header.no-children {
+  cursor: auto;
 }
 .filter-tag {
   background: var(--lighter-accent-color);
@@ -273,6 +324,7 @@ export default {
   border: 1px solid var(--lighter-accent-color);
   text-decoration: none;
   color: unset;
+  cursor: pointer;
 }
 .filter-tag:hover {
   background: var(--light-accent-color);
@@ -282,6 +334,10 @@ export default {
 .filter-tag:last-child {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.hidden {
+  display: none;
 }
 
 .hits {
@@ -384,6 +440,9 @@ export default {
   text-align: left;
 }
 
+.title{
+  padding-bottom: 0.3em;
+}
 .title:hover {
   text-decoration: underline;
 }

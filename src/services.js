@@ -99,7 +99,8 @@ export const TagMixin = {
     return {
       tagCateogires: [],
       tagStructure: [],
-      tagStructureSimple: []
+      tagStructureSimple: [],
+      tagList: []
     };
   },
   created() {
@@ -141,8 +142,13 @@ export const TagMixin = {
         .get(this.$backend + "get_tag_structure_simple")
         .then(response => {
           if (response.data.status == "success"){
+            var tagCounter = 0;
             for (var i in response.data.data) {
               Vue.set(this.tagStructureSimple, i, response.data.data[i]);
+              for (var j in response.data.data[i].tags) {
+                Vue.set(this.tagList, tagCounter, response.data.data[i].tags[j]);
+                tagCounter++;
+              }
             }
           }
         })
