@@ -171,8 +171,10 @@ export default {
       for (var i in this.tagList) {
         if (this.activeTags.includes(this.tagList[i])) {
           document.getElementById(this.tagList[i]).classList.add("tag");
+          document.getElementById(this.tagList[i]).parentElement.classList.add("active-tag");
         } else {
           document.getElementById(this.tagList[i]).classList.remove("tag");
+          document.getElementById(this.tagList[i]).parentElement.classList.remove("active-tag");
         }
       }
     },
@@ -183,7 +185,13 @@ export default {
       document.getElementById(category).classList.toggle("closed");
     },
     clickTag(tag) {
-      this.$router.push({ name: "recipes", query: {tag: tag}});
+      if (!this.activeTags.includes(tag)) {
+        this.activeTags.push(tag);
+        this.$router.push({ name: "recipes", query: {tag: tag}});
+      } else {
+        this.activeTags.pop(this.activeTags.indexOf(tag));
+        this.$router.push({ name: "recipes" });
+      }
     },
     showSuggestions() {
       this.showPublished = false;
@@ -334,6 +342,11 @@ export default {
 .filter-tag:last-child {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+.active-tag:hover::after {
+  position: absolute;
+  content: "\00d7";
+  right: 25px;
 }
 
 .hidden {
