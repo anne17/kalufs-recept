@@ -3,9 +3,7 @@
     <h2 class="errormsg" v-if="isError">Kan inte hitta receptet!</h2>
 
     <div class="theRecipe" v-if="!isError">
-      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
-        <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
-      </div>
+      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
 
       <h2 v-html="recipe.title" class="recipe-title"></h2>
 
@@ -123,7 +121,7 @@ export default {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
         return this.$backend + recipe_data.image;
       } else {
-        return "";
+        return this.$defaultimg;
       }
     },
     isUrl(s) {

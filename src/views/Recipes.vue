@@ -12,8 +12,11 @@
           <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
         </div>
 
+        <!-- Placeholder - level filter height with height of recipe list -->
         <div class="row">
-          &nbsp;
+          <div v-if="!loggedIn" class="mb-3">
+          </div>
+          <span v-if="loggedIn">&nbsp;</span>
         </div>
 
         <div class="filter">
@@ -75,9 +78,7 @@
 
             <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
               <div class="row">
-                  <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
-                    <img class="default-img" v-if="!recipe.image" :src="$defaultimg">
-                  </div>
+                  <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
                   <div class="text-container container col-8">
                     <div class="row title">
                       <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
@@ -229,7 +230,7 @@ export default {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
         return this.$backend + recipe_data.image;
       } else {
-        return "";
+        return this.$defaultimg;
       }
     },
     preSearch() {
