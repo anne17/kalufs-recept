@@ -95,6 +95,9 @@
           <div class="col-sm-10">
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" title="" @change="handleFileUpload(); unsaved=true">
+              <div v-if="hasImage" class="image-removal" @click="removeImage" title="Ta bort bild">
+                <i class="far fa-trash-alt"></i>
+              </div>
               <label class="custom-file-label" for="image">
                 {{ fileBrowseLabel }}
               </label>
@@ -248,6 +251,7 @@ export default {
       nameError: false,
       parsablePages: [],
       fileBrowseLabel: "Välj fil...",
+      hasImage: false,
       previewActive: false,
       preview: Object,
       heading: {
@@ -340,6 +344,7 @@ export default {
               // Replace the "Choose a file" label if there is an image
               if (this.form.image) {
                 this.fileBrowseLabel = this.form.image;
+                this.hasImage = true;
               }
             } else {
               console.error("Response from backend:", response.data);
@@ -415,6 +420,7 @@ export default {
             // Replace the "Choose a file" label if there is an image
             if (this.form.image) {
               this.fileBrowseLabel = this.form.image;
+              this.hasImage = true;
             }
           } else {
             console.error("Response from backend:", response.data);
@@ -429,6 +435,12 @@ export default {
       this.form.image = this.$refs.image.files[0];
       // Replace the "Choose a file" label
       this.fileBrowseLabel = this.form.image.name;
+      this.hasImage = true;
+    },
+    removeImage() {
+      this.fileBrowseLabel = "Välj fil...";
+      this.form.image = "";
+      this.hasImage = false;
     },
     closeDropdown() {
       this.showDropdown = false;
@@ -644,6 +656,32 @@ textarea::placeholder {
 
 .custom-file-input ~ .custom-file-label::after {
   content: "Blä" "ddra";
+}
+.image-removal {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  display: block;
+  height: 100%;
+  padding: .375rem .75rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #e9ecef;
+  border-right: 1px solid #ced4da;
+  border-top: 1px solid #ced4da;
+  border-bottom: 1px solid #ced4da;
+  border-left: 1px solid #ced4da;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.custom-file-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tags div {
