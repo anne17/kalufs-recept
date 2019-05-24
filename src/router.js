@@ -35,7 +35,10 @@ const router = new Router({
       path: "/suggest",
       name: "suggest",
       component: EditRecipe,
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true,
+        allowGuest: true
+      }
     },
     {
       path: "/view/:title",
