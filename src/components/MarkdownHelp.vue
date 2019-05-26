@@ -3,48 +3,40 @@
     <h1>Markdown-hjälp</h1>
 
     <p>
-      <strong>Kursiv stil:</strong><br>
+      <strong>Listor:</strong><br>
       <ul>
-        <li>*single asterisks*</li>
+        <li>* röd</li>
+        <li>* grön</li>
+        <li>* blå</li>
+      </ul>
+      <ul>
+        <li>1. röd</li>
+        <li>2. grön</li>
+        <li>3. blå</li>
       </ul>
     </p>
     <p>
       <strong>Fet stil:</strong><br>
       <ul>
-        <li>**double asterisks**</li>
+        <li>**dubbla stjärnor**</li>
       </ul>
     </p>
     <p>
-      <strong>Rubriker:</strong><br>
+      <strong>Kursiv stil:</strong><br>
       <ul>
-        <li># This is an H1</li>
-        <li>## This is an H2</li>
-        <li>### This is an H3</li>
-      </ul>
-    </p>
-    <p>
-      <strong>Listor:</strong><br>
-      <ul>
-        <li>* Red</li>
-        <li>* Green</li>
-        <li>* Blue</li>
-      </ul>
-      <ul>
-        <li>1. Red</li>
-        <li>2. Green</li>
-        <li>3. Blue</li>
+        <li>*enkla stjärnor*</li>
       </ul>
     </p>
     <p>
       <strong>Länkar:</strong><br>
       <ul>
-        <li>[Example link](http://example.com)</li>
+        <li>[Exempellänk](https://exempel.se)</li>
       </ul>
     </p>
 
-    <p class="documentation">
+    <!-- <p class="documentation">
       <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown-dokumentation</a>
-    </p>
+    </p> -->
   </div>
 </template>
 

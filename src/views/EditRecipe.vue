@@ -728,7 +728,7 @@ textarea::placeholder {
 }
 
 .right {
-  padding-top: 20vh;
+  padding-top: 30vh;
   padding-right: 0;
 }
 </style>
