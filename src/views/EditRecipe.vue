@@ -28,7 +28,7 @@
           {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
         </h1>
 
-        <div class="form-group row">
+        <div class="form-group row" ref="getRecipe">
           <label class="col-sm-2 col-form-label">
             Hämta från URL
             <span class="url-tooltip" v-popover:urlTooltip>
@@ -126,7 +126,7 @@
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" ref="source">
           <label for="source" class="col-sm-2 col-form-label">
             Källa
           </label>
@@ -489,11 +489,11 @@ export default {
     },
     validateForm() {
       if (!this.validateTitle()) {
-        this.$nextTick(() => this.$refs.title.scrollIntoView());
+        this.$nextTick(() => this.$refs.getRecipe.scrollIntoView());
         return false;
       }
       if (this.suggestion && !this.validateName()) {
-        this.$nextTick(() => this.$refs.title.scrollIntoView());
+        this.$nextTick(() => this.$refs.source.scrollIntoView());
         return false;
       }
       return true;
@@ -543,7 +543,7 @@ export default {
           else {
             console.error("Response from backend:", e.response);
             this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :(";
-            this.$nextTick(() => this.$refs.saveErrorBox.scrollIntoView());
+            this.$nextTick(() => this.$refs.source.scrollIntoView());
           }
         });
     },
