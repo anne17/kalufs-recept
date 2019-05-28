@@ -34,7 +34,7 @@
 
       </div>
 
-      <div class="col-lg-8 col-md-8 col-sm-12 middle">
+      <div class="col-lg-8 col-md-10 col-sm-12 middle">
         <h1>
           {{ tableTitle }} <span class="hits" v-if="nHits!==-1"> ({{ nHits }})</span>
         </h1>
@@ -335,6 +335,10 @@ export default {
   color: unset;
   cursor: pointer;
 }
+.filter-tag span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .filter-tag:hover {
   background: var(--light-accent-color);
   border: 1px solid var(--light-accent-color);
@@ -440,7 +444,6 @@ export default {
   display: flex;
   align-items: center;
   background-color: var(--lightish-accent-color);
-  /* background-color: blue; */
 }
 
 .default-img {
@@ -470,5 +473,9 @@ export default {
 }
 .mini-edit-menu i:hover {
   color: black;
+}
+
+@media only screen and (min-width : 1200px) {
+    .recipes { max-width: 1400px; }
 }
 </style>
