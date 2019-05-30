@@ -59,6 +59,9 @@ export const LoginMixin = {
           this.admin = false;
         }
       } else {
+        if (this.$route.name == "edit" || this.$route.name == "suggest") {
+          this.$router.push({ name: "recipes"});
+        }
         this.setAllLogout();
       }
     },
