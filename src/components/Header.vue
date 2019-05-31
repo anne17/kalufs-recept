@@ -13,7 +13,7 @@
           </div>
           <!-- middle column -->
           <div class="col-8 header-img-container">
-            <router-link to="/" class="logo">
+            <router-link to="/" class="logo" title="Visa alla recept">
               <span>kalufs. </span>
               <img alt="Plate" src="../assets/plate-fork-and-knife_white.png">
               <span> /recept</span>
@@ -38,7 +38,7 @@
         </div>
         <!-- middle column -->
         <div class="col-8 header-img-container">
-          <router-link to="/" class="logo">
+          <router-link to="/" class="logo" title="Visa alla recept">
             <span>kalufs. </span>
             <img alt="Plate" src="../assets/plate-fork-and-knife_white.png">
             <span> /recept</span>
