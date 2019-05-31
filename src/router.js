@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Recipes from "./views/Recipes.vue";
-import EditRecipe from "./views/EditRecipe.vue";
-import ViewRecipe from "./views/ViewRecipe.vue";
+const Recipes = () => import("./views/Recipes.vue");
+const EditRecipe = () => import("./views/EditRecipe.vue");
+const ViewRecipe = () => import("./views/ViewRecipe.vue");
 import { axios } from "./services.js";
 
 Vue.use(Router);
