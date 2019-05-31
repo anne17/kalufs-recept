@@ -188,10 +188,14 @@ export default {
     clickTag(tag) {
       if (!this.activeTags.includes(tag)) {
         this.activeTags.push(tag);
-        this.$router.push({ name: "recipes", query: {tag: tag}});
+        this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")} });
       } else {
-        this.activeTags.pop(this.activeTags.indexOf(tag));
-        this.$router.push({ name: "recipes" });
+        this.activeTags.splice(this.activeTags.indexOf(tag), 1);
+        if (this.activeTags.length == 0) {
+          this.$router.push({ name: "recipes"});
+        } else {
+          this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")} });
+        }
       }
     },
     showSuggestions() {
@@ -252,7 +256,11 @@ export default {
             if (queryParams.user !== undefined) {
               this.tableTitle = "Recept av " + queryParams.user;
             } else if (queryParams.tag !== undefined) {
-              this.tableTitle = "Recept med tagg " + queryParams.tag;
+              if (this.activeTags.length > 1) {
+                this.tableTitle = "Recept med följande taggar: " + this.activeTags.join(", ");
+              } else {
+                this.tableTitle = "Recept med tagg " + queryParams.tag;
+              }
             } else {
               this.tableTitle = "Recept med '" + queryParams.q + "'";
             }
