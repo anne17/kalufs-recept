@@ -109,7 +109,6 @@ export const TagMixin = {
   created() {
     this.getTagCategories();
     // this.getTagStructure();
-    this.getTagStructureSimple();
   },
   methods: {
     getTagCategories() {
@@ -141,7 +140,7 @@ export const TagMixin = {
         });
     },
     getTagStructureSimple() {
-      axios
+      return axios
         .get(this.$backend + "get_tag_structure_simple")
         .then(response => {
           if (response.data.status == "success"){

@@ -132,7 +132,10 @@ export default {
   },
   mounted() {
     document.body.style.overflowY = "auto";
-    this.updateTags();
+    this.getTagStructureSimple()
+      .then( () => {
+        this.updateTags();
+      });
     if (Object.keys(this.$route.query).length !== 0) {
       this.search(this.$route.query);
     } else {
