@@ -3,8 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import Popover from "vue-js-popover";
 import Vue2TouchEvents from "vue2-touch-events";
-import moment from "moment";
-import Multiselect from "vue-multiselect";
+const moment = () => import("moment");
+const Multiselect = () => import("vue-multiselect");
+
 
 Vue.use(Popover);
 Vue.use(Vue2TouchEvents);
