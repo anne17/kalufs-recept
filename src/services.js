@@ -100,7 +100,7 @@ export const TagMixin = {
   // Provides functionality for getting tags and categories from the backend
   data() {
     return {
-      tagCateogires: [],
+      tagCategories: [],
       tagStructure: [],
       tagStructureSimple: [],
       tagList: []
@@ -108,7 +108,6 @@ export const TagMixin = {
   },
   created() {
     this.getTagCategories();
-    // this.getTagStructure();
   },
   methods: {
     getTagCategories() {
@@ -117,7 +116,7 @@ export const TagMixin = {
         .then(response => {
           if (response.data.status == "success"){
             for (var i in response.data.data) {
-              Vue.set(this.tagCateogires, i, response.data.data[i]);
+              Vue.set(this.tagCategories, i, response.data.data[i]);
             }
           }
         })

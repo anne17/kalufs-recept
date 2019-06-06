@@ -4,7 +4,7 @@
     <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
     <ConfirmDialog v-if="showLeaveConfirm" :message="confirmLeaveMsg" :confirmButton="'Lämna'" :abortButton="'Stanna'" @close="next(false); showLeaveConfirm=false" @confirm="next()"/>
     <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" :showCancel=false @close="$router.push('/')" @confirm="$router.push('/')"/>
-    <DropdownDialog v-if="showDropdown" :tag="newTag" :categories="tagCateogires" :defaultCat="tagCateogires[0]" @close="closeDropdown" @confirm="addTag"/>
+    <DropdownDialog v-if="showDropdown" :tag="newTag" :categories="tagCategories" :defaultCat="tagCategories[0]" @close="closeDropdown" @confirm="addTag"/>
     <LoadingSpinner :loading="loading"/>
 
     <popover name="urlTooltip" class="url-popover">
@@ -299,6 +299,7 @@ export default {
       this.suggestion = false;
     }
     this.get_parsable_pages();
+    this.getTagStructureSimple();
   },
   beforeRouteLeave (to, from, next) {
     if (this.unsaved) {
