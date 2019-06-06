@@ -11,28 +11,28 @@
             <div class="message"> {{ message }} </div>
 
               <div v-if="showCancel" class="row">
-                <div class="col-2"/>
+                <div class="col-1"/>
 
-                <div class="col-4">
+                <div class="col-5">
                   <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
-                    Ok
+                    {{ confirmButton }}
                   </button>
                 </div>
 
-                <div class="col-4">
+                <div class="col-5">
                   <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('close')">
-                    Avbryt
+                    {{ abortButton }}
                   </button>
                 </div>
 
-                <div class="col-2"/>
+                <div class="col-1"/>
               </div>
 
               <div v-if="!showCancel" class="row">
                 <div class="col-4"/>
                 <div class="col-4">
                   <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
-                    Ok
+                    {{ confirmButton }}
                   </button>
                 </div>
                 <div class="col-4"/>
@@ -56,6 +56,14 @@ export default {
     showCancel: {
       type: Boolean,
       default: true
+    },
+    confirmButton: {
+      type: String,
+      default: "Ok"
+    },
+    abortButton: {
+      type: String,
+      default: "Avbryt"
     }
   },
   created() {

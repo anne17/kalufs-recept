@@ -2,7 +2,7 @@
   <div class="edit container">
 
     <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
-    <ConfirmDialog v-if="showLeaveConfirm" :message="confirmLeaveMsg" @close="next(false); showLeaveConfirm=false" @confirm="next()"/>
+    <ConfirmDialog v-if="showLeaveConfirm" :message="confirmLeaveMsg" :confirmButton="'Lämna'" :abortButton="'Stanna'" @close="next(false); showLeaveConfirm=false" @confirm="next()"/>
     <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" :showCancel=false @close="$router.push('/')" @confirm="$router.push('/')"/>
     <DropdownDialog v-if="showDropdown" :tag="newTag" :categories="tagCateogires" :defaultCat="tagCateogires[0]" @close="closeDropdown" @confirm="addTag"/>
     <LoadingSpinner :loading="loading"/>
