@@ -78,6 +78,8 @@
 
 <!-- ####################################################################### -->
 <script>
+import moment from "moment";
+
 export default {
   name: "ShowRecipe",
   props: {
@@ -138,7 +140,7 @@ export default {
       }
     },
     convertDatetime(datetime) {
-      return this.$moment(datetime, "ddd, DD MMM YYYY hh:mm:ss").locale("sv").format("DD MMM YYYY, HH:mm");
+      return moment(datetime, "ddd, DD MMM YYYY hh:mm:ss").locale("sv").format("DD MMM YYYY, HH:mm");
     }
   }
 };

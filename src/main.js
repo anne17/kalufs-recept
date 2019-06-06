@@ -3,7 +3,6 @@ import App from "./App.vue";
 import router from "./router";
 import Popover from "vue-js-popover";
 import Vue2TouchEvents from "vue2-touch-events";
-const moment = () => import("moment");
 const Multiselect = () => import("vue-multiselect");
 
 
@@ -12,7 +11,6 @@ Vue.use(Vue2TouchEvents);
 Vue.component("multiselect", Multiselect);
 Vue.use(Multiselect);
 
-Vue.prototype.$moment = moment;
 
 Vue.config.productionTip = false;
 Vue.prototype.$backend =
