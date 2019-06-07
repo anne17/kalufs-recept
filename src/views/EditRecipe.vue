@@ -1,6 +1,8 @@
 <template>
   <div class="edit container">
 
+    <div v-if="tagChooserActive" class="overlay" @click="closeTagChooser()"></div>
+
     <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
     <ConfirmDialog v-if="showLeaveConfirm" :message="confirmLeaveMsg" :confirmButton="'Lämna'" :abortButton="'Stanna'" @close="next(false); showLeaveConfirm=false" @confirm="next()"/>
     <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" :showCancel=false @close="$router.push('/')" @confirm="$router.push('/')"/>
@@ -110,7 +112,7 @@
             Taggar
           </label>
           <div class="col-sm-10 tags" id="tags">
-            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @tag="chooseCat" @change="unsaved=true">
+            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @tag="chooseCat" @change="unsaved=true">
             </multiselect>
           </div>
         </div>
@@ -120,7 +122,7 @@
             Taggar
           </label>
           <div class="col-sm-10 tags" id="tags-suggest">
-            <multiselect v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @change="unsaved=true">
+            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @change="unsaved=true">
               <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
             </multiselect>
           </div>
@@ -131,7 +133,7 @@
             Källa
           </label>
           <div class="col-sm-10">
-            <input class="form-control" type="url" placeholder="https://example.com" id="source" v-model="form.source" @input="unsaved=true">
+            <input class="form-control" type="text" placeholder="https://example.com" id="source" v-model="form.source" @input="unsaved=true">
           </div>
         </div>
 
@@ -238,6 +240,7 @@ export default {
       showConfirm: false,
       showLeaveConfirm: false,
       confirmLeaveMsg: "Du har inte sparat än. Vill du verkligen lämna den här sidan?",
+      tagChooserActive: false,
       showDropdown: false,
       newTag: "",
       confirmDeleteMsg: "Ta bort det här receptet?",
@@ -300,6 +303,14 @@ export default {
     }
     this.get_parsable_pages();
     this.getTagStructureSimple();
+
+    // Close tagChooser on esc
+    document.onkeydown = evt => {
+      evt = evt || window.event;
+      if (evt.keyCode == 27) {
+        this.tagChooserActive = false;
+      }
+    };
   },
   beforeRouteLeave (to, from, next) {
     if (this.unsaved) {
@@ -442,6 +453,12 @@ export default {
       this.fileBrowseLabel = "Välj fil...";
       this.form.image = "";
       this.hasImage = false;
+    },
+    openTagChooser() {
+      this.tagChooserActive = true;
+    },
+    closeTagChooser() {
+      this.tagChooserActive = false;
     },
     closeDropdown() {
       this.showDropdown = false;
@@ -615,6 +632,18 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
+.overlay {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 9980;
+}
+
+
 .url-popover ul {
   text-align: left;
 }
@@ -687,6 +716,7 @@ textarea::placeholder {
 
 .tags div {
   float: left;
+  z-index: 9990;
 }
 
 .force-scroll {
