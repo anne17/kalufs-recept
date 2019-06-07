@@ -1,6 +1,6 @@
 <template>
   <div class="confirm">
-    <div id="grayout" @click="$emit('close')"></div>
+    <div class="overlay" @click="$emit('close')"></div>
 
     <div id="ConfirmModal">
       <div class="modal-dialog modal-confirm">
@@ -67,7 +67,7 @@ export default {
 
 <style scoped>
 /* Gray out background when window opens */
-#grayout {
+.overlay {
   position: fixed;
   left: 0px;
   top: 0px;

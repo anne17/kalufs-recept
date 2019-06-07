@@ -1,7 +1,7 @@
 <template>
   <div class="login">
 
-    <div id="grayout" @click="$emit('close')"></div>
+    <div class="overlay" @click="$emit('close')"></div>
 
     <div id="LoginModal">
       <div class="modal-dialog modal-login">
@@ -101,7 +101,7 @@ export default {
 
 <style scoped>
 /* Gray out background when login window opens */
-#grayout {
+.overlay {
   position: fixed;
   left: 0px;
   top: 0px;

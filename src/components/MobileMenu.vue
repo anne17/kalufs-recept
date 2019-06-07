@@ -1,6 +1,6 @@
 <template>
   <div class="sideBarScreen">
-    <div id="grayout" v-if="!hideSideBar" @click="closeHandler"></div>
+    <div class="overlay" v-if="!hideSideBar" @click="closeHandler"></div>
 
     <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}" v-touch:swipe.right="closeHandler" v-touch:swipe.left="openHandler">
 
@@ -77,7 +77,7 @@ export default {
   overflow: hidden;
 }
 
-#grayout {
+.overlay {
   position: fixed;
   left: 0px;
   top: 0px;
