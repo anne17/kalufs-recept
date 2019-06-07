@@ -476,7 +476,7 @@ export default {
     addTag(newCat) {
       this.showDropdown = false;
       document.body.style.overflowY = "auto";
-      var index = this.tagCateogires.indexOf(newCat);
+      var index = this.tagCategories.indexOf(newCat);
       this.tagStructureSimple[index].tags.push(this.newTag);
       this.form.tags.push(this.newTag);
       // Save parent category for tag
