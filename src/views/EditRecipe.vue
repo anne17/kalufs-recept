@@ -389,6 +389,7 @@ export default {
     },
     getPreview() {
       this.saveError = "";
+      this.loading = true;
       this.previewActive = false;
       this.valid = this.validateForm();
       if (!this.valid) {
@@ -399,6 +400,7 @@ export default {
         axios
           .post(this.$backend + "preview_data", this.formData)
           .then(response => {
+            this.loading = false;
             if (response.data.status == "success") {
               this.previewActive = true;
               this.preview = response.data.data;
@@ -409,6 +411,7 @@ export default {
             }
           })
           .catch(e => {
+            this.loading = false;
             console.error("Response from backend:", e);
             this.previewActive = false;
           });
