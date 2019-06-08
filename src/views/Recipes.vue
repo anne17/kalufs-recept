@@ -20,6 +20,12 @@
         </div>
 
         <div class="filter">
+          <router-link class="filter-reset" to="/" title="Visa alla recept">
+            <i class="fas fa-filter"></i>
+            <span>
+              Rensa filter
+            </span>
+          </router-link>
           <div class="filter-category container" v-for="cat in tagStructureSimple" :key="cat.id">
             <div class="filter-category-header row" :class="{'no-children': cat.tags.length == 0}" @click="toggleCategoryFilter(cat.category)" :id="cat.category">
               {{ cat.category }}
@@ -260,7 +266,7 @@ export default {
               this.tableTitle = "Recept av " + queryParams.user;
             } else if (queryParams.tag !== undefined) {
               if (this.activeTags.length > 1) {
-                this.tableTitle = "Recept med följande taggar: " + this.activeTags.join(", ");
+                this.tableTitle = "Recept med taggar " + this.activeTags.join(", ");
               } else {
                 this.tableTitle = "Recept med tagg " + queryParams.tag;
               }
@@ -291,6 +297,32 @@ export default {
   box-sizing: border-box;
 }
 
+.filter-reset {
+  display: block;
+  text-align: left;
+  background: var(--light-accent-color);
+  padding: 0.3em 0.5em 0.3em 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid var(--light-accent-color);
+  border-radius: 5px;
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+.filter-reset:hover {
+  color: black;
+}
+i.fas.fa-filter {
+    position: relative;
+}
+i.fas.fa-filter::after {
+    content: "⨯";
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+}
 .filter-category {
   text-align: left;
   margin-bottom: 0.5em;
