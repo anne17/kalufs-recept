@@ -56,7 +56,7 @@
             *Receptnamn
           </label>
           <div class="col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" ref="title" v-model="form.title" @change="validateTitle()" @input="unsaved=true" required="required" title="">
+            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" ref="title" v-model="form.title" @change="validateTitle()" @input="modInput()" required="required" title="">
             <div class="invalid-feedback">
               Du måste ange ett unikt receptnamn!
             </div>
@@ -68,7 +68,7 @@
             Portioner
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="portions" v-model="form.portions_text" @input="unsaved=true">
+            <input class="form-control" type="text" id="portions" v-model="form.portions_text" @input="modInput()">
           </div>
         </div>
 
@@ -77,7 +77,7 @@
             Ingredienser
           </label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients" @input="unsaved=true"></textarea>
+            <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients" @input="modInput()"></textarea>
           </div>
         </div>
 
@@ -86,7 +86,7 @@
             Beskrivning
           </label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents" @input="unsaved=true"></textarea>
+            <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents" @input="modInput()"></textarea>
           </div>
         </div>
 
@@ -96,7 +96,7 @@
           </label>
           <div class="col-sm-10">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" title="" @change="handleFileUpload(); unsaved=true">
+              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" title="" @change="handleFileUpload(); modInput()">
               <div v-if="hasImage" class="image-removal" @click="removeImage" title="Ta bort bild">
                 <i class="far fa-trash-alt"></i>
               </div>
@@ -112,7 +112,7 @@
             Taggar
           </label>
           <div class="col-sm-10 tags" id="tags">
-            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @tag="chooseCat" @change="unsaved=true">
+            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @tag="chooseCat" @change="modInput()">
             </multiselect>
           </div>
         </div>
@@ -122,7 +122,7 @@
             Taggar
           </label>
           <div class="col-sm-10 tags" id="tags-suggest">
-            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @change="unsaved=true">
+            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @change="modInput()">
               <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
             </multiselect>
           </div>
@@ -133,7 +133,7 @@
             Källa
           </label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="https://example.com" id="source" v-model="form.source" @input="unsaved=true">
+            <input class="form-control" type="text" placeholder="https://example.com" id="source" v-model="form.source" @input="modInput()">
           </div>
         </div>
 
@@ -142,7 +142,7 @@
             *Ditt namn
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" ref="suggestor" v-model="form.suggestor" required="required" @change="validateName()" @input="unsaved=true" v-bind:class="{ 'is-invalid': nameError }">
+            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" ref="suggestor" v-model="form.suggestor" required="required" @change="validateName()" @input="modInput()" v-bind:class="{ 'is-invalid': nameError }">
             <div class="invalid-feedback">
               Du måste ange ditt namn!
             </div>
@@ -154,7 +154,7 @@
             Föreslagit av
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="suggestor" ref="suggestor" v-model="form.suggestor" @input="unsaved=true">
+            <input class="form-control" type="text" id="suggestor" ref="suggestor" v-model="form.suggestor" @input="modInput()">
           </div>
         </div>
 
@@ -481,6 +481,10 @@ export default {
       this.form.tags.push(this.newTag);
       // Save parent category for tag
       this.form.tagsParents[this.newTag] = newCat;
+    },
+    modInput() {
+      this.unsaved = true;
+      this.previewActive = false;
     },
     validateUrl() {
       if (this.url == "") {
