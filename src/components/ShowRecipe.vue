@@ -17,7 +17,7 @@
           <i class="fas fa-pencil-alt"></i>
         </router-link>
       </div>
-      <div class="info-button" v-if="!showMeta && !preview">
+      <div class="info-button" v-if="!preview">
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </div>
 
@@ -131,7 +131,7 @@ export default {
       return this.regexp.test(s);
     },
     displayMetadata() {
-      this.showMeta =! this.showMeta;
+      this.showMeta = true;
       this.$nextTick(() => this.$refs.metaData.scrollIntoView());
     },
     getUsername(user) {
