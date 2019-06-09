@@ -241,9 +241,9 @@ export default {
     },
     getImgUrl(recipe_data) {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
-        return this.$backend + recipe_data.image;
+        return this.$backend + "thumbnail/" + recipe_data.id;
       } else {
-        return this.$defaultimg;
+        return this.$defaultthumb;
       }
     },
     preSearch() {

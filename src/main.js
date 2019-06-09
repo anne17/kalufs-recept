@@ -19,6 +19,7 @@ Vue.prototype.$backend =
     : "http://0.0.0.0:9005/";
 
 Vue.prototype.$defaultimg = Vue.prototype.$backend + "defaultimg";
+Vue.prototype.$defaultthumb = Vue.prototype.$backend + "defaultthumb";
 
 global.Vue = Vue;
 
