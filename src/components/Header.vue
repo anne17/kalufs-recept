@@ -1,12 +1,23 @@
 <template>
-  <div class="header">
+  <div>
 
     <Login v-if="!hideLogin" @close="closeLogin"/>
     <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" :admin="admin" :hasSuggestions="hasSuggestions" :nSuggestions="nSuggestions" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
 
+    <!-- Header when printing -->
+    <header id="print-header" class="container header">
+      <div class="row justify-content-center">
+        <div class="header-img-container">
+          <span>kalufs. </span>
+          <img alt="Plate" src="../assets/plate-fork-and-knife_black.png">
+          <span> /recept</span>
+        </div>
+      </div>
+    </header>
+
     <!-- Use headroom on narrow screens -->
-    <headroom class="headroom d-lg-none">
-      <header id="header" class="container">
+    <headroom id="mobile-header" class="headroom d-lg-none">
+      <header class="container header">
         <div class="row">
           <!-- left column -->
           <div class="col-2">
@@ -31,7 +42,7 @@
     </headroom>
 
     <!-- No headroom on large screens -->
-    <header id="header" class="container d-none d-lg-block lg-screen-header">
+    <header id="header" class="container d-none d-lg-block lg-screen-header header">
       <div class="row">
         <!-- left column -->
         <div class="col-2">
@@ -171,7 +182,7 @@ export default {
 
 <style scoped>
 
-#header {
+.header {
   background-color: var(--dark-accent-color);
   max-width: 100%;
   height: 50px;
@@ -179,7 +190,11 @@ export default {
   padding-left: calc(100vw - 100%);
 }
 
-#header .row {
+#print-header {
+  display: none;
+}
+
+.header .row {
   height: 100%;
 }
 
@@ -204,7 +219,7 @@ export default {
   height: 93%;
 }
 
-#header .logo {
+.header .logo {
   font-family: "Indie Flower", cursive;
   text-decoration: none;
   font-weight: bold;
@@ -251,5 +266,25 @@ export default {
   font-size: 1.3em;
   position: relative;
   top: 2px;
+}
+
+@media print {
+  .login-status,
+  .burger,
+  #header,
+  #mobile-header {
+    display: none !important;
+  }
+  #print-header {
+    display: block;
+    background-color: transparent;
+    color: var(--standard-font-color);
+    margin-top: 20px;
+    font-size: 1.3rem;
+  }
+  #print-header img {
+    height: 50% !important;
+  }
+
 }
 </style>

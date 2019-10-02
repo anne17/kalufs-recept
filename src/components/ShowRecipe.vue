@@ -21,6 +21,10 @@
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </div>
 
+      <div class="print-img-container">
+        <img :src="getImgUrl(recipe)"/>
+      </div>
+
       <div class="ingredients">
         <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
         <p v-if="recipe.portions_text" class="portions">
@@ -183,6 +187,9 @@ export default {
   overflow: hidden;
   align-items: center;
 }
+.print-img-container {
+  display: none;
+}
 
 .default-img {
   margin-right: auto;
@@ -247,5 +254,24 @@ h2 {
 
 .user-link {
   color: var(--standard-font-color);
+}
+
+@media print {
+  .mini-edit-menu,
+  .info-button,
+  .img-container,
+  .recipe-tags {
+    display: none;
+  }
+  .print-img-container {
+    display: inline-block;
+    float: right;
+    margin-right: 15%;
+    margin-top: 5%;
+    max-width: 40%;
+  }
+  .print-img-container img {
+    width: 100%;
+  }
 }
 </style>

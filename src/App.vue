@@ -123,4 +123,9 @@ h1 {
   }
 } */
 
+@media print {
+  html, body {
+    background-color: transparent;
+  }
+}
 </style>
