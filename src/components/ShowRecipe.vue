@@ -39,7 +39,6 @@
       </div>
 
       <p v-if="recipe.tags !== undefined && recipe.tags.length !== 0" class="recipe-tags">
-        <span>Taggar: </span>
         <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
           <span class="tag">{{ tag }}</span>
         </router-link>
@@ -272,6 +271,10 @@ h2 {
   }
   .print-img-container img {
     width: 100%;
+  }
+  a {
+    text-decoration: none;
+    color: var(--standard-font-color);
   }
 }
 </style>
