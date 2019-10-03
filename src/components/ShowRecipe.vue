@@ -21,7 +21,7 @@
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </div>
 
-      <div class="print-img-container">
+      <div v-if="recipe.image !== undefined && recipe.image !== ''" class="print-img-container">
         <img :src="getImgUrl(recipe)"/>
       </div>
 

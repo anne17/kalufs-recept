@@ -8,9 +8,9 @@
     <header id="print-header" class="container header">
       <div class="row justify-content-center">
         <div class="header-img-container">
-          <span>kalufs. </span>
+          <span>kalufs.</span>
           <img alt="Plate" src="../assets/plate-fork-and-knife_black.png">
-          <span> /recept</span>
+          <span>/recept</span>
         </div>
       </div>
     </header>
@@ -281,9 +281,11 @@ export default {
     color: var(--standard-font-color);
     margin-top: 20px;
     font-size: 1.3rem;
+    font-weight: 500;
   }
   #print-header img {
-    height: 50% !important;
+    height: 40%;
+    vertical-align: baseline;
   }
 
 }
