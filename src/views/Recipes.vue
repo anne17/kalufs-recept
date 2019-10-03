@@ -143,7 +143,7 @@ export default {
       .then( () => {
         this.updateTags();
       });
-    if (Object.keys(this.$route.query).length !== 0) {
+    if (Object.keys(this.$route.query).length !== 0 && !("redirect" in this.$route.query)) {
       this.search(this.$route.query);
     } else {
       // Otherwise, get all data (or suggestions)

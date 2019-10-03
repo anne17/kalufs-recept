@@ -77,7 +77,8 @@ export default {
           this.username = response.data.user;
           this.admin = response.data.admin;
           EventBus.$emit("login", {authenticated: true, user: this.username, admin: this.admin});
-          this.$emit("close");
+          // Go to requested page (or stay on current page if there is no redirect)
+          this.$router.push({ path: this.$route.query.redirect });
         })
         .catch(e => {
           this.isError = true;
