@@ -21,6 +21,8 @@ Vue.prototype.$backend =
 Vue.prototype.$defaultimg = Vue.prototype.$backend + "defaultimg";
 Vue.prototype.$defaultthumb = Vue.prototype.$backend + "defaultthumb";
 
+Vue.prototype.$defaulttitle = "kalufs-recept";
+
 global.Vue = Vue;
 
 new Vue({

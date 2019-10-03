@@ -137,6 +137,7 @@ export default {
     };
   },
   mounted() {
+    document.title = this.$defaulttitle;
     document.body.style.overflowY = "auto";
     this.getTagStructureSimple()
       .then( () => {

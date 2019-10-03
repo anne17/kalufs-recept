@@ -295,6 +295,8 @@ export default {
       this.edit_existing = true;
     } else {
       this.edit_existing = false;
+      // Set title
+      document.title = this.$defaulttitle + " - " + this.heading.text;
     }
     if (this.$router.currentRoute.name == "suggest") {
       this.suggestion = true;
@@ -303,6 +305,7 @@ export default {
     }
     this.get_parsable_pages();
     this.getTagStructureSimple();
+
 
     // Close tagChooser on esc
     document.onkeydown = evt => {
@@ -432,6 +435,8 @@ export default {
             // Set heading
             this.heading.text = "Redigera ";
             this.heading.title = this.form.title;
+            // Set title
+            document.title = this.$defaulttitle + " - " + this.form.title;
             // Replace the "Choose a file" label if there is an image
             if (this.form.image) {
               this.fileBrowseLabel = this.form.image;

@@ -42,6 +42,7 @@ export default {
             this.recipe = response.data.data;
             // This is needed to avoid a flashing unpublished message
             this.published = this.recipe.published;
+            document.title = this.$defaulttitle + " - " + this.recipe.title;
           } else {
             console.error(response.data);
           }
