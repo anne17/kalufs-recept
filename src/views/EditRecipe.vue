@@ -464,9 +464,11 @@ export default {
     },
     openTagChooser() {
       this.tagChooserActive = true;
+      document.body.style.overflowY = "hidden";
     },
     closeTagChooser() {
       this.tagChooserActive = false;
+      document.body.style.overflowY = "auto";
     },
     closeDropdown() {
       this.showDropdown = false;
