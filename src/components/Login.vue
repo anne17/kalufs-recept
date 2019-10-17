@@ -114,7 +114,6 @@ export default {
 }
 
 .modal-login {
-  color: #636363;
   width: 350px;
   z-index: 10000;
   position: fixed;
@@ -155,7 +154,7 @@ export default {
   padding-left: 40px;
 }
 .modal-login .form-control:focus {
-  border-color: var(--dark-accent-color);
+  border-color: var(--theme-color);
 }
 .modal-login .form-control,
 .modal-login .btn {
@@ -172,14 +171,10 @@ export default {
   right: 10px;
 }
 .modal-login .btn {
-  background: var(--dark-accent-color);
+  background: var(--theme-color);
   border: none;
   line-height: normal;
   font-weight: bolder;
-}
-.modal-login .btn:hover,
-.modal-login .btn:focus {
-  background: var(--lightish-accent-color);
 }
 
 .loading-spinner img {

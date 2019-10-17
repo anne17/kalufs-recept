@@ -195,12 +195,12 @@
 
       <div class="row">
         <div class="buttons">
-          <button v-if="!suggestion" type="button" class="btn btn-success btn-sm" v-on:click="save(false)">
+          <button v-if="!suggestion" type="button" class="btn btn-primary btn-sm" v-on:click="save(false)">
             <i class="fas fa-save"></i>
             Spara
           </button>
 
-          <button v-if="suggestion" type="button" class="btn btn-success btn-sm" v-on:click="save(true)">
+          <button v-if="suggestion" type="button" class="btn btn-primary btn-sm" v-on:click="save(true)">
             <i class="fas fa-envelope"></i>
             Skicka förslag
           </button>
@@ -781,7 +781,7 @@ textarea::placeholder {
 <style>
 .tags .multiselect__option--highlight,
 .tags .multiselect__option--highlight:after {
-  background: var(--dark-accent-color);
+  background: var(--theme-color);
 }
 .tags .multiselect .multiselect__tags {
   border: 1px solid #ced4da;
@@ -792,7 +792,7 @@ textarea::placeholder {
 .multiselect__tag-icon:hover,
 .multiselect__tag i::after {
   color: var(--bright-font-color);
-  background: var(--dark-accent-color);
+  background: var(--theme-color);
 }
 span.multiselect__placeholder {
   background: white;

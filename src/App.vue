@@ -30,13 +30,17 @@ export default {
   --standard-font-color: #444444;
   --bright-font-color: white;
   --placeholder-font-color: #808080;
-  --light-background-color: ghostwhite;
-  --dark-accent-color: #3866bf;
-  --light-accent-color: #a5c3f2;
-  --lightish-accent-color: #77a7f5;
-  --lighter-accent-color: #c9dbf9;
 
-  --light-contrast-color: #fff586;
+  --light-background-color: #fdeddc;
+
+  --theme-color: #568648;
+  --theme-color-4: #659a56;
+
+  --primary-color-5: #A6B07E;
+  --primary-color-4: #cad59e;
+
+  --secondary-color-5: #ca7e2c;
+
   --warning-color: orange;
 
   --standardfont: "Krub", sans-serif;
@@ -68,6 +72,10 @@ h1 {
   margin: 0;
 }
 
+/* a {
+  color: var(--theme-color);
+} */
+
 /*Category tags (bubbles)*/
 .tag {
   /*      top right bottom left */
@@ -79,13 +87,24 @@ h1 {
   border-radius: 15px;
   display: inline-block;
   color: white;
-  border-color: var(--dark-accent-color);
-  background: var(--dark-accent-color);
+  border-color: var(--theme-color);
+  background: var(--theme-color);
 }
 
 .tag-placeholder {
   border-color: unset;
   background: unset;
+}
+
+.btn-primary {
+  background-color: var(--theme-color);
+  border-color: var(--theme-color);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--theme-color-4) !important;
+  border-color: var(--theme-color-4) !important;
 }
 
 .button-danger-secondary {

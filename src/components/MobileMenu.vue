@@ -103,7 +103,7 @@ export default {
   top: 0;
   left: auto;
   right: 0px;
-  background-color: var(--dark-accent-color);
+  background-color: var(--theme-color);
   overflow-x: hidden;
   padding-top: 10px;
   transition: width 0.3s;
@@ -147,7 +147,7 @@ export default {
 }
 
 .inactive-bell i {
-  color: var(--lightish-accent-color);
+  color: var(--primary-color-4);
   cursor: default !important;
 }
 </style>

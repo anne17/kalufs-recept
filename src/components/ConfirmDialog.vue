@@ -122,20 +122,16 @@ export default {
   top: 8px;
   right: 10px;
 }
-.modal-confirm .btn {
-  background: var(--dark-accent-color);
-  border: none;
-  /* line-height: normal;
-  font-weight: bolder; */
-}
-.modal-confirm .btn:hover,
-.modal-confirm .btn:focus {
-  background: var(--lightish-accent-color);
-}
 
 .message {
   font-size: 18px;
   font-weight: bolder;
   margin-bottom: 1em;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--theme-color-4) !important;
+  border-color: var(--theme-color-4) !important;
 }
 </style>

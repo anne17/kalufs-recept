@@ -162,6 +162,10 @@ export default {
   font-weight: bold;
 }
 
+a {
+  color: var(--theme-color);
+}
+
 .mini-edit-menu,
 .info-button {
   margin: 0.6em 0 0 0;
@@ -232,6 +236,11 @@ h2 {
   margin: 0.5em 0;
 }
 
+.ingredients >>> a,
+.contents >>> a {
+  color: var(--theme-color);
+}
+
 .recipe-tags,
 .recipe-source,
 .recipe-metadata {
@@ -243,7 +252,7 @@ h2 {
     background: inherit;
   }
   to {
-    background: var(--light-accent-color);
+    background: var(--primary-color-5);
   }
 }
 .recipe-metadata > span,

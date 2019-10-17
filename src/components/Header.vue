@@ -183,7 +183,7 @@ export default {
 <style scoped>
 
 .header {
-  background-color: var(--dark-accent-color);
+  background-color: var(--theme-color);
   max-width: 100%;
   height: 50px;
   /* Stop page from jumping when setting overflow:hidden */
@@ -249,7 +249,7 @@ export default {
 }
 
 .inactive-bell i {
-  color: var(--lightish-accent-color);
+  color: var(--primary-color-4);
   cursor: default !important;
 }
 

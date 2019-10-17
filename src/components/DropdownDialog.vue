@@ -108,12 +108,8 @@ export default {
   right: 10px;
 }
 .modal-confirm .btn {
-  background: var(--dark-accent-color);
+  background: var(--theme-color);
   border: none;
-}
-.modal-confirm .btn:hover,
-.modal-confirm .btn:focus {
-  background: var(--lightish-accent-color);
 }
 
 .message {

@@ -301,10 +301,10 @@ export default {
 .filter-reset {
   display: block;
   text-align: left;
-  background: var(--light-accent-color);
+  background: var(--primary-color-5);
   padding: 0.3em 0.5em 0.3em 0.5em;
   margin-bottom: 0.5em;
-  border: 1px solid var(--light-accent-color);
+  border: 1px solid var(--primary-color-5);
   border-radius: 5px;
   text-decoration: none;
   color: unset;
@@ -330,8 +330,8 @@ i.fas.fa-filter::after {
   padding: 0px;
 }
 .filter-category-header {
-  background: var(--light-accent-color);
-  border: 1px solid var(--light-accent-color);
+  background: var(--primary-color-5);
+  border: 1px solid var(--primary-color-5);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 0.3em 0.5em 0.3em 1em;
@@ -363,7 +363,7 @@ i.fas.fa-filter::after {
 .filter-category-header.tags-hidden,
 .filter-category-header.no-children
  {
-  border: 1px solid var(--light-accent-color);
+  border: 1px solid var(--primary-color-5);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -371,10 +371,10 @@ i.fas.fa-filter::after {
   cursor: auto;
 }
 .filter-tag {
-  background: var(--lighter-accent-color);
+  background: var(--primary-color-4);
   padding: 0.2em 0.5em 0.2em 1.5em;
   font-weight: normal;
-  border: 1px solid var(--lighter-accent-color);
+  border: 1px solid var(--primary-color-4);
   text-decoration: none;
   color: unset;
   cursor: pointer;
@@ -384,8 +384,8 @@ i.fas.fa-filter::after {
   text-overflow: ellipsis;
 }
 .filter-tag:hover {
-  background: var(--light-accent-color);
-  border: 1px solid var(--light-accent-color);
+  background: var(--primary-color-5);
+  border: 1px solid var(--primary-color-5);
 }
 .filter-category-header:last-child,
 .filter-tag:last-child {
@@ -475,8 +475,8 @@ i.fas.fa-filter::after {
 
 .main-entry > div {
   clear: left;
-  background: var(--light-accent-color);
-  border-right: 1px solid var(--light-accent-color);
+  background: var(--primary-color-5);
+  border-right: 1px solid var(--primary-color-5);
   border-radius: 0 15px 15px 0;
 }
 
@@ -487,7 +487,6 @@ i.fas.fa-filter::after {
   overflow: hidden;
   display: flex;
   align-items: center;
-  background-color: var(--lightish-accent-color);
 }
 
 .default-img {
