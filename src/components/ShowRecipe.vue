@@ -26,15 +26,15 @@
       </div>
 
       <div class="ingredients">
-        <div class="small-header" v-if="recipe.ingredients">Ingredienser</div>
-        <p v-if="recipe.portions_text" class="portions">
-          portioner: <span v-html="recipe.portions_text"></span>
+        <div class="small-header caps-header" v-if="recipe.ingredients">Ingredienser</div>
+        <p v-if="recipe.portions_text">
+          <span v-html="recipe.portions_text"></span>
         </p>
         <p v-html="recipe.ingredients"></p>
       </div>
 
       <div class="contents" v-if="recipe.contents">
-        <div class="small-header">Gör så här</div>
+        <div class="small-header caps-header">Gör så här</div>
         <p v-html="recipe.contents"></p>
       </div>
 
@@ -171,6 +171,7 @@ a {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;
   float: right;
+  color: var(--standard-font-color-2);
 }
 .mini-edit-menu a {
   color: inherit;
@@ -178,7 +179,7 @@ a {
 }
 .mini-edit-menu i:hover,
 .info-button i:hover {
-  color: black;
+  color: var(--standard-font-color);
   cursor: pointer;
 }
 
@@ -212,6 +213,7 @@ h2 {
 }
 
 .small-header {
+  color: var(--standard-font-color-2);
   font-weight: 600;
   padding-bottom: 0.2em;
   padding-top: 0.2em;
@@ -219,11 +221,6 @@ h2 {
 
 .recipe-title {
   margin-bottom: 0.8em;
-}
-
-.portions {
-  filter: brightness(130%);
-  font-size: 0.8em;
 }
 
 .ingredients,

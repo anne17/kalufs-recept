@@ -27,7 +27,7 @@
             </span>
           </router-link>
           <div class="filter-category container" v-for="cat in tagStructureSimple" :key="cat.id">
-            <div class="filter-category-header row" :class="{'no-children': cat.tags.length == 0}" @click="toggleCategoryFilter(cat.category)" :id="cat.category">
+            <div class="filter-category-header caps-header row" :class="{'no-children': cat.tags.length == 0}" @click="toggleCategoryFilter(cat.category)" :id="cat.category">
               {{ cat.category }}
             </div>
             <div>
@@ -299,6 +299,7 @@ export default {
 }
 
 .filter-reset {
+  font-family: var(--headerfont);
   display: block;
   text-align: left;
   background: var(--primary-color-5);
@@ -336,7 +337,6 @@ i.fas.fa-filter::after {
   border-top-right-radius: 5px;
   padding: 0.3em 0.5em 0.3em 1em;
   font-weight: 500;
-  text-transform: uppercase;
   cursor: pointer;
 }
 .filter-category-header::before{
@@ -345,7 +345,7 @@ i.fas.fa-filter::after {
   right: 4px;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #023F55;
+  border-top: 6px solid var(--standard-font-color);
   content: "";
   pointer-events: none;
 }
@@ -355,7 +355,7 @@ i.fas.fa-filter::after {
   right: 4px;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-left: 6px solid #023F55;
+  border-left: 6px solid var(--standard-font-color);
   content: "";
   pointer-events: none;
   height: 0;

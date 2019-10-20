@@ -265,7 +265,7 @@ export default {
       form: {
         id: "",
         title: "Nytt recept",
-        portions_text: "4",
+        portions_text: "4 portioner",
         ingredients: "",
         contents: "",
         image: "",
@@ -742,6 +742,16 @@ textarea::placeholder {
 #contents {
   font-family: var(--monofont);
   font-weight: lighter;
+}
+
+#previewWindow {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--light-background-color),
+    var(--light-background-color) 50px,
+    var(--light-background-color-2) 50px,
+    var(--light-background-color-2) 100px
+  )
 }
 
 #previewWindow .recipe-view {

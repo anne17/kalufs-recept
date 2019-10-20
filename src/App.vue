@@ -27,11 +27,13 @@ export default {
 <style>
 /* Global CSS variables */
 :root {
-  --standard-font-color: #444444;
+  --standard-font-color: #3f3f3f;
+  --standard-font-color-2: #626262;
   --bright-font-color: white;
   --placeholder-font-color: #808080;
 
   --light-background-color: #fdeddc;
+  --light-background-color-2: #fbe1c6;
 
   --theme-color: #568648;
   --theme-color-4: #659a56;
@@ -45,6 +47,7 @@ export default {
 
   --standardfont: "Krub", sans-serif;
   --monofont: "Roboto Mono", monospace;
+  --headerfont: "Open Sans", sans-serif;
 }
 
 html,
@@ -72,9 +75,11 @@ h1 {
   margin: 0;
 }
 
-/* a {
-  color: var(--theme-color);
-} */
+.caps-header {
+  font-family: var(--headerfont);
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
 
 /*Category tags (bubbles)*/
 .tag {

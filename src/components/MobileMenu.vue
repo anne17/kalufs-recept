@@ -110,15 +110,15 @@ export default {
 }
 .close {
   padding-right: 10px;
-  color: var(--light-background-color);
+  color: var(--bright-font-color);
   opacity: 0.9;
 }
-/* Hack to stop the color button from changing to gray */
+/* Hack to stop the close button from changing to gray */
 .close:not(:disabled):not(.disabled):hover {
-  color: var(--light-background-color);
+  color: var(--bright-font-color);
 }
 .sidebar-body {
-  color: var(--light-background-color);
+  color: var(--bright-font-color);
   margin-left: 10%;
   font-size: 1.2em;
   padding-top: 2em;
