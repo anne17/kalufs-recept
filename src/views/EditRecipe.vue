@@ -111,7 +111,7 @@
           <label for="tags" class="col-sm-2 col-form-label">
             Taggar
           </label>
-          <div class="col-sm-10 tags" id="tags">
+          <div class="col-sm-10 tags" id="tags" :class="{'on-top': tagChooserActive}">
             <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @tag="chooseCat" @change="modInput()">
             </multiselect>
           </div>
@@ -121,7 +121,7 @@
           <label for="tags-suggest" class="col-sm-2 col-form-label">
             Taggar
           </label>
-          <div class="col-sm-10 tags" id="tags-suggest">
+          <div class="col-sm-10 tags" id="tags-suggest" :class="{'on-top': tagChooserActive}">
             <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @change="modInput()">
               <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
             </multiselect>
@@ -730,6 +730,9 @@ textarea::placeholder {
 
 .tags div {
   float: left;
+}
+
+.on-top {
   z-index: 9990;
 }
 
