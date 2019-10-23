@@ -85,9 +85,14 @@
             <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
               <div class="row">
                   <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
-                  <div class="text-container container col-8">
+                  <div class="text-container container col-9">
                     <div class="row title">
-                      <router-link :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
+                      <router-link class="col-11" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
+                      <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
+                        <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
+                          <i class="fas fa-pencil-alt"></i>
+                        </router-link>
+                      </div>
                     </div>
                     <div class="tags-container row">
                       <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
@@ -96,11 +101,7 @@
                       <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
                     </div>
                   </div>
-                  <div class="mini-edit-menu container col-1">
-                    <router-link :to="{ name: 'edit', params: {title: recipe.title}}" v-if="loggedIn && admin" title="redigera">
-                      <i class="fas fa-pencil-alt"></i>
-                    </router-link>
-                  </div>
+
               </div>
             </div>
         </div>
@@ -500,16 +501,20 @@ i.fas.fa-filter::after {
   text-align: left;
 }
 
-.title{
+.title {
   padding-bottom: 0.3em;
 }
-.title:hover {
+.title a:hover {
   text-decoration: underline;
+}
+.title a {
+  padding-left: 0px;
 }
 
 .mini-edit-menu {
-  margin: 0.6em 0 0 0;
-  padding: 0 0.6em 0 0;
+  margin: 0.2em 0 0 0;
+  padding: 0;
+
 }
 .mini-edit-menu i {
   float: right;
