@@ -12,11 +12,12 @@
             <div class="row">
               <div class="login-status">
                 <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
+                  <i class="fas fa-sign-in-alt"></i>
                   Logga in
                 </span>
                 <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-                  Logga ut {{ currentUser }}&nbsp;
                   <i class="fas fa-sign-out-alt"></i>
+                  Logga ut {{ currentUser }}&nbsp;
                 </span>
               </div>
             </div>
@@ -24,12 +25,9 @@
             <div class="row" v-if="admin && hasSuggestions">
               <span v-if="admin && hasSuggestions" class="bell active-bell">
                 <router-link to="/suggestions">
-                  Visa förslag &nbsp;
                   <i class="fas fa-bell"></i>&nbsp;
+                  Visa förslag &nbsp;
                 </router-link>
-              </span>
-              <span v-if="admin && !hasSuggestions" title="Inga nya förslag" class="bell inactive-bell">
-                <i class="fas fa-bell"></i>&nbsp;
               </span>
             </div>
 
