@@ -101,17 +101,6 @@ export default {
 <!-- ####################################################################### -->
 
 <style scoped>
-/* Gray out background when login window opens */
-.overlay {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  opacity: 0.3;
-  z-index: 9999;
-}
 
 .modal-login {
   width: 350px;
