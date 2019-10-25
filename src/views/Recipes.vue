@@ -65,7 +65,6 @@
             </button>
 
           </div>
-
         </div>
 
         <!-- Recipe list -->
@@ -201,15 +200,16 @@ export default {
       }
     },
     clickTag(tag) {
+      var hash = this.showMobileFilter ? "#filter" : "";
       if (!this.activeTags.includes(tag)) {
         this.activeTags.push(tag);
-        this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")} });
+        this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}, hash: hash });
       } else {
         this.activeTags.splice(this.activeTags.indexOf(tag), 1);
         if (this.activeTags.length == 0) {
-          this.$router.push({ name: "recipes"});
+          this.$router.push({ name: "recipes", hash: hash });
         } else {
-          this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")} });
+          this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}, hash: hash });
         }
       }
     },
@@ -223,9 +223,9 @@ export default {
     },
     toggleMobileFilter() {
       if (!this.showMobileFilter) {
-        this.$router.push({hash: "#filter"});
+        this.$router.push({hash: "#filter", query: this.$route.query});
       } else {
-        this.$router.push({hash: ""});
+        this.$router.push({hash: "", query: this.$route.query});
       }
       this.showMobileFilter = !this.showMobileFilter;
     },
