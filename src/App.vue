@@ -132,20 +132,17 @@ h1 {
   padding-bottom: 1.5em;
 }
 
-/* .left {
-  border-right: thin solid #ccc;
+/* Gray out background when window opens */
+.overlay {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 9980;
 }
-
-.right {
-  border-left: thin solid #ccc;
-} */
-
-/* Reduce fat margins */
-/* @media (min-width: 1200px) {
-  .main-container {
-    max-width: 1180px;
-  }
-} */
 
 @media print {
   html, body {

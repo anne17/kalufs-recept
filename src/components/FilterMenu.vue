@@ -75,7 +75,6 @@ i.fas.fa-filter::after {
 .filter-category {
   text-align: left;
   margin-bottom: 0.5em;
-  /* padding: 0px; */
 }
 .filter-category-header {
   background: var(--primary-color-5);

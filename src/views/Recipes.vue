@@ -3,6 +3,14 @@
 
     <LoadingSpinner :loading="loading"/>
 
+    <!-- Filter menu for small screens -->
+    <div class="d-lg-none" :class="{hidden: !showMobileFilter}">
+      <div class="overlay" @click="toggleMobileFilter()"></div>
+      <div class="mobile-filter-modal modal-content">
+        <FilterMenu :tagStructureSimple="tagStructureSimple" @clickTag="clickTag"/>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-2 d-none d-lg-block left">
         <div v-if="showPublished" class="sidebar-search input-group input-group-sm">
@@ -28,18 +36,13 @@
           {{ tableTitle }} <span class="hits" v-if="nHits!==-1"> ({{ nHits }})</span>
         </h1>
         <div class="menu container">
-          <div class="menu row">
+          <div class="menu row mb-3">
 
-            <div v-if="showPublished" class="input-group input-group-sm mb-3 col-6">
+            <div v-if="showPublished" class="input-group input-group-sm col-6">
               <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
               <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
-            </div>
-
-            <div v-if="!showPublished" class="unpublished-notice">
-              <i class="fas fa-info-circle"></i>
-              Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
             </div>
 
             <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
@@ -50,6 +53,19 @@
                 <strong>&plus;</strong> Nytt recept
               </router-link>
             </div>
+
+            <div class="row">
+              <button type="button" class="btn btn-primary d-lg-none btn-sm mt-2" @click="toggleMobileFilter()">
+                <i class="fas fa-filter"></i>
+                Filtrera
+              </button>
+            </div>
+
+          </div>
+
+          <div v-if="!showPublished" class="unpublished-notice">
+            <i class="fas fa-info-circle"></i>
+            Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
           </div>
         </div>
 
@@ -119,7 +135,8 @@ export default {
       searchString: "",
       searchError: "",
       showPublished: true,
-      activeTags: []
+      activeTags: [],
+      showMobileFilter: false
     };
   },
   mounted() {
@@ -195,6 +212,9 @@ export default {
     showRecipes() {
       this.showPublished = true;
       this.defaultTableTitle = "Alla recept";
+    },
+    toggleMobileFilter() {
+      this.showMobileFilter = !this.showMobileFilter;
     },
     loadAll() {
       var call = "recipe_data";
@@ -276,6 +296,26 @@ export default {
 <style scoped>
 * {
   box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.mobile-filter-modal {
+  width: 350px;
+  z-index: 10000;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.mobile-filter-modal.modal-content {
+  padding: 15px 15px 5px 15px;
+  border-radius: 5px;
+  border-color: transparent;
+  border-width: 2.5px;
 }
 
 .hits {
