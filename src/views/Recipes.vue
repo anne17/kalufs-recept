@@ -38,34 +38,32 @@
         <div class="menu container">
           <div class="menu row mb-3">
 
-            <div class="row">
-              <div v-if="showPublished" class="input-group input-group-sm col-6">
-                <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
-                  <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
-                </div>
-                <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
+            <div v-if="showPublished" class="input-group input-group-sm col-6">
+              <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
+                <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
-
-              <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
-                <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
-                  <strong>&plus;</strong> Nytt recept
-                </router-link>
-                <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest'}">
-                  <strong>&plus;</strong> Nytt recept
-                </router-link>
-              </div>
+              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
             </div>
 
-            <button type="button" class="btn btn-primary d-lg-none btn-sm" :class="{'mt-2': loggedIn}" @click="toggleMobileFilter()">
+            <div v-if="!showPublished" class="unpublished-notice">
+              <i class="fas fa-info-circle"></i>
+              Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
+            </div>
+
+            <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
+              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+                <strong>&plus;</strong> Nytt recept
+              </router-link>
+              <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest'}">
+                <strong>&plus;</strong> Nytt recept
+              </router-link>
+            </div>
+
+            <button v-if="showPublished" type="button" class="btn btn-primary d-lg-none btn-sm" :class="{'mt-2': loggedIn}" @click="toggleMobileFilter()">
               <i class="fas fa-filter"></i>
               Filtrera
             </button>
 
-          </div>
-
-          <div v-if="!showPublished" class="unpublished-notice">
-            <i class="fas fa-info-circle"></i>
-            Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
           </div>
 
         </div>
