@@ -160,7 +160,7 @@ export default {
     this.searchError = "";
   },
   watch: {
-    "$route" () {
+    "$route" (to, from) {
       this.updateTags();
       if (Object.keys(this.$route.query).length !== 0) {
         this.search(this.$route.query);
@@ -171,6 +171,15 @@ export default {
           this.showRecipes();
         }
         this.loadAll();
+      }
+      // Handle history for filter display on small screens
+      if (to.hash == "#filter") {
+        document.body.style.overflowY = "hidden";
+        this.showMobileFilter = true;
+      }
+      if (from.hash == "#filter" && to.hash !== "#filter") {
+        document.body.style.overflowY = "auto";
+        this.showMobileFilter = false;
       }
     }
   },
@@ -214,6 +223,11 @@ export default {
       this.defaultTableTitle = "Alla recept";
     },
     toggleMobileFilter() {
+      if (!this.showMobileFilter) {
+        this.$router.push({hash: "#filter"});
+      } else {
+        this.$router.push({hash: ""});
+      }
       this.showMobileFilter = !this.showMobileFilter;
     },
     loadAll() {
