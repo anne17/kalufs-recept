@@ -38,28 +38,28 @@
         <div class="menu container">
           <div class="menu row mb-3">
 
-            <div v-if="showPublished" class="input-group input-group-sm col-6">
-              <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
-                <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
-              </div>
-              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
-            </div>
-
-            <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
-              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
-                <strong>&plus;</strong> Nytt recept
-              </router-link>
-              <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest'}">
-                <strong>&plus;</strong> Nytt recept
-              </router-link>
-            </div>
-
             <div class="row">
-              <button type="button" class="btn btn-primary d-lg-none btn-sm mt-2" @click="toggleMobileFilter()">
-                <i class="fas fa-filter"></i>
-                Filtrera
-              </button>
+              <div v-if="showPublished" class="input-group input-group-sm col-6">
+                <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
+                  <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
+                </div>
+                <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
+              </div>
+
+              <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
+                <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
+                  <strong>&plus;</strong> Nytt recept
+                </router-link>
+                <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest'}">
+                  <strong>&plus;</strong> Nytt recept
+                </router-link>
+              </div>
             </div>
+
+            <button type="button" class="btn btn-primary d-lg-none btn-sm" :class="{'mt-2': loggedIn}" @click="toggleMobileFilter()">
+              <i class="fas fa-filter"></i>
+              Filtrera
+            </button>
 
           </div>
 
@@ -67,6 +67,7 @@
             <i class="fas fa-info-circle"></i>
             Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
           </div>
+
         </div>
 
         <!-- Recipe list -->
