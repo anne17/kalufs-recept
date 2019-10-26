@@ -84,7 +84,7 @@
                   <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
                   <div class="text-container container col-9">
                     <div class="row title">
-                      <router-link class="col-11" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
+                      <router-link :class="{'col-11': loggedIn && admin}" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
                       <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
                         <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
                           <i class="fas fa-pencil-alt"></i>
@@ -437,6 +437,7 @@ export default {
 }
 .title a {
   padding-left: 0px;
+  padding-right: 0px;
 }
 
 .mini-edit-menu {
