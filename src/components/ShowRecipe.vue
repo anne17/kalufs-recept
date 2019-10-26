@@ -3,7 +3,9 @@
     <h2 class="errormsg" v-if="isError">Kan inte hitta receptet!</h2>
 
     <div class="theRecipe" v-if="!isError">
-      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
+      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
+        <img class="invisible-img" :src="getImgUrl(recipe)"/>
+      </div>
 
       <h2 v-html="recipe.title" class="recipe-title"></h2>
 
@@ -160,6 +162,12 @@ export default {
   text-align: center;
   color: var(--warning-color);
   font-weight: bold;
+}
+
+.invisible-img {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
 }
 
 a {

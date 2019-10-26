@@ -84,23 +84,23 @@
 
             <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
               <div class="row">
-                  <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
-                  <div class="text-container container col-9">
-                    <div class="row title">
-                      <router-link :class="{'col-11': loggedIn && admin}" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
-                      <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
-                        <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
-                          <i class="fas fa-pencil-alt"></i>
-                        </router-link>
-                      </div>
-                    </div>
-                    <div class="tags-container row">
-                      <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
-                        <span class="tag">{{ tag }}</span>
+                <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
+                <div class="text-container container col-9">
+                  <div class="row title">
+                    <router-link :class="{'col-11': loggedIn && admin}" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
+                    <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
+                      <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
+                        <i class="fas fa-pencil-alt"></i>
                       </router-link>
-                      <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
                     </div>
                   </div>
+                  <div class="tags-container row">
+                    <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
+                      <span class="tag">{{ tag }}</span>
+                    </router-link>
+                    <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
+                  </div>
+                </div>
 
               </div>
             </div>
