@@ -6,8 +6,11 @@
     <!-- Filter menu for small screens -->
     <div class="d-lg-none" :class="{hidden: !showMobileFilter}">
       <div class="overlay" @click="toggleMobileFilter()"></div>
-      <div class="mobile-filter-modal modal-content">
-        <FilterMenu :tagStructureSimple="tagStructureSimple" @clickTag="clickTag"/>
+      <div class="mobile-filter-modal">
+        <div class="modal-content">
+          <button type="button" class="close" v-on:click="toggleMobileFilter()" aria-hidden="true">&times;</button>
+          <FilterMenu :tagStructureSimple="tagStructureSimple" @clickTag="clickTag"/>
+        </div>
       </div>
     </div>
 
@@ -61,7 +64,7 @@
 
             <button v-if="showPublished" type="button" class="btn btn-primary d-lg-none btn-sm" :class="{'mt-2': loggedIn}" @click="toggleMobileFilter()">
               <i class="fas fa-filter"></i>
-              Filtrera
+              Filtrera recept
             </button>
 
           </div>
@@ -319,16 +322,23 @@ export default {
   width: 350px;
   z-index: 10000;
   position: fixed;
-  top: 10%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, 0%);
+  max-height: 90vh;
 }
-
-.mobile-filter-modal.modal-content {
-  padding: 15px 15px 5px 15px;
+.mobile-filter-modal .modal-content {
+  padding: 15px 30px 15px 30px;
   border-radius: 5px;
   border-color: transparent;
   border-width: 2.5px;
+  overflow: auto;
+  height: 100%;
+}
+.modal-content .close {
+  position: fixed;
+  top: 8px;
+  right: 10px;
 }
 
 .hits {
