@@ -143,6 +143,11 @@ export default {
   mounted() {
     document.title = this.$defaulttitle;
     document.body.style.overflowY = "auto";
+
+    if (this.$route.hash == "#filter") {
+      this.showMobileFilter = true;
+    }
+
     this.getTagStructureSimple()
       .then( () => {
         this.updateTags();
@@ -325,7 +330,7 @@ export default {
   top: 5%;
   left: 50%;
   transform: translate(-50%, 0%);
-  max-height: 90vh;
+  height: 90vh;
 }
 .mobile-filter-modal .modal-content {
   padding: 15px 30px 15px 30px;
