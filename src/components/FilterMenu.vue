@@ -12,7 +12,7 @@
       </div>
       <div>
         <div class="filter-tag row" v-for="tag in cat.tags" :key="tag.id" title="Filtrera på denna tagg" @click="$emit('clickTag', tag)">
-          <span :id="tag">{{ tag }}</span>
+          <span :class="{'active-tag': activeTags.includes(tag), tag: activeTags.includes(tag)}">{{ tag }}</span>
         </div>
       </div>
     </div>
@@ -24,7 +24,8 @@
 export default {
   name: "FilterMenu",
   props: [
-    "tagStructureSimple"
+    "tagStructureSimple",
+    "activeTags"
   ],
   methods: {
     toggleCategoryFilter(category) {

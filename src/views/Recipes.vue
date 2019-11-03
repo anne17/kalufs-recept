@@ -9,7 +9,7 @@
       <div class="mobile-filter-modal">
         <div class="modal-content">
           <button type="button" class="close" v-on:click="toggleMobileFilter()" aria-hidden="true">&times;</button>
-          <FilterMenu :tagStructureSimple="tagStructureSimple" @clickTag="clickTag"/>
+          <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" @clickTag="clickTag"/>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
           <span v-if="loggedIn">&nbsp;</span>
         </div>
 
-        <FilterMenu :tagStructureSimple="tagStructureSimple" @clickTag="clickTag"/>
+        <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" @clickTag="clickTag"/>
 
       </div>
 
@@ -196,15 +196,6 @@ export default {
         this.activeTags = this.$route.query.tag.split(",");
       } else {
         this.activeTags = [];
-      }
-      for (var i in this.tagList) {
-        if (this.activeTags.includes(this.tagList[i])) {
-          document.getElementById(this.tagList[i]).classList.add("tag");
-          document.getElementById(this.tagList[i]).parentElement.classList.add("active-tag");
-        } else {
-          document.getElementById(this.tagList[i]).classList.remove("tag");
-          document.getElementById(this.tagList[i]).parentElement.classList.remove("active-tag");
-        }
       }
     },
     clickTag(tag) {
