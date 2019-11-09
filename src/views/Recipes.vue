@@ -36,7 +36,11 @@
 
       <div class="col-lg-8 col-md-10 col-sm-12 middle">
         <h1>
-          {{ tableTitle }} <span class="hits" v-if="nHits!==-1"> ({{ nHits }})</span>
+          {{ tableTitle }}
+          <template v-if="activeTags.length > 0">
+            <span v-for="tag in activeTags" :key="tag.id" class="tag search-tag">{{tag}}</span>
+          </template>
+          <span class="hits" v-if="nHits!==-1"> ({{ nHits }})</span>
         </h1>
         <div class="menu container">
           <div class="menu row mb-3">
@@ -295,11 +299,7 @@ export default {
             if (queryParams.user !== undefined) {
               this.tableTitle = "Recept av " + queryParams.user;
             } else if (queryParams.tag !== undefined) {
-              if (this.activeTags.length > 1) {
-                this.tableTitle = "Recept med taggar " + this.activeTags.join(", ");
-              } else {
-                this.tableTitle = "Recept med tagg " + queryParams.tag;
-              }
+              this.tableTitle = "Recept med ";
             } else {
               this.tableTitle = "Recept med '" + queryParams.q + "'";
             }
@@ -395,6 +395,11 @@ export default {
 
 .search-icon {
   cursor: pointer;
+}
+
+.search-tag {
+  vertical-align: middle;
+  font-size: medium;
 }
 
 .search-error {
