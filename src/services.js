@@ -15,8 +15,6 @@ export const ImageMixin = {
           path = this.$thumbnailPath;
         } else if (mode === "medium") {
           path = this.$mediumImagePath;
-        } else if (mode === "tmp") {
-          path = this.$tmpImagePath;
         }
         return path + recipe_data.image;
       } else {
