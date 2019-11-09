@@ -8,13 +8,15 @@ export { axios };
 export const ImageMixin = {
   // Get URL for image in correct size
   methods: {
-    getImgUrl(recipe_data, size="full") {
+    getImgUrl(recipe_data, mode="full") {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
         let path = this.$imagePath;
-        if (size === "thumb") {
+        if (mode === "thumb") {
           path = this.$thumbnailPath;
-        } else if (size === "medim") {
+        } else if (mode === "medium") {
           path = this.$mediumImagePath;
+        } else if (mode === "tmp") {
+          path = this.$tmpImagePath;
         }
         return path + recipe_data.image;
       } else {
