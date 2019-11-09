@@ -20,6 +20,9 @@ Vue.prototype.$backend =
 
 Vue.prototype.$defaultimg = Vue.prototype.$backend + "defaultimg";
 Vue.prototype.$defaultthumb = Vue.prototype.$backend + "defaultthumb";
+Vue.prototype.$imagePath = Vue.prototype.$backend + "img/";
+Vue.prototype.$mediumImagePath = Vue.prototype.$backend + "img/medium/";
+Vue.prototype.$thumbnailPath = Vue.prototype.$backend + "img/thumbnail/";
 
 Vue.prototype.$defaulttitle = "kalufs-recept";
 

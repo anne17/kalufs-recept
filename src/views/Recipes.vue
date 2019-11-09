@@ -88,7 +88,7 @@
 
             <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
               <div class="row">
-                <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }"/>
+                <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, 'thumb') + ')' }"/>
                 <div class="text-container container col-9">
                   <div class="row title">
                     <router-link :class="{'col-11': loggedIn && admin}" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
@@ -118,7 +118,7 @@
 
 <!-- ####################################################################### -->
 <script>
-import { LoginMixin, TagMixin, axios } from "@/services.js";
+import { ImageMixin, LoginMixin, TagMixin, axios } from "@/services.js";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import FilterMenu from "@/components/FilterMenu.vue";
 
@@ -128,7 +128,7 @@ export default {
     LoadingSpinner,
     FilterMenu
   },
-  mixins: [LoginMixin, TagMixin],
+  mixins: [LoginMixin, TagMixin, ImageMixin],
   data() {
     return {
       tableTitle: "",
@@ -272,13 +272,6 @@ export default {
     },
     openLink(title) {
       this.$router.push({ name: "view", params: { title: title } });
-    },
-    getImgUrl(recipe_data) {
-      if (recipe_data.image !== undefined && recipe_data.image !== "") {
-        return this.$backend + "thumbnail/" + recipe_data.id;
-      } else {
-        return this.$defaultthumb;
-      }
     },
     preSearch() {
       this.searchString = this.searchString.trim();

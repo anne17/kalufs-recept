@@ -3,7 +3,7 @@
     <h2 class="errormsg" v-if="isError">Kan inte hitta receptet!</h2>
 
     <div class="theRecipe" v-if="!isError">
-      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe) + ')' }">
+      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, 'medium') + ')' }">
         <img class="invisible-img" :src="getImgUrl(recipe)"/>
       </div>
 
@@ -83,10 +83,12 @@
 
 <!-- ####################################################################### -->
 <script>
+import { ImageMixin } from "@/services.js";
 import moment from "moment";
 
 export default {
   name: "ShowRecipe",
+  mixins: [ImageMixin],
   props: {
     showEditOption: Boolean,
     isError: Boolean,
@@ -124,13 +126,6 @@ export default {
     };
   },
   methods: {
-    getImgUrl(recipe_data) {
-      if (recipe_data.image !== undefined && recipe_data.image !== "") {
-        return this.$backend + recipe_data.image;
-      } else {
-        return this.$defaultimg;
-      }
-    },
     isUrl(s) {
       this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;
       return this.regexp.test(s);

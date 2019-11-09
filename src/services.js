@@ -5,6 +5,25 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 export { axios };
 
+export const ImageMixin = {
+  // Get URL for image in correct size
+  methods: {
+    getImgUrl(recipe_data, size="full") {
+      if (recipe_data.image !== undefined && recipe_data.image !== "") {
+        let path = this.$imagePath;
+        if (size === "thumb") {
+          path = this.$thumbnailPath;
+        } else if (size === "medim") {
+          path = this.$mediumImagePath;
+        }
+        return path + recipe_data.image;
+      } else {
+        return this.$defaultimg;
+      }
+    }
+  }
+};
+
 export const LoginMixin = {
   // Provides functionality for checking authentication
   data() {
