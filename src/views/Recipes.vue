@@ -9,7 +9,7 @@
       <div class="mobile-filter-modal">
         <div class="modal-content">
           <button type="button" class="close" v-on:click="toggleMobileFilter()" aria-hidden="true">&times;</button>
-          <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" @clickTag="clickTag"/>
+          <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" :activeCats="activeCats" @clickTag="clickTag" @toggleCategoryFilter="toggleCategoryFilter"/>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
           <span v-if="loggedIn">&nbsp;</span>
         </div>
 
-        <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" @clickTag="clickTag"/>
+        <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" :activeCats="activeCats" @clickTag="clickTag" @toggleCategoryFilter="toggleCategoryFilter"/>
 
       </div>
 
@@ -136,6 +136,7 @@ export default {
       searchString: "",
       searchError: "",
       showPublished: true,
+      activeCats: [],
       activeTags: [],
       showMobileFilter: false
     };
@@ -151,6 +152,10 @@ export default {
     this.getTagStructureSimple()
       .then( () => {
         this.updateTags();
+        // display all cateogries as open
+        for (let cat of this.tagStructureSimple) {
+          this.activeCats.push(cat.category);
+        }
       });
     if (Object.keys(this.$route.query).length !== 0 && !("redirect" in this.$route.query)) {
       this.search(this.$route.query);
@@ -210,6 +215,13 @@ export default {
         } else {
           this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}, hash: hash });
         }
+      }
+    },
+    toggleCategoryFilter(category) {
+      if (this.activeCats.includes(category)) {
+        this.activeCats = this.activeCats.filter(e => e !== category);
+      } else {
+        this.activeCats.push(category);
       }
     },
     showSuggestions() {

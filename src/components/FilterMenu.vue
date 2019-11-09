@@ -7,7 +7,7 @@
       </span>
     </router-link>
     <div class="filter-category container" v-for="cat in tagStructureSimple" :key="cat.id">
-      <div class="filter-category-header caps-header row" :class="{'no-children': cat.tags.length == 0}" @click="toggleCategoryFilter(cat.category)" :id="cat.category">
+      <div class="filter-category-header caps-header row" :class="{'no-children': cat.tags.length == 0, 'tags-hidden': !activeCats.includes(cat.category)}" @click="$emit('toggleCategoryFilter', cat.category)">
         {{ cat.category }}
       </div>
       <div>
@@ -25,27 +25,15 @@ export default {
   name: "FilterMenu",
   props: [
     "tagStructureSimple",
-    "activeTags"
-  ],
-  methods: {
-    toggleCategoryFilter(category) {
-      // Displays or hides the tags belonging to a category in a filter
-      document.getElementById(category).nextSibling.classList.toggle("hidden");
-      document.getElementById(category).classList.toggle("tags-hidden");
-      document.getElementById(category).classList.toggle("closed");
-    }
-  }
+    "activeTags",
+    "activeCats"
+  ]
 };
 </script>
 
 <!-- ####################################################################### -->
 
 <style scoped>
-
-.hidden {
-  display: none;
-}
-
 .filter-reset {
   font-family: var(--headerfont);
   display: block;
@@ -62,6 +50,7 @@ export default {
 .filter-reset:hover {
   color: black;
 }
+
 i.fas.fa-filter {
     position: relative;
 }
@@ -73,10 +62,12 @@ i.fas.fa-filter::after {
     font-size: 12px;
     font-weight: normal;
 }
+
 .filter-category {
   text-align: left;
   margin-bottom: 0.5em;
 }
+
 .filter-category-header {
   background: var(--primary-color-5);
   border: 1px solid var(--primary-color-5);
@@ -96,7 +87,7 @@ i.fas.fa-filter::after {
   content: "";
   pointer-events: none;
 }
-.filter-category-header.closed::before{
+.filter-category-header.tags-hidden::before{
   position: relative;
   top: 6px;
   right: 4px;
@@ -117,6 +108,10 @@ i.fas.fa-filter::after {
 .filter-category-header.no-children {
   cursor: auto;
 }
+.filter-category-header.tags-hidden + div {
+  display: none;
+}
+
 .filter-tag {
   background: var(--primary-color-4);
   padding: 0.2em 0.5em 0.2em 1.5em;
@@ -139,6 +134,7 @@ i.fas.fa-filter::after {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
 .active-tag:hover::after {
   position: absolute;
   content: "\00d7";
