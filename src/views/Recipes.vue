@@ -9,7 +9,7 @@
       <div class="mobile-filter-modal">
         <div class="modal-content">
           <button type="button" class="close" v-on:click="toggleMobileFilter()" aria-hidden="true">&times;</button>
-          <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" :activeCats="activeCats" @clickTag="clickTag" @toggleCategoryFilter="toggleCategoryFilter"/>
+          <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" :activeCats="activeCats" @clickTag="clickTag" @toggleCategoryFilter="toggleCategoryFilter" :mobileFilter="Boolean('true')"/>
         </div>
       </div>
     </div>
@@ -203,23 +203,28 @@ export default {
         this.activeTags = [];
       }
     },
-    clickTag(tag) {
-      var hash = this.showMobileFilter ? "#filter" : "";
+    clickTag(tag, filter=true) {
       if (!this.activeTags.includes(tag)) {
         this.activeTags.push(tag);
-        this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}, hash: hash });
       } else {
-        this.activeTags.splice(this.activeTags.indexOf(tag), 1);
-        if (this.activeTags.length == 0) {
-          this.$router.push({ name: "recipes", hash: hash });
-        } else {
-          this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}, hash: hash });
-        }
+        this.activeTags = this.activeTags.filter(t => t !== tag);
+      }
+      // Do filtering on tag click if not in mobile mode
+      if (filter){
+        this.sendTags();
+      }
+    },
+    sendTags(){
+      var hash = this.showMobileFilter ? "#filter" : "";
+      if (this.activeTags.length == 0) {
+        this.$router.push({ name: "recipes", hash: hash });
+      } else {
+        this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}});
       }
     },
     toggleCategoryFilter(category) {
       if (this.activeCats.includes(category)) {
-        this.activeCats = this.activeCats.filter(e => e !== category);
+        this.activeCats = this.activeCats.filter(c => c !== category);
       } else {
         this.activeCats.push(category);
       }
@@ -236,7 +241,7 @@ export default {
       if (!this.showMobileFilter) {
         this.$router.push({hash: "#filter", query: this.$route.query});
       } else {
-        this.$router.push({hash: "", query: this.$route.query});
+        this.$router.push({hash: "", query: {tag: this.activeTags.join(",")}});
       }
       this.showMobileFilter = !this.showMobileFilter;
     },
