@@ -142,6 +142,6 @@ i.fas.fa-filter::after {
 .active-tag:hover::after {
   position: absolute;
   content: "\00d7";
-  right: 25px;
+  right: 2vw;
 }
 </style>
