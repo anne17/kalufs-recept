@@ -242,10 +242,12 @@ export default {
       this.defaultTableTitle = "Alla recept";
     },
     toggleMobileFilter() {
-      if (!this.showMobileFilter) {
+      if (!this.showMobileFilter ) {
         this.$router.push({hash: "#filter", query: this.$route.query});
-      } else {
+      } else if (this.activeTags.length > 0) {
         this.$router.push({hash: "", query: {tag: this.activeTags.join(",")}});
+      } else {
+        this.$router.push({hash: ""});
       }
       this.showMobileFilter = !this.showMobileFilter;
     },
