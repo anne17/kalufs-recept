@@ -23,7 +23,7 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         allowGuest: true
-       }
+      }
     },
     {
       path: "/edit/:title",
@@ -45,9 +45,19 @@ const router = new Router({
       name: "view",
       component: ViewRecipe
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(savedPosition);
+        }, 500);
+      });
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 });
-
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -65,11 +75,10 @@ router.beforeEach((to, from, next) => {
         } else {
           next({
             path: from.path + "#login",
-            query: { redirect: to.fullPath}
+            query: { redirect: to.fullPath }
           });
         }
       });
-
   } else {
     next();
   }
