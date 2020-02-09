@@ -22,8 +22,11 @@
           <i class="fas fa-pencil-alt"></i>
         </router-link>
       </div>
-      <div class="info-button" v-if="!preview">
+      <div class="mini-button" v-if="!preview">
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
+      </div>
+      <div class="mini-button d-lg-none" v-if="!preview && published" v-clipboard:copy="recipeUrl">
+        <i class="fas fa-copy" title="kopiera länk"></i>
       </div>
 
       <div v-if="recipe.image !== undefined && recipe.image !== ''" class="print-img-container">
@@ -142,6 +145,11 @@ export default {
       showMeta: false
     }
   },
+  computed: {
+    recipeUrl() {
+      return "https://kalufs.lol/recept" + this.$route.path
+    }
+  },
   methods: {
     isUrl(s) {
       this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/
@@ -189,7 +197,7 @@ a {
 }
 
 .mini-edit-menu,
-.info-button {
+.mini-button {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;
   float: right;
@@ -200,7 +208,7 @@ a {
   float: right;
 }
 .mini-edit-menu i:hover,
-.info-button i:hover {
+.mini-button i:hover {
   color: var(--standard-font-color);
   cursor: pointer;
 }
@@ -285,7 +293,7 @@ h2 {
 
 @media print {
   .mini-edit-menu,
-  .info-button,
+  .mini-button,
   .img-container,
   .recipe-tags {
     display: none;
