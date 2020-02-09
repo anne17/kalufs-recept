@@ -2,8 +2,8 @@
   <div class="markdown-help">
     <h1>Markdown-hjälp</h1>
 
-    <p>
-      <strong>Listor:</strong><br>
+    <div class="paragraph">
+      <strong>Listor:</strong><br />
       <ul>
         <li>* röd</li>
         <li>* grön</li>
@@ -14,25 +14,28 @@
         <li>2. grön</li>
         <li>3. blå</li>
       </ul>
-    </p>
-    <p>
-      <strong>Fet stil:</strong><br>
+    </div>
+
+    <div class="paragraph">
+      <strong>Fet stil:</strong><br />
       <ul>
         <li>**dubbla stjärnor**</li>
       </ul>
-    </p>
-    <p>
-      <strong>Kursiv stil:</strong><br>
+    </div>
+
+    <div class="paragraph">
+      <strong>Kursiv stil:</strong><br />
       <ul>
         <li>*enkla stjärnor*</li>
       </ul>
-    </p>
-    <p>
-      <strong>Länkar:</strong><br>
+    </div>
+
+    <div class="paragraph">
+      <strong>Länkar:</strong><br />
       <ul>
         <li>[Exempellänk](https://exempel.se)</li>
       </ul>
-    </p>
+    </div>
 
     <!-- <p class="documentation">
       <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown-dokumentation</a>
@@ -44,7 +47,7 @@
 <script>
 export default {
   name: "MarkdownHelp"
-};
+}
 </script>
 
 <!-- ####################################################################### -->
@@ -68,7 +71,7 @@ h1 {
   font-weight: lighter;
 }
 
-p {
+.paragraph {
   margin-left: 0.8em;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="loading-spinner" v-if="loading">
-    <img src="../assets/loading_spinner.svg"/>
+    <img src="../assets/loading_spinner.svg" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
   name: "LoadingSpinner",
   props: ["loading"]
-};
+}
 </script>
 
 <!-- ####################################################################### -->

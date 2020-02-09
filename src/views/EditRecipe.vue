@@ -1,13 +1,35 @@
 <template>
   <div class="edit container">
-
     <div v-if="tagChooserActive" class="overlay" @click="closeTagChooser()"></div>
 
-    <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove"/>
-    <ConfirmDialog v-if="showLeaveConfirm" :message="confirmLeaveMsg" :confirmButton="'Lämna'" :abortButton="'Stanna'" @close="next(false); showLeaveConfirm=false" @confirm="next()"/>
-    <ConfirmDialog v-if="showOkSuggest" :message="okSuggestMsg" :showCancel=false @close="$router.push('/')" @confirm="$router.push('/')"/>
-    <DropdownDialog v-if="showDropdown" :tag="newTag" :categories="tagCategories" :defaultCat="tagCategories[0]" @close="closeDropdown" @confirm="addTag"/>
-    <LoadingSpinner :loading="loading"/>
+    <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove" />
+    <ConfirmDialog
+      v-if="showLeaveConfirm"
+      :message="confirmLeaveMsg"
+      :confirmButton="'Lämna'"
+      :abortButton="'Stanna'"
+      @close="
+        next(false)
+        showLeaveConfirm = false
+      "
+      @confirm="next()"
+    />
+    <ConfirmDialog
+      v-if="showOkSuggest"
+      :message="okSuggestMsg"
+      :showCancel="false"
+      @close="$router.push('/')"
+      @confirm="$router.push('/')"
+    />
+    <DropdownDialog
+      v-if="showDropdown"
+      :tag="newTag"
+      :categories="tagCategories"
+      :defaultCat="tagCategories[0]"
+      @close="closeDropdown"
+      @confirm="addTag"
+    />
+    <LoadingSpinner :loading="loading" />
 
     <popover name="urlTooltip" class="url-popover">
       <span>Jag kan automatiskt extrahera recept från:</span>
@@ -21,13 +43,11 @@
     </popover>
 
     <div class="row">
-
-      <div class="col-2 d-none d-lg-block side-menu">
-      </div>
+      <div class="col-2 d-none d-lg-block side-menu"></div>
 
       <div class="col-lg-8 col-md-8 col-sm-12 middle editor">
         <h1 class="edit-title">
-          {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{heading.title}}"</span>
+          {{ heading.text }} <span class="recipe-title" v-if="heading.title">"{{ heading.title }}"</span>
         </h1>
 
         <div class="form-group row" ref="getRecipe">
@@ -38,7 +58,16 @@
             </span>
           </label>
           <div class="input-group col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': urlError }" type="text" id="url" v-model="url" placeholder="Adress till receptet" aria-describedby="url_search" @change="validateUrl()">
+            <input
+              class="form-control"
+              v-bind:class="{ 'is-invalid': urlError }"
+              type="text"
+              id="url"
+              v-model="url"
+              placeholder="Adress till receptet"
+              aria-describedby="url_search"
+              @change="validateUrl()"
+            />
             <div class="input-group-prepend">
               <span class="input-group-text" id="url_search" @click="sendUrl">
                 Hämta recept
@@ -56,7 +85,18 @@
             *Receptnamn
           </label>
           <div class="col-sm-10">
-            <input class="form-control" v-bind:class="{ 'is-invalid': titleError }" type="text" id="title" ref="title" v-model="form.title" @change="validateTitle()" @input="modInput()" required="required" title="">
+            <input
+              class="form-control"
+              v-bind:class="{ 'is-invalid': titleError }"
+              type="text"
+              id="title"
+              ref="title"
+              v-model="form.title"
+              @change="validateTitle()"
+              @input="modInput()"
+              required="required"
+              title=""
+            />
             <div class="invalid-feedback">
               Du måste ange ett unikt receptnamn!
             </div>
@@ -68,7 +108,7 @@
             Portioner
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="portions" v-model="form.portions_text" @input="modInput()">
+            <input class="form-control" type="text" id="portions" v-model="form.portions_text" @input="modInput()" />
           </div>
         </div>
 
@@ -77,7 +117,14 @@
             Ingredienser
           </label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="8" placeholder="* [Skriv i markdown-formatet]" id="ingredients" v-model="form.ingredients" @input="modInput()"></textarea>
+            <textarea
+              class="form-control"
+              rows="8"
+              placeholder="* [Skriv i markdown-formatet]"
+              id="ingredients"
+              v-model="form.ingredients"
+              @input="modInput()"
+            ></textarea>
           </div>
         </div>
 
@@ -86,7 +133,14 @@
             Beskrivning
           </label>
           <div class="col-sm-10">
-            <textarea class="form-control" rows="10" placeholder="1. [Skriv i markdown-formatet]" id="contents" v-model="form.contents" @input="modInput()"></textarea>
+            <textarea
+              class="form-control"
+              rows="10"
+              placeholder="1. [Skriv i markdown-formatet]"
+              id="contents"
+              v-model="form.contents"
+              @input="modInput()"
+            ></textarea>
           </div>
         </div>
 
@@ -96,7 +150,18 @@
           </label>
           <div class="col-sm-10">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="image" ref="image" accept="image/*" title="" @change="handleFileUpload(); modInput()">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="image"
+                ref="image"
+                accept="image/*"
+                title=""
+                @change="
+                  handleFileUpload()
+                  modInput()
+                "
+              />
               <div v-if="hasImage" class="image-removal" @click="removeImage" title="Ta bort bild">
                 <i class="far fa-trash-alt"></i>
               </div>
@@ -111,8 +176,27 @@
           <label for="tags" class="col-sm-2 col-form-label">
             Taggar
           </label>
-          <div class="col-sm-10 tags" id="tags" :class="{'on-top': tagChooserActive}">
-            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :taggable="true" :close-on-select="false" placeholder="Sök taggar eller skapa nya" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @tag="chooseCat" @change="modInput()">
+          <div class="col-sm-10 tags" id="tags" :class="{ 'on-top': tagChooserActive }">
+            <multiselect
+              id="tagChooser"
+              v-model="form.tags"
+              :options="tagStructureSimple"
+              :multiple="true"
+              :taggable="true"
+              :close-on-select="false"
+              placeholder="Sök taggar eller skapa nya"
+              selectLabel="Välj tagg"
+              selectedLabel="Vald tagg"
+              deselectLabel="Ta bort tagg"
+              tag-placeholder="Lägg till tagg"
+              group-values="tags"
+              group-label="category"
+              :group-select="false"
+              @open="openTagChooser()"
+              @close="closeTagChooser()"
+              @tag="chooseCat"
+              @change="modInput()"
+            >
             </multiselect>
           </div>
         </div>
@@ -121,9 +205,28 @@
           <label for="tags-suggest" class="col-sm-2 col-form-label">
             Taggar
           </label>
-          <div class="col-sm-10 tags" id="tags-suggest" :class="{'on-top': tagChooserActive}">
-            <multiselect id="tagChooser" v-model="form.tags" :options="tagStructureSimple" :multiple="true" :close-on-select="false" placeholder="Sök taggar" selectLabel="Välj tagg" selectedLabel="Vald tagg" deselectLabel="Ta bort tagg" tag-placeholder="Lägg till tagg" group-values="tags" group-label="category" :group-select="false" @open="openTagChooser()" @close="closeTagChooser()" @change="modInput()">
-              <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
+          <div class="col-sm-10 tags" id="tags-suggest" :class="{ 'on-top': tagChooserActive }">
+            <multiselect
+              id="tagChooser"
+              v-model="form.tags"
+              :options="tagStructureSimple"
+              :multiple="true"
+              :close-on-select="false"
+              placeholder="Sök taggar"
+              selectLabel="Välj tagg"
+              selectedLabel="Vald tagg"
+              deselectLabel="Ta bort tagg"
+              tag-placeholder="Lägg till tagg"
+              group-values="tags"
+              group-label="category"
+              :group-select="false"
+              @open="openTagChooser()"
+              @close="closeTagChooser()"
+              @change="modInput()"
+            >
+              <template slot="noResult"
+                >Inga taggar kunde hittas med det här namnet.</template
+              >
             </multiselect>
           </div>
         </div>
@@ -133,7 +236,14 @@
             Källa
           </label>
           <div class="col-sm-10">
-            <input class="form-control" type="text" placeholder="https://example.com" id="source" v-model="form.source" @input="modInput()">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="https://example.com"
+              id="source"
+              v-model="form.source"
+              @input="modInput()"
+            />
           </div>
         </div>
 
@@ -142,7 +252,18 @@
             *Ditt namn
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" placeholder="Kalle Anka" id="suggestor" ref="suggestor" v-model="form.suggestor" required="required" @change="validateName()" @input="modInput()" v-bind:class="{ 'is-invalid': nameError }">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Kalle Anka"
+              id="suggestor"
+              ref="suggestor"
+              v-model="form.suggestor"
+              required="required"
+              @change="validateName()"
+              @input="modInput()"
+              v-bind:class="{ 'is-invalid': nameError }"
+            />
             <div class="invalid-feedback">
               Du måste ange ditt namn!
             </div>
@@ -154,7 +275,14 @@
             Föreslagit av
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="suggestor" ref="suggestor" v-model="form.suggestor" @input="modInput()">
+            <input
+              class="form-control"
+              type="text"
+              id="suggestor"
+              ref="suggestor"
+              v-model="form.suggestor"
+              @input="modInput()"
+            />
           </div>
         </div>
 
@@ -172,19 +300,22 @@
               Granska
             </button>
 
-            <button v-if="edit_existing" type="button" class="btn btn-danger btn-sm button-danger-secondary" v-on:click="toggleConfirm">
+            <button
+              v-if="edit_existing"
+              type="button"
+              class="btn btn-danger btn-sm button-danger-secondary"
+              v-on:click="toggleConfirm"
+            >
               <i class="fas fa-trash-alt"></i>
               Ta bort
             </button>
           </div>
         </div>
-
       </div>
 
       <div class="col-2 d-none d-lg-block right">
         <MarkdownHelp />
       </div>
-
     </div>
 
     <div id="previewWindow" v-if="previewActive" ref="previewWindow">
@@ -206,19 +337,18 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <!-- ####################################################################### -->
 <script>
-import MarkdownHelp from "@/components/MarkdownHelp.vue";
-import ShowRecipe from "@/components/ShowRecipe.vue";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import DropdownDialog from "@/components/DropdownDialog.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import { EventBus, axios, TagMixin } from "@/services.js";
+import MarkdownHelp from "@/components/MarkdownHelp.vue"
+import ShowRecipe from "@/components/ShowRecipe.vue"
+import ConfirmDialog from "@/components/ConfirmDialog.vue"
+import DropdownDialog from "@/components/DropdownDialog.vue"
+import LoadingSpinner from "@/components/LoadingSpinner.vue"
+import { EventBus, axios, TagMixin } from "@/services.js"
 
 export default {
   name: "EditRecipe",
@@ -272,381 +402,372 @@ export default {
         source: "",
         suggestor: "",
         tags: [],
-        tagsParents: {},
+        tagsParents: {}
       }
-    };
+    }
   },
   watch: {
-    "$route" (to, from) {
+    $route(to, from) {
       if (to.hash == "#confirmDelete") {
-        document.body.style.overflowY = "hidden";
-        this.showConfirm = true;
+        document.body.style.overflowY = "hidden"
+        this.showConfirm = true
       }
       if (from.hash == "#confirmDelete" && to.hash !== "#login") {
-        document.body.style.overflowY = "auto";
-        this.showConfirm = false;
+        document.body.style.overflowY = "auto"
+        this.showConfirm = false
       }
     }
   },
   created() {
-    document.body.style.overflowY = "auto";
+    document.body.style.overflowY = "auto"
     if (this.$route.params.title !== "New" && this.$route.params.title !== undefined) {
-      this.getData();
-      this.edit_existing = true;
+      this.getData()
+      this.edit_existing = true
     } else {
-      this.edit_existing = false;
+      this.edit_existing = false
       // Set title
-      document.title = this.$defaulttitle + " - " + this.heading.text;
+      document.title = this.$defaulttitle + " - " + this.heading.text
     }
     if (this.$router.currentRoute.name == "suggest") {
-      this.suggestion = true;
+      this.suggestion = true
     } else {
-      this.suggestion = false;
+      this.suggestion = false
     }
-    this.get_parsable_pages();
-    this.getTagStructureSimple();
-
+    this.get_parsable_pages()
+    this.getTagStructureSimple()
 
     // Close tagChooser on esc
-    document.onkeydown = evt => {
-      evt = evt || window.event;
+    document.onkeydown = (evt) => {
+      evt = evt || window.event
       if (evt.keyCode == 27) {
-        this.tagChooserActive = false;
+        this.tagChooserActive = false
       }
-    };
+    }
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     if (this.unsaved) {
-      this.showLeaveConfirm = true;
-      this.next = next;
+      this.showLeaveConfirm = true
+      this.next = next
     } else {
-      next();
+      next()
     }
   },
   methods: {
     get_parsable_pages() {
       axios
         .get(this.$backend + "get_parsers")
-        .then(response => {
+        .then((response) => {
           if (response.data.status == "success") {
-            this.parsablePages = response.data.data;
+            this.parsablePages = response.data.data
           } else {
-            console.error("Message from backend:", response.data.message);
+            console.error("Message from backend:", response.data.message)
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+        })
     },
     sendUrl() {
       if (this.validateUrl()) {
-        this.saveError = "";
-        this.loading = true;
-        this.previewActive = false;
+        this.saveError = ""
+        this.loading = true
+        this.previewActive = false
         axios
           .get(this.$backend + "parse_from_url?url=" + this.url)
-          .then(response => {
-            this.loading = false;
+          .then((response) => {
+            this.loading = false
             if (response.data.status == "success") {
-              this.data = response.data.data;
+              this.data = response.data.data
               // Update form
               for (var key in this.data) {
                 if (this.form.hasOwnProperty(key)) {
-                  this.form[key] = this.data[key];
+                  this.form[key] = this.data[key]
                 }
               }
-              this.validateTitle();
+              this.validateTitle()
               // Replace the "Choose a file" label if there is an image
               if (this.form.image) {
-                this.fileBrowseLabel = this.form.image;
-                this.hasImage = true;
+                this.fileBrowseLabel = this.form.image
+                this.hasImage = true
               }
             } else {
-              console.error("Response from backend:", response.data);
+              console.error("Response from backend:", response.data)
             }
           })
-          .catch(e => {
-            this.loading = false;
+          .catch((e) => {
+            this.loading = false
 
             if (typeof e.response == "undefined") {
-              this.urlErrorMessage = "Någonting blev fel :(";
-              this.urlError = true;
-              console.error("Response from backend:", e.response);
+              this.urlErrorMessage = "Någonting blev fel :("
+              this.urlError = true
+              console.error("Response from backend:", e.response)
             } else {
-              this.message = e.response.data.message;
+              this.message = e.response.data.message
               if (this.message.startsWith("Invalid URL")) {
-                this.urlErrorMessage = this.urlErrorMessageDef;
-                this.urlError = true;
+                this.urlErrorMessage = this.urlErrorMessageDef
+                this.urlError = true
               } else if (this.message.startsWith("No parser found")) {
-                this.urlErrorMessage =
-                  "Adressen från den här sidan kan inte hanteras än :(";
-                this.urlError = true;
+                this.urlErrorMessage = "Adressen från den här sidan kan inte hanteras än :("
+                this.urlError = true
               } else {
-                this.urlErrorMessage = "Någonting blev fel :(";
-                this.urlError = true;
+                this.urlErrorMessage = "Någonting blev fel :("
+                this.urlError = true
               }
-              console.error("Message from backend:", this.message);
+              console.error("Message from backend:", this.message)
             }
-          });
+          })
       }
     },
     getPreview() {
-      this.saveError = "";
-      this.loading = true;
-      this.previewActive = false;
-      this.valid = this.validateForm();
+      this.saveError = ""
+      this.loading = true
+      this.previewActive = false
+      this.valid = this.validateForm()
       if (!this.valid) {
-        return;
+        return
       }
-      this.formData = this.makeForm();
+      this.formData = this.makeForm()
       if (this.valid) {
         axios
           .post(this.$backend + "preview_data", this.formData)
-          .then(response => {
-            this.loading = false;
+          .then((response) => {
+            this.loading = false
             if (response.data.status == "success") {
-              this.previewActive = true;
-              this.preview = response.data.data;
-              this.$nextTick(() => this.$refs.previewWindow.scrollIntoView());
+              this.previewActive = true
+              this.preview = response.data.data
+              this.$nextTick(() => this.$refs.previewWindow.scrollIntoView())
             } else {
-              console.error("Response from backend:", response.data);
-              this.previewActive = false;
+              console.error("Response from backend:", response.data)
+              this.previewActive = false
             }
           })
-          .catch(e => {
-            this.loading = false;
-            console.error("Response from backend:", e);
-            this.previewActive = false;
-          });
+          .catch((e) => {
+            this.loading = false
+            console.error("Response from backend:", e)
+            this.previewActive = false
+          })
       }
     },
     getData() {
       axios
         .get(this.$backend + "get_recipe?title=" + this.$route.params.title)
-        .then(response => {
+        .then((response) => {
           if (response.data.status == "success") {
-            this.data = response.data.data;
+            this.data = response.data.data
             // Update form
             for (var key in this.data) {
               if (this.form.hasOwnProperty(key)) {
-                this.form[key] = this.data[key];
+                this.form[key] = this.data[key]
               }
             }
             // Set heading
-            this.heading.text = "Redigera ";
-            this.heading.title = this.form.title;
+            this.heading.text = "Redigera "
+            this.heading.title = this.form.title
             // Set title
-            document.title = this.$defaulttitle + " - " + this.form.title;
+            document.title = this.$defaulttitle + " - " + this.form.title
             // Replace the "Choose a file" label if there is an image
             if (this.form.image) {
-              this.fileBrowseLabel = this.form.image;
-              this.hasImage = true;
+              this.fileBrowseLabel = this.form.image
+              this.hasImage = true
             }
           } else {
-            console.error("Response from backend:", response.data);
+            console.error("Response from backend:", response.data)
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-          this.isError = true;
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+          this.isError = true
+        })
     },
     handleFileUpload() {
-      this.form.image = this.$refs.image.files[0];
+      this.form.image = this.$refs.image.files[0]
       // Replace the "Choose a file" label
-      this.fileBrowseLabel = this.form.image.name;
-      this.hasImage = true;
+      this.fileBrowseLabel = this.form.image.name
+      this.hasImage = true
     },
     removeImage() {
-      this.fileBrowseLabel = "Välj fil...";
-      this.form.image = "";
-      this.hasImage = false;
+      this.fileBrowseLabel = "Välj fil..."
+      this.form.image = ""
+      this.hasImage = false
     },
     openTagChooser() {
-      this.tagChooserActive = true;
-      document.body.style.overflowY = "hidden";
+      this.tagChooserActive = true
+      document.body.style.overflowY = "hidden"
     },
     closeTagChooser() {
-      this.tagChooserActive = false;
-      document.body.style.overflowY = "auto";
+      this.tagChooserActive = false
+      document.body.style.overflowY = "auto"
     },
     closeDropdown() {
-      this.showDropdown = false;
-      document.body.style.overflowY = "auto";
+      this.showDropdown = false
+      document.body.style.overflowY = "auto"
     },
     chooseCat(newTag) {
-      newTag = newTag.trim().toLowerCase();
-      this.newTag = newTag;
-      this.showDropdown = true;
-      document.body.style.overflowY = "hidden";
+      newTag = newTag.trim().toLowerCase()
+      this.newTag = newTag
+      this.showDropdown = true
+      document.body.style.overflowY = "hidden"
     },
     addTag(newCat) {
-      this.showDropdown = false;
-      document.body.style.overflowY = "auto";
-      var index = this.tagCategories.indexOf(newCat);
-      this.tagStructureSimple[index].tags.push(this.newTag);
-      this.form.tags.push(this.newTag);
+      this.showDropdown = false
+      document.body.style.overflowY = "auto"
+      var index = this.tagCategories.indexOf(newCat)
+      this.tagStructureSimple[index].tags.push(this.newTag)
+      this.form.tags.push(this.newTag)
       // Save parent category for tag
-      this.form.tagsParents[this.newTag] = newCat;
+      this.form.tagsParents[this.newTag] = newCat
     },
     modInput() {
-      this.unsaved = true;
-      this.previewActive = false;
+      this.unsaved = true
+      this.previewActive = false
     },
     validateUrl() {
       if (this.url == "") {
-        this.urlErrorMessage = this.urlErrorMessageDef;
-        this.urlError = true;
-        return false;
+        this.urlErrorMessage = this.urlErrorMessageDef
+        this.urlError = true
+        return false
       }
-      this.urlError = false;
-      return true;
+      this.urlError = false
+      return true
     },
     validateTitle() {
       if (this.form.title == "" || this.form.title == "New") {
-        this.titleError = true;
-        return false;
+        this.titleError = true
+        return false
       }
-      this.titleError = false;
-      return true;
+      this.titleError = false
+      return true
     },
     validateName() {
       // When suggestion is active, user must provide a name
       if (this.form.suggestor == "") {
-        this.nameError = true;
-        return false;
+        this.nameError = true
+        return false
       }
-      this.nameError = false;
-      return true;
+      this.nameError = false
+      return true
     },
     validateForm() {
       if (!this.validateTitle()) {
-        this.$nextTick(() => this.$refs.getRecipe.scrollIntoView());
-        return false;
+        this.$nextTick(() => this.$refs.getRecipe.scrollIntoView())
+        return false
       }
       if (this.suggestion && !this.validateName()) {
-        this.$nextTick(() => this.$refs.source.scrollIntoView());
-        return false;
+        this.$nextTick(() => this.$refs.source.scrollIntoView())
+        return false
       }
-      return true;
+      return true
     },
-    save(suggest=false) {
-      this.saveError = "";
-      this.valid = this.validateForm();
+    save(suggest = false) {
+      this.saveError = ""
+      this.valid = this.validateForm()
       if (!this.valid) {
-        return;
+        return
       }
-      this.loading = true;
-      this.formData = this.makeForm();
+      this.loading = true
+      this.formData = this.makeForm()
       if (this.edit_existing) {
-        this.call = "edit_recipe";
+        this.call = "edit_recipe"
       } else if (suggest) {
-        this.call = "suggest";
+        this.call = "suggest"
       } else {
-        this.call = "add_recipe";
+        this.call = "add_recipe"
       }
       axios
         .post(this.$backend + this.call, this.formData)
-        .then(response => {
-          this.loading = false;
+        .then((response) => {
+          this.loading = false
           if (response.data.status == "success") {
-            this.unsaved = false;
+            this.unsaved = false
             if (suggest) {
-              this.toggleOkSuggest();
+              this.toggleOkSuggest()
             } else {
-              this.$router.push({ name: "view", params: { title: this.form.title } });
-              EventBus.$emit("save");
+              this.$router.push({ name: "view", params: { title: this.form.title } })
+              EventBus.$emit("save")
             }
           } else {
-            console.error("Message from backend:", response.data.message);
-            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :(";
+            console.error("Message from backend:", response.data.message)
+            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :("
           }
         })
-        .catch(e => {
-          this.loading = false;
-          if (
-            typeof e.response !== "undefined" &&
-            e.response.data.message == "Recipe title already exists!"
-          ) {
-            this.saveError = "Receptnamn måste vara unika. Receptet '" + this.form.title + "' finns redan i databasen.";
-            this.titleError = true;
-            this.$nextTick(() => this.$refs.title.scrollIntoView());
+        .catch((e) => {
+          this.loading = false
+          if (typeof e.response !== "undefined" && e.response.data.message == "Recipe title already exists!") {
+            this.saveError = "Receptnamn måste vara unika. Receptet '" + this.form.title + "' finns redan i databasen."
+            this.titleError = true
+            this.$nextTick(() => this.$refs.title.scrollIntoView())
+          } else {
+            console.error("Response from backend:", e.response)
+            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :("
+            this.$nextTick(() => this.$refs.source.scrollIntoView())
           }
-          else {
-            console.error("Response from backend:", e.response);
-            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :(";
-            this.$nextTick(() => this.$refs.source.scrollIntoView());
-          }
-        });
+        })
     },
     remove() {
-      document.body.style.overflowY = "auto";
-      this.saveError = "";
-      this.loading = true;
-      this.showConfirm = false;
+      document.body.style.overflowY = "auto"
+      this.saveError = ""
+      this.loading = true
+      this.showConfirm = false
       axios
         .get(this.$backend + "delete_recipe", { params: { id: this.form.id } })
-        .then(response => {
-          this.loading = false;
-          this.unsaved = false;
+        .then((response) => {
+          this.loading = false
+          this.unsaved = false
           if (response.data.status == "success") {
-            this.$router.push({ name: "recipes" });
+            this.$router.push({ name: "recipes" })
           } else {
-            console.error("Message from backend:", response.data.message);
-            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";
+            console.error("Message from backend:", response.data.message)
+            this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :("
           }
         })
-        .catch(e => {
-          this.loading = false;
-          console.error("Response from backend:", e.response);
-          this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :(";
-        });
+        .catch((e) => {
+          this.loading = false
+          console.error("Response from backend:", e.response)
+          this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :("
+        })
     },
     toggleConfirm() {
       if (this.showConfirm == false) {
-        document.body.style.overflowY = "hidden";
-        this.$router.push({hash: "#confirmDelete"});
+        document.body.style.overflowY = "hidden"
+        this.$router.push({ hash: "#confirmDelete" })
+      } else {
+        document.body.style.overflowY = "auto"
+        this.$router.push({ hash: "" })
       }
-      else {
-        document.body.style.overflowY = "auto";
-        this.$router.push({hash: ""});
-      }
-      this.showConfirm = !this.showConfirm;
+      this.showConfirm = !this.showConfirm
     },
     toggleOkSuggest() {
       if (this.showConfirm == false) {
-        document.body.style.overflowY = "hidden";
-        this.$router.push({hash: "#okSuggest"});
+        document.body.style.overflowY = "hidden"
+        this.$router.push({ hash: "#okSuggest" })
+      } else {
+        document.body.style.overflowY = "auto"
+        this.$router.push({ hash: "" })
       }
-      else {
-        document.body.style.overflowY = "auto";
-        this.$router.push({hash: ""});
-      }
-      this.showOkSuggest = !this.showOkSuggest;
+      this.showOkSuggest = !this.showOkSuggest
     },
     makeForm() {
-      let data = new FormData();
+      let data = new FormData()
       // Stringify tags array
-      data.append("tags", JSON.stringify(this.form.tags));
+      data.append("tags", JSON.stringify(this.form.tags))
       // Stringify tag parents
-      data.append("newTags", JSON.stringify(this.form.tagsParents));
+      data.append("newTags", JSON.stringify(this.form.tagsParents))
       // Append formData
       for (var property in this.form) {
-        data.append(property, this.form[property]);
+        data.append(property, this.form[property])
       }
       // Append image blob
-      data.append("image", this.form.image);
-      return data;
+      data.append("image", this.form.image)
+      return data
     }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
-
 .url-popover ul {
   text-align: left;
 }
@@ -699,7 +820,7 @@ textarea::placeholder {
   z-index: 3;
   display: block;
   height: 100%;
-  padding: .375rem .75rem;
+  padding: 0.375rem 0.75rem;
   line-height: 1.5;
   color: #495057;
   background-color: #e9ecef;
@@ -707,8 +828,8 @@ textarea::placeholder {
   border-top: 1px solid #ced4da;
   border-bottom: 1px solid #ced4da;
   border-left: 1px solid #ced4da;
-  border-top-left-radius: .25rem;
-  border-bottom-left-radius: .25rem;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
 }
 
 .custom-file-label {
@@ -743,7 +864,7 @@ textarea::placeholder {
     var(--light-background-color) 50px,
     var(--light-background-color-2) 50px,
     var(--light-background-color-2) 100px
-  )
+  );
 }
 
 #previewWindow .recipe-view {
@@ -787,7 +908,6 @@ textarea::placeholder {
 }
 .tags .multiselect .multiselect__tags {
   border: 1px solid #ced4da;
-
 }
 .multiselect__tags span,
 .multiselect__tag-icon,

@@ -7,43 +7,40 @@
         <div class="modal-content">
           <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
           <div class="modal-body container">
+            <div class="message">{{ message }}</div>
 
-            <div class="message"> {{ message }} </div>
+            <div v-if="showCancel" class="row">
+              <div class="col-1" />
 
-              <div v-if="showCancel" class="row">
-                <div class="col-1"/>
-
-                <div class="col-5">
-                  <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
-                    {{ confirmButton }}
-                  </button>
-                </div>
-
-                <div class="col-5">
-                  <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('close')">
-                    {{ abortButton }}
-                  </button>
-                </div>
-
-                <div class="col-1"/>
+              <div class="col-5">
+                <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
+                  {{ confirmButton }}
+                </button>
               </div>
 
-              <div v-if="!showCancel" class="row">
-                <div class="col-4"/>
-                <div class="col-4">
-                  <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
-                    {{ confirmButton }}
-                  </button>
-                </div>
-                <div class="col-4"/>
+              <div class="col-5">
+                <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('close')">
+                  {{ abortButton }}
+                </button>
               </div>
 
+              <div class="col-1" />
+            </div>
+
+            <div v-if="!showCancel" class="row">
+              <div class="col-4" />
+              <div class="col-4">
+                <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm')">
+                  {{ confirmButton }}
+                </button>
+              </div>
+              <div class="col-4" />
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <!-- ####################################################################### -->
@@ -68,20 +65,19 @@ export default {
   },
   created() {
     // Emit close event on ESC
-    document.onkeydown = evt => {
-      evt = evt || window.event;
+    document.onkeydown = (evt) => {
+      evt = evt || window.event
       if (evt.keyCode == 27) {
-        this.$emit("close");
+        this.$emit("close")
       }
-    };
+    }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
 
 <style scoped>
-
 .modal-confirm {
   color: #636363;
   width: 350px;

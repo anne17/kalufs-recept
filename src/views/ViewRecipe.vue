@@ -3,7 +3,12 @@
     <div class="row">
       <!-- <div class="col-2 d-none d-lg-block side-menu right"></div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 middle">
-        <ShowRecipe :recipe="recipe" :isError="isError" :showEditOption="loggedIn && admin" :published="published"></ShowRecipe>
+        <ShowRecipe
+          :recipe="recipe"
+          :isError="isError"
+          :showEditOption="loggedIn && admin"
+          :published="published"
+        ></ShowRecipe>
       </div>
 
       <!-- <div class="col-3 d-none d-lg-block left"></div> -->
@@ -13,8 +18,8 @@
 
 <!-- ####################################################################### -->
 <script>
-import ShowRecipe from "@/components/ShowRecipe.vue";
-import { axios, LoginMixin } from "@/services.js";
+import ShowRecipe from "@/components/ShowRecipe.vue"
+import { axios, LoginMixin } from "@/services.js"
 
 export default {
   name: "ViewRecipe",
@@ -27,33 +32,33 @@ export default {
       isError: false,
       recipe: {},
       published: true
-    };
+    }
   },
   created() {
-    document.body.style.overflowY = "auto";
-    this.getData();
+    document.body.style.overflowY = "auto"
+    this.getData()
   },
   methods: {
     getData() {
       axios
         .get(this.$backend + "view_recipe", { params: { title: this.$route.params.title } })
-        .then(response => {
+        .then((response) => {
           if (response.data.status == "success") {
-            this.recipe = response.data.data;
+            this.recipe = response.data.data
             // This is needed to avoid a flashing unpublished message
-            this.published = this.recipe.published;
-            document.title = this.$defaulttitle + " - " + this.recipe.title;
+            this.published = this.recipe.published
+            document.title = this.$defaulttitle + " - " + this.recipe.title
           } else {
-            console.error(response.data);
+            console.error(response.data)
           }
         })
-        .catch(e => {
-          console.error(e.response.data.message);
-          this.isError = true;
-        });
+        .catch((e) => {
+          console.error(e.response.data.message)
+          this.isError = true
+        })
     }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->

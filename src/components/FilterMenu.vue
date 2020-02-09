@@ -7,12 +7,22 @@
       </span>
     </router-link>
     <div class="filter-category container" v-for="cat in tagStructureSimple" :key="cat.id">
-      <div class="filter-category-header caps-header row" :class="{'no-children': cat.tags.length == 0, 'tags-hidden': !activeCats.includes(cat.category)}" @click="$emit('toggleCategoryFilter', cat.category)">
+      <div
+        class="filter-category-header caps-header row"
+        :class="{ 'no-children': cat.tags.length == 0, 'tags-hidden': !activeCats.includes(cat.category) }"
+        @click="$emit('toggleCategoryFilter', cat.category)"
+      >
         {{ cat.category }}
       </div>
       <div>
-        <div class="filter-tag row" v-for="tag in cat.tags" :key="tag.id" title="Filtrera på denna tagg" @click="$emit('clickTag', tag, !mobileFilter)">
-          <span :class="{'active-tag': activeTags.includes(tag), tag: activeTags.includes(tag)}">{{ tag }}</span>
+        <div
+          class="filter-tag row"
+          v-for="tag in cat.tags"
+          :key="tag.id"
+          title="Filtrera på denna tagg"
+          @click="$emit('clickTag', tag, !mobileFilter)"
+        >
+          <span :class="{ 'active-tag': activeTags.includes(tag), tag: activeTags.includes(tag) }">{{ tag }}</span>
         </div>
       </div>
     </div>
@@ -32,7 +42,7 @@ export default {
       default: false
     }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
@@ -56,15 +66,15 @@ export default {
 }
 
 i.fas.fa-filter {
-    position: relative;
+  position: relative;
 }
 i.fas.fa-filter::after {
-    content: "⨯";
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    font-size: 12px;
-    font-weight: normal;
+  content: "⨯";
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .filter-category {
@@ -81,7 +91,7 @@ i.fas.fa-filter::after {
   font-weight: 500;
   cursor: pointer;
 }
-.filter-category-header::before{
+.filter-category-header::before {
   position: relative;
   top: 10px;
   right: 4px;
@@ -91,7 +101,7 @@ i.fas.fa-filter::after {
   content: "";
   pointer-events: none;
 }
-.filter-category-header.tags-hidden::before{
+.filter-category-header.tags-hidden::before {
   position: relative;
   top: 6px;
   right: 4px;
@@ -103,8 +113,7 @@ i.fas.fa-filter::after {
   height: 0;
 }
 .filter-category-header.tags-hidden,
-.filter-category-header.no-children
- {
+.filter-category-header.no-children {
   border: 1px solid var(--primary-color-5);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;

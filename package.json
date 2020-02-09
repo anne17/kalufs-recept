@@ -58,8 +58,8 @@
         }
       ],
       "semi": [
-        "warn",
-        "always"
+        2,
+        "never"
       ]
     },
     "parserOptions": {

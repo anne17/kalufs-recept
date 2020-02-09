@@ -1,15 +1,25 @@
 <template>
   <div>
-
-    <Login v-if="!hideLogin" @close="closeLogin"/>
-    <MobileMenu :hideSideBar="hideSideBar" :currentUser="currentUser" :loggedIn="loggedIn" :admin="admin" :hasSuggestions="hasSuggestions" :nSuggestions="nSuggestions" @close="closeSideBar" @open="openSideBar" @openLogin="openLogin" @logout="logout"/>
+    <Login v-if="!hideLogin" @close="closeLogin" />
+    <MobileMenu
+      :hideSideBar="hideSideBar"
+      :currentUser="currentUser"
+      :loggedIn="loggedIn"
+      :admin="admin"
+      :hasSuggestions="hasSuggestions"
+      :nSuggestions="nSuggestions"
+      @close="closeSideBar"
+      @open="openSideBar"
+      @openLogin="openLogin"
+      @logout="logout"
+    />
 
     <!-- Header when printing -->
     <header id="print-header" class="container header">
       <div class="row justify-content-center">
         <div class="header-img-container">
           <span>kalufs.</span>
-          <img alt="Plate" src="../assets/plate-fork-and-knife_black.png">
+          <img alt="Plate" src="../assets/plate-fork-and-knife_black.png" />
           <span>/recept</span>
         </div>
       </div>
@@ -20,13 +30,12 @@
       <header class="container header">
         <div class="row">
           <!-- left column -->
-          <div class="col-2">
-          </div>
+          <div class="col-2"></div>
           <!-- middle column -->
           <div class="col-8 header-img-container">
             <router-link to="/" class="logo" title="Visa alla recept">
               <span>kalufs. </span>
-              <img alt="Plate" src="../assets/plate-fork-and-knife_white.png">
+              <img alt="Plate" src="../assets/plate-fork-and-knife_white.png" />
               <span> /recept</span>
             </router-link>
           </div>
@@ -45,13 +54,12 @@
     <header id="header" class="container d-none d-lg-block lg-screen-header header">
       <div class="row">
         <!-- left column -->
-        <div class="col-2">
-        </div>
+        <div class="col-2"></div>
         <!-- middle column -->
         <div class="col-8 header-img-container">
           <router-link to="/" class="logo" title="Visa alla recept">
             <span>kalufs. </span>
-            <img alt="Plate" src="../assets/plate-fork-and-knife_white.png">
+            <img alt="Plate" src="../assets/plate-fork-and-knife_white.png" />
             <span> /recept</span>
           </router-link>
         </div>
@@ -62,13 +70,9 @@
             <span v-if="!loggedIn" class="do-login" @click="openLogin">
               Logga in
             </span>
-            <span v-if="loggedIn">
-              Hej {{ currentUser }}!&nbsp;
-            </span>
+            <span v-if="loggedIn"> Hej {{ currentUser }}!&nbsp; </span>
             <span v-if="admin && hasSuggestions" title="Visa förslag" class="bell active-bell">
-              <router-link to="/suggestions">
-                <i class="fas fa-bell"></i>&nbsp;
-              </router-link>
+              <router-link to="/suggestions"> <i class="fas fa-bell"></i>&nbsp; </router-link>
             </span>
             <span v-if="admin && !hasSuggestions" title="Inga nya förslag" class="bell inactive-bell">
               <i class="fas fa-bell"></i>&nbsp;
@@ -81,17 +85,17 @@
       </div>
     </header>
 
-    <div class="header-space"/>
+    <div class="header-space" />
   </div>
 </template>
 
 <!-- ####################################################################### -->
 <script>
-import { headroom } from "vue-headroom";
+import { headroom } from "vue-headroom"
 
-import Login from "@/components/Login.vue";
-import MobileMenu from "@/components/MobileMenu.vue";
-import { axios, EventBus, LoginMixin } from "@/services.js";
+import Login from "@/components/Login.vue"
+import MobileMenu from "@/components/MobileMenu.vue"
+import { axios, EventBus, LoginMixin } from "@/services.js"
 
 export default {
   name: "Header",
@@ -103,85 +107,84 @@ export default {
   },
   mounted() {
     if (this.$route.hash == "#login") {
-      document.body.style.overflowY = "hidden";
-      this.hideLogin = false;
+      document.body.style.overflowY = "hidden"
+      this.hideLogin = false
     }
   },
   data() {
     return {
       hideLogin: true,
-      hideSideBar: true,
-    };
+      hideSideBar: true
+    }
   },
   watch: {
-    "$route" (to, from) {
+    $route(to, from) {
       if (to.hash == "#login") {
-        document.body.style.overflowY = "hidden";
-        this.isError = false;
-        this.hideLogin = false;
+        document.body.style.overflowY = "hidden"
+        this.isError = false
+        this.hideLogin = false
       }
       if (from.hash == "#login" && to.hash !== "#login") {
-        document.body.style.overflowY = "auto";
-        this.hideLogin = true;
-        this.isError = false;
+        document.body.style.overflowY = "auto"
+        this.hideLogin = true
+        this.isError = false
       }
       if (to.hash == "#sidebar") {
-        document.body.style.overflowY = "hidden";
-        this.hideSideBar = false;
+        document.body.style.overflowY = "hidden"
+        this.hideSideBar = false
       }
       if (from.hash == "#sidebar" && to.hash !== "#sidebar") {
-        document.body.style.overflowY = "auto";
-        this.hideSideBar = true;
+        document.body.style.overflowY = "auto"
+        this.hideSideBar = true
       }
     }
   },
   methods: {
     openLogin() {
-      this.$router.push({hash: "#login"});
-      document.body.style.overflowY = "hidden";
-      this.isError = false;
-      this.hideLogin = false;
+      this.$router.push({ hash: "#login" })
+      document.body.style.overflowY = "hidden"
+      this.isError = false
+      this.hideLogin = false
     },
     closeLogin() {
-      this.$router.push({hash: ""});
-      document.body.style.overflowY = "auto";
-      this.hideLogin = true;
-      this.isError = false;
+      this.$router.push({ hash: "" })
+      document.body.style.overflowY = "auto"
+      this.hideLogin = true
+      this.isError = false
     },
     openSideBar() {
-      this.hideSideBar = false;
-      this.$router.push({hash: "#sidebar"});
-      document.body.style.overflowY = "hidden";
+      this.hideSideBar = false
+      this.$router.push({ hash: "#sidebar" })
+      document.body.style.overflowY = "hidden"
     },
     closeSideBar() {
-      this.hideSideBar = true;
-      this.$router.push({hash: ""});
-      document.body.style.overflowY = "auto";
+      this.hideSideBar = true
+      this.$router.push({ hash: "" })
+      document.body.style.overflowY = "auto"
     },
     logout() {
       axios
         .post(this.$backend + "logout")
-        .then(response => {
+        .then((response) => {
           if (response.data.status == "success") {
-            EventBus.$emit("login", {authenticated: false});
-            this.loggedIn = false;
+            EventBus.$emit("login", { authenticated: false })
+            this.loggedIn = false
           } else {
-            this.error = this.errorMessage(response.data.message);
+            this.error = this.errorMessage(response.data.message)
           }
         })
-        .catch(error => {
-          console.error("Couldn't log out:", error);
+        .catch((error) => {
+          console.error("Couldn't log out:", error)
           // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
-        });
+        })
     }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
 
 <style scoped>
-
 .header {
   background-color: var(--theme-color);
   max-width: 100%;
@@ -287,6 +290,5 @@ export default {
     height: 40%;
     vertical-align: baseline;
   }
-
 }
 </style>

@@ -3,8 +3,11 @@
     <h2 class="errormsg" v-if="isError">Kan inte hitta receptet!</h2>
 
     <div class="theRecipe" v-if="!isError">
-      <div class="img-container" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, preview ? 'full' : 'medium') + ')' }">
-        <img class="invisible-img" :src="getImgUrl(recipe)"/>
+      <div
+        class="img-container"
+        v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, preview ? 'full' : 'medium') + ')' }"
+      >
+        <img class="invisible-img" :src="getImgUrl(recipe)" />
       </div>
 
       <h2 v-html="recipe.title" class="recipe-title"></h2>
@@ -15,7 +18,7 @@
       </div>
 
       <div v-if="showEditOption" class="mini-edit-menu">
-        <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera" v-if="recipe.title">
+        <router-link :to="{ name: 'edit', params: { title: recipe.title } }" title="redigera" v-if="recipe.title">
           <i class="fas fa-pencil-alt"></i>
         </router-link>
       </div>
@@ -24,7 +27,7 @@
       </div>
 
       <div v-if="recipe.image !== undefined && recipe.image !== ''" class="print-img-container">
-        <img :src="getImgUrl(recipe)"/>
+        <img :src="getImgUrl(recipe)" />
       </div>
 
       <div class="ingredients">
@@ -41,32 +44,48 @@
       </div>
 
       <p v-if="recipe.tags !== undefined && recipe.tags.length !== 0" class="recipe-tags">
-        <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
+        <router-link
+          class="tag-link"
+          v-for="tag in recipe.tags"
+          :key="tag.id"
+          :to="{ name: 'recipes', query: { tag: tag } }"
+          title="Sök på recept med denna tagg"
+        >
           <span class="tag">{{ tag }}</span>
         </router-link>
       </p>
 
-
       <p v-if="recipe.source" class="recipe-source">
         <span>Källa: </span>
-        <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{ recipe.source }}</a>
+        <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{
+          recipe.source
+        }}</a>
         <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
-        <br>
+        <br />
       </p>
 
       <p v-if="showMeta" class="recipe-metadata" ref="metaData">
         <span>Skapat av: </span>
-        <router-link class="user-link" :to="{ name: 'recipes', query: {user: recipe.created_by.displayname}}" title="Sök på recept av denna användare">
+        <router-link
+          class="user-link"
+          :to="{ name: 'recipes', query: { user: recipe.created_by.displayname } }"
+          title="Sök på recept av denna användare"
+        >
           <span>{{ getUsername(recipe.created_by) }}</span>
         </router-link>
         <span> ({{ convertDatetime(recipe.created) }})</span>
-        <br>
+        <br />
         <span v-if="recipe.changed">Ändrat av: </span>
-        <router-link v-if="recipe.changed" class="user-link" :to="{ name: 'recipes', query: {user: recipe.changed_by.displayname}}" title="Sök på recept av denna användare">
+        <router-link
+          v-if="recipe.changed"
+          class="user-link"
+          :to="{ name: 'recipes', query: { user: recipe.changed_by.displayname } }"
+          title="Sök på recept av denna användare"
+        >
           <span>{{ getUsername(recipe.changed_by) }}</span>
         </router-link>
         <span v-if="recipe.changed"> ({{ convertDatetime(recipe.changed) }})</span>
-        <br>
+        <br />
         <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
         <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
       </p>
@@ -75,16 +94,14 @@
         <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
         <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
       </p>
-
-
     </div>
   </div>
 </template>
 
 <!-- ####################################################################### -->
 <script>
-import { ImageMixin } from "@/services.js";
-import moment from "moment";
+import { ImageMixin } from "@/services.js"
+import moment from "moment"
 
 export default {
   name: "ShowRecipe",
@@ -116,34 +133,36 @@ export default {
           changed: "",
           suggestor: "",
           published: true
-        };
+        }
       }
     }
   },
   data() {
     return {
       showMeta: false
-    };
+    }
   },
   methods: {
     isUrl(s) {
-      this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/;
-      return this.regexp.test(s);
+      this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/
+      return this.regexp.test(s)
     },
     displayMetadata() {
-      this.showMeta = true;
-      this.$nextTick(() => this.$refs.metaData.scrollIntoView());
+      this.showMeta = true
+      this.$nextTick(() => this.$refs.metaData.scrollIntoView())
     },
     getUsername(user) {
       if (user !== undefined) {
-        return user.displayname;
+        return user.displayname
       }
     },
     convertDatetime(datetime) {
-      return moment(datetime, "ddd, DD MMM YYYY hh:mm:ss").locale("sv").format("DD MMM YYYY, HH:mm");
+      return moment(datetime, "ddd, DD MMM YYYY hh:mm:ss")
+        .locale("sv")
+        .format("DD MMM YYYY, HH:mm")
     }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->

@@ -1,11 +1,11 @@
-import Vue from "vue";
-import Router from "vue-router";
-const Recipes = () => import("./views/Recipes.vue");
-const EditRecipe = () => import("./views/EditRecipe.vue");
-const ViewRecipe = () => import("./views/ViewRecipe.vue");
-import { axios } from "./services.js";
+import Vue from "vue"
+import Router from "vue-router"
+const Recipes = () => import("./views/Recipes.vue")
+const EditRecipe = () => import("./views/EditRecipe.vue")
+const ViewRecipe = () => import("./views/ViewRecipe.vue")
+import { axios } from "./services.js"
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   mode: "history",
@@ -48,40 +48,38 @@ const router = new Router({
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(savedPosition);
-        }, 500);
-      });
+          resolve(savedPosition)
+        }, 500)
+      })
     } else {
-      return { x: 0, y: 0 };
+      return { x: 0, y: 0 }
     }
   }
-});
+})
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     // This route requires auth: check if logged in and redirect to login page.
-    axios
-      .post(Vue.prototype.$backend + "check_authentication")
-      .then(response => {
-        if (response.data.authenticated) {
-          if (!response.data.admin && !to.meta.allowGuest) {
-            // Don't go here
-            next({ path: from.path });
-          } else {
-            next();
-          }
+    axios.post(Vue.prototype.$backend + "check_authentication").then((response) => {
+      if (response.data.authenticated) {
+        if (!response.data.admin && !to.meta.allowGuest) {
+          // Don't go here
+          next({ path: from.path })
         } else {
-          next({
-            path: from.path + "#login",
-            query: { redirect: to.fullPath }
-          });
+          next()
         }
-      });
+      } else {
+        next({
+          path: from.path + "#login",
+          query: { redirect: to.fullPath }
+        })
+      }
+    })
   } else {
-    next();
+    next()
   }
-});
+})
 
-export default router;
+export default router

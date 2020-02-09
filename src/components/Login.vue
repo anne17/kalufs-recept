@@ -1,6 +1,5 @@
 <template>
   <div class="login">
-
     <div class="overlay" @click="$emit('close')"></div>
 
     <div id="LoginModal">
@@ -11,19 +10,38 @@
             <form v-on:submit.prevent="onSubmit">
               <div class="form-group">
                 <i class="fa fa-user"></i>
-                <input type="text" class="form-control" placeholder="Användarnamn" v-model="form.login" autofocus required="required" oninvalid="this.setCustomValidity('Ange ditt användarnamn')" oninput="setCustomValidity('')" title="">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Användarnamn"
+                  v-model="form.login"
+                  autofocus
+                  required="required"
+                  oninvalid="this.setCustomValidity('Ange ditt användarnamn')"
+                  oninput="setCustomValidity('')"
+                  title=""
+                />
               </div>
               <div class="form-group">
                 <i class="fa fa-lock"></i>
-                <input type="password" class="form-control" placeholder="Lösenord" v-model="form.password" required="required" oninvalid="this.setCustomValidity('Ange ditt lösenord')" oninput="setCustomValidity('')" title="">
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Lösenord"
+                  v-model="form.password"
+                  required="required"
+                  oninvalid="this.setCustomValidity('Ange ditt lösenord')"
+                  oninput="setCustomValidity('')"
+                  title=""
+                />
               </div>
               <div class="form-group">
-                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in">
+                <input type="submit" class="btn btn-primary btn-block btn-lg" value="Logga in" />
               </div>
             </form>
 
             <span class="loading-spinner" v-if="loading">
-              <img src="../assets/loading_spinner.svg"/>
+              <img src="../assets/loading_spinner.svg" />
             </span>
 
             <div class="error-message">
@@ -35,14 +53,13 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <!-- ####################################################################### -->
 
 <script>
 // https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=elegant-modal-login-form-with-icons
-import { EventBus, axios } from "@/services.js";
+import { EventBus, axios } from "@/services.js"
 
 export default {
   name: "login",
@@ -55,53 +72,49 @@ export default {
         login: "",
         password: ""
       }
-    };
+    }
   },
   created() {
     // Emit close event on ESC
-    document.onkeydown = evt => {
-      evt = evt || window.event;
+    document.onkeydown = (evt) => {
+      evt = evt || window.event
       if (evt.keyCode == 27) {
-        this.$emit("close");
+        this.$emit("close")
       }
-    };
+    }
   },
   methods: {
     onSubmit() {
-      this.isError = false;
-      this.loading = true;
+      this.isError = false
+      this.loading = true
       axios
         .post(this.$backend + "login", this.form)
-        .then(response => {
-          this.loading = false;
-          this.username = response.data.user;
-          this.admin = response.data.admin;
-          EventBus.$emit("login", {authenticated: true, user: this.username, admin: this.admin});
+        .then((response) => {
+          this.loading = false
+          this.username = response.data.user
+          this.admin = response.data.admin
+          EventBus.$emit("login", { authenticated: true, user: this.username, admin: this.admin })
           // Go to requested page (or stay on current page if there is no redirect)
-          this.$router.push({ path: this.$route.query.redirect });
+          this.$router.push({ path: this.$route.query.redirect })
         })
-        .catch(e => {
-          this.isError = true;
-          this.loading = false;
-          if (
-            typeof e.response !== "undefined" &&
-            e.response.data.message == "Invalid username or password!"
-          ) {
-            this.error = "Felaktigt lösenord eller användarnamn!";
+        .catch((e) => {
+          this.isError = true
+          this.loading = false
+          if (typeof e.response !== "undefined" && e.response.data.message == "Invalid username or password!") {
+            this.error = "Felaktigt lösenord eller användarnamn!"
           } else {
-            this.error = "Ett oväntat fel har inträffat :(";
-            console.error("Response from backend:", e.response);
+            this.error = "Ett oväntat fel har inträffat :("
+            console.error("Response from backend:", e.response)
           }
-        });
+        })
     }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
 
 <style scoped>
-
 .modal-login {
   width: 350px;
   z-index: 10000;

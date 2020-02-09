@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="app">
-    <Header/>
+    <Header />
 
     <div class="app-body">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
@@ -12,14 +12,14 @@
 
 <script>
 // @ is an alias to /src
-import Header from "@/components/Header.vue";
+import Header from "@/components/Header.vue"
 
 export default {
   name: "app",
   components: {
     Header
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
@@ -38,7 +38,7 @@ export default {
   --theme-color: #568648;
   --theme-color-4: #659a56;
 
-  --primary-color-5: #A6B07E;
+  --primary-color-5: #a6b07e;
   --primary-color-4: #cad59e;
 
   --secondary-color-5: #ca7e2c;
@@ -145,7 +145,8 @@ h1 {
 }
 
 @media print {
-  html, body {
+  html,
+  body {
     background-color: transparent;
   }
 }

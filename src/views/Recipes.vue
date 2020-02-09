@@ -1,15 +1,21 @@
 <template>
   <div class="recipes container">
-
-    <LoadingSpinner :loading="loading"/>
+    <LoadingSpinner :loading="loading" />
 
     <!-- Filter menu for small screens -->
-    <div class="d-lg-none" :class="{hidden: !showMobileFilter}">
+    <div class="d-lg-none" :class="{ hidden: !showMobileFilter }">
       <div class="overlay" @click="toggleMobileFilter()"></div>
       <div class="mobile-filter-modal">
         <div class="modal-content">
           <button type="button" class="close" v-on:click="toggleMobileFilter()" aria-hidden="true">&times;</button>
-          <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" :activeCats="activeCats" @clickTag="clickTag" @toggleCategoryFilter="toggleCategoryFilter" :mobileFilter="Boolean('true')"/>
+          <FilterMenu
+            :tagStructureSimple="tagStructureSimple"
+            :activeTags="activeTags"
+            :activeCats="activeCats"
+            @clickTag="clickTag"
+            @toggleCategoryFilter="toggleCategoryFilter"
+            :mobileFilter="Boolean('true')"
+          />
         </div>
       </div>
     </div>
@@ -20,36 +26,45 @@
           <div class="search-icon input-group-prepend" @click="preSearch">
             <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
+          <input type="text" class="form-control" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch" />
         </div>
 
         <!-- Placeholder - level filter height with height of recipe list -->
         <div class="row">
-          <div v-if="!loggedIn" class="mb-3">
-          </div>
+          <div v-if="!loggedIn" class="mb-3"></div>
           <span v-if="loggedIn">&nbsp;</span>
         </div>
 
-        <FilterMenu :tagStructureSimple="tagStructureSimple" :activeTags="activeTags" :activeCats="activeCats" @clickTag="clickTag" @toggleCategoryFilter="toggleCategoryFilter"/>
-
+        <FilterMenu
+          :tagStructureSimple="tagStructureSimple"
+          :activeTags="activeTags"
+          :activeCats="activeCats"
+          @clickTag="clickTag"
+          @toggleCategoryFilter="toggleCategoryFilter"
+        />
       </div>
 
       <div class="col-lg-8 col-md-10 col-sm-12 middle">
         <h1>
           {{ tableTitle }}
           <template v-if="activeTags.length > 0">
-            <span v-for="tag in activeTags" :key="tag.id" class="tag search-tag">{{tag}}</span>
+            <span v-for="tag in activeTags" :key="tag.id" class="tag search-tag">{{ tag }}</span>
           </template>
-          <span class="hits" v-if="nHits!==-1"> ({{ nHits }})</span>
+          <span class="hits" v-if="nHits !== -1"> ({{ nHits }})</span>
         </h1>
         <div class="menu container">
           <div class="menu row mb-3">
-
             <div v-if="showPublished" class="input-group input-group-sm col-6">
               <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
-              <input type="text" class="form-control d-inline d-lg-none" placeholder="Sök" v-model="searchString" @keyup.enter="preSearch">
+              <input
+                type="text"
+                class="form-control d-inline d-lg-none"
+                placeholder="Sök"
+                v-model="searchString"
+                @keyup.enter="preSearch"
+              />
             </div>
 
             <div v-if="!showPublished" class="unpublished-notice">
@@ -58,19 +73,24 @@
             </div>
 
             <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
-              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: {title: 'New'}}">
-                <strong>&plus;</strong> Nytt recept
+              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: { title: 'New' } }">
+                <strong>&#43;</strong> Nytt recept
               </router-link>
-              <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest'}">
-                <strong>&plus;</strong> Nytt recept
+              <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest' }">
+                <strong>&#43;</strong> Nytt recept
               </router-link>
             </div>
 
-            <button v-if="showPublished" type="button" class="btn btn-primary d-lg-none btn-sm" :class="{'mt-2': loggedIn}" @click="toggleMobileFilter()">
+            <button
+              v-if="showPublished"
+              type="button"
+              class="btn btn-primary d-lg-none btn-sm"
+              :class="{ 'mt-2': loggedIn }"
+              @click="toggleMobileFilter()"
+            >
               <i class="fas fa-filter"></i>
               Filtrera recept
             </button>
-
           </div>
         </div>
 
@@ -82,32 +102,45 @@
           <div v-if="!results">
             <span>Inga recept kunde visas 😟</span>
           </div>
-          <div v-if="nHits==0">
+          <div v-if="nHits == 0">
             <span>Sökningen gav inga träffar 😟</span>
           </div>
 
-            <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
-              <div class="row">
-                <div class="main-img-container col-3" v-on:click="openLink(recipe.title)" v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, 'thumb') + ')' }"/>
-                <div class="text-container container col-9">
-                  <div class="row title">
-                    <router-link :class="{'col-11': loggedIn && admin}" :to="{ name: 'view', params: {title: recipe.title}}">{{ recipe.title }}</router-link>
-                    <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
-                      <router-link :to="{ name: 'edit', params: {title: recipe.title}}" title="redigera">
-                        <i class="fas fa-pencil-alt"></i>
-                      </router-link>
-                    </div>
-                  </div>
-                  <div class="tags-container row">
-                    <router-link class="tag-link" v-for="tag in recipe.tags" :key="tag.id" :to="{ name: 'recipes', query: {tag: tag}}" title="Sök på recept med denna tagg">
-                      <span class="tag">{{ tag }}</span>
+          <div class="main-entry container" v-for="recipe in results" :key="recipe.id">
+            <div class="row">
+              <div
+                class="main-img-container col-3"
+                v-on:click="openLink(recipe.title)"
+                v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, 'thumb') + ')' }"
+              />
+              <div class="text-container container col-9">
+                <div class="row title">
+                  <router-link
+                    :class="{ 'col-11': loggedIn && admin }"
+                    :to="{ name: 'view', params: { title: recipe.title } }"
+                    >{{ recipe.title }}</router-link
+                  >
+                  <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
+                    <router-link :to="{ name: 'edit', params: { title: recipe.title } }" title="redigera">
+                      <i class="fas fa-pencil-alt"></i>
                     </router-link>
-                    <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
                   </div>
                 </div>
-
+                <div class="tags-container row">
+                  <router-link
+                    class="tag-link"
+                    v-for="tag in recipe.tags"
+                    :key="tag.id"
+                    :to="{ name: 'recipes', query: { tag: tag } }"
+                    title="Sök på recept med denna tagg"
+                  >
+                    <span class="tag">{{ tag }}</span>
+                  </router-link>
+                  <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
+                </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
 
@@ -118,9 +151,9 @@
 
 <!-- ####################################################################### -->
 <script>
-import { ImageMixin, LoginMixin, TagMixin, axios } from "@/services.js";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import FilterMenu from "@/components/FilterMenu.vue";
+import { ImageMixin, LoginMixin, TagMixin, axios } from "@/services.js"
+import LoadingSpinner from "@/components/LoadingSpinner.vue"
+import FilterMenu from "@/components/FilterMenu.vue"
 
 export default {
   name: "recipes",
@@ -143,58 +176,57 @@ export default {
       activeCats: [],
       activeTags: [],
       showMobileFilter: false
-    };
+    }
   },
   mounted() {
-    document.title = this.$defaulttitle;
-    document.body.style.overflowY = "auto";
+    document.title = this.$defaulttitle
+    document.body.style.overflowY = "auto"
 
     if (this.$route.hash == "#filter") {
-      this.showMobileFilter = true;
+      this.showMobileFilter = true
     }
 
-    this.getTagStructureSimple()
-      .then( () => {
-        this.updateTags();
-        // display all cateogries as open
-        for (let cat of this.tagStructureSimple) {
-          this.activeCats.push(cat.category);
-        }
-      });
+    this.getTagStructureSimple().then(() => {
+      this.updateTags()
+      // display all cateogries as open
+      for (let cat of this.tagStructureSimple) {
+        this.activeCats.push(cat.category)
+      }
+    })
     if (Object.keys(this.$route.query).length !== 0 && !("redirect" in this.$route.query)) {
-      this.search(this.$route.query);
+      this.search(this.$route.query)
     } else {
       // Otherwise, get all data (or suggestions)
       if (this.$router.currentRoute.name == "suggestions") {
-        this.showSuggestions();
+        this.showSuggestions()
       } else {
-        this.showRecipes();
+        this.showRecipes()
       }
-      this.loadAll();
+      this.loadAll()
     }
-    this.searchError = "";
+    this.searchError = ""
   },
   watch: {
-    "$route" (to, from) {
-      this.updateTags();
+    $route(to, from) {
+      this.updateTags()
       if (Object.keys(this.$route.query).length !== 0) {
-        this.search(this.$route.query);
+        this.search(this.$route.query)
       } else {
         if (this.$router.currentRoute.name == "suggestions") {
-          this.showSuggestions();
+          this.showSuggestions()
         } else {
-          this.showRecipes();
+          this.showRecipes()
         }
-        this.loadAll();
+        this.loadAll()
       }
       // Handle history for filter display on small screens
       if (to.hash == "#filter") {
-        document.body.style.overflowY = "hidden";
-        this.showMobileFilter = true;
+        document.body.style.overflowY = "hidden"
+        this.showMobileFilter = true
       }
       if (from.hash == "#filter" && to.hash !== "#filter") {
-        document.body.style.overflowY = "auto";
-        this.showMobileFilter = false;
+        document.body.style.overflowY = "auto"
+        this.showMobileFilter = false
       }
     }
   },
@@ -202,118 +234,118 @@ export default {
     updateTags() {
       // Update tag style in filter sidebar
       if (this.$route.query.tag !== undefined) {
-        this.activeTags = this.$route.query.tag.split(",");
+        this.activeTags = this.$route.query.tag.split(",")
       } else {
-        this.activeTags = [];
+        this.activeTags = []
       }
     },
-    clickTag(tag, filter=true) {
+    clickTag(tag, filter = true) {
       if (!this.activeTags.includes(tag)) {
-        this.activeTags.push(tag);
+        this.activeTags.push(tag)
       } else {
-        this.activeTags = this.activeTags.filter(t => t !== tag);
+        this.activeTags = this.activeTags.filter((t) => t !== tag)
       }
       // Do filtering on tag click if not in mobile mode
-      if (filter){
-        this.sendTags();
+      if (filter) {
+        this.sendTags()
       }
     },
-    sendTags(){
-      var hash = this.showMobileFilter ? "#filter" : "";
+    sendTags() {
+      var hash = this.showMobileFilter ? "#filter" : ""
       if (this.activeTags.length == 0) {
-        this.$router.push({ name: "recipes", hash: hash });
+        this.$router.push({ name: "recipes", hash: hash })
       } else {
-        this.$router.push({ name: "recipes", query: {tag: this.activeTags.join(",")}});
+        this.$router.push({ name: "recipes", query: { tag: this.activeTags.join(",") } })
       }
     },
     toggleCategoryFilter(category) {
       if (this.activeCats.includes(category)) {
-        this.activeCats = this.activeCats.filter(c => c !== category);
+        this.activeCats = this.activeCats.filter((c) => c !== category)
       } else {
-        this.activeCats.push(category);
+        this.activeCats.push(category)
       }
     },
     showSuggestions() {
-      this.showPublished = false;
-      this.defaultTableTitle = "Alla förslag";
+      this.showPublished = false
+      this.defaultTableTitle = "Alla förslag"
     },
     showRecipes() {
-      this.showPublished = true;
-      this.defaultTableTitle = "Alla recept";
+      this.showPublished = true
+      this.defaultTableTitle = "Alla recept"
     },
     toggleMobileFilter() {
-      if (!this.showMobileFilter ) {
-        this.$router.push({hash: "#filter", query: this.$route.query});
+      if (!this.showMobileFilter) {
+        this.$router.push({ hash: "#filter", query: this.$route.query })
       } else if (this.activeTags.length > 0) {
-        this.$router.push({hash: "", query: {tag: this.activeTags.join(",")}});
+        this.$router.push({ hash: "", query: { tag: this.activeTags.join(",") } })
       } else {
-        this.$router.push({hash: ""});
+        this.$router.push({ hash: "" })
       }
-      this.showMobileFilter = !this.showMobileFilter;
+      this.showMobileFilter = !this.showMobileFilter
     },
     loadAll() {
-      var call = "recipe_data";
+      var call = "recipe_data"
       if (!this.showPublished) {
-        call = "recipe_suggestions";
+        call = "recipe_suggestions"
       }
       axios
         .get(this.$backend + call, { params: { title: this.$route.params.title } })
-        .then(response => {
-          if (response.data.status !== "success"){
-            this.results = false;
+        .then((response) => {
+          if (response.data.status !== "success") {
+            this.results = false
           } else {
-            this.results = response.data.data;
-            this.nHits = response.data.hits;
-            this.tableTitle = this.defaultTableTitle;
+            this.results = response.data.data
+            this.nHits = response.data.hits
+            this.tableTitle = this.defaultTableTitle
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-          this.results = false;
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+          this.results = false
+        })
     },
     openLink(title) {
-      this.$router.push({ name: "view", params: { title: title } });
+      this.$router.push({ name: "view", params: { title: title } })
     },
     preSearch() {
-      this.searchString = this.searchString.trim();
+      this.searchString = this.searchString.trim()
       if (this.searchString !== "") {
-        this.$router.push({ query: { q: this.searchString } });
+        this.$router.push({ query: { q: this.searchString } })
       }
     },
     search(queryParams) {
-      this.searchError = "";
-      this.loading = true;
+      this.searchError = ""
+      this.loading = true
       axios
         .get(this.$backend + "search", { params: queryParams })
-        .then(response => {
-          this.loading = false;
+        .then((response) => {
+          this.loading = false
           if (response.data.status == "success") {
-            this.results = response.data.data;
-            this.nHits = response.data.hits;
+            this.results = response.data.data
+            this.nHits = response.data.hits
             if (queryParams.user !== undefined) {
-              this.tableTitle = "Recept av " + queryParams.user;
+              this.tableTitle = "Recept av " + queryParams.user
             } else if (queryParams.tag !== undefined) {
-              this.tableTitle = "Recept med ";
+              this.tableTitle = "Recept med "
             } else {
-              this.tableTitle = "Recept med '" + queryParams.q + "'";
+              this.tableTitle = "Recept med '" + queryParams.q + "'"
             }
           } else {
-            this.results = false;
-            this.tableTitle = "Recept med '" + this.searchString + "'";
-            console.error("Message from backend:", response.data.message);
-            this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
+            this.results = false
+            this.tableTitle = "Recept med '" + this.searchString + "'"
+            console.error("Message from backend:", response.data.message)
+            this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
           }
         })
-        .catch(e => {
-          this.loading = false;
-          this.results = false;
-          console.error("Response from backend:", e.response);
-          this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat.";
-        });
-    },
+        .catch((e) => {
+          this.loading = false
+          this.results = false
+          console.error("Response from backend:", e.response)
+          this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
+        })
+    }
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
@@ -466,7 +498,6 @@ export default {
 .mini-edit-menu {
   margin: 0.2em 0 0 0;
   padding: 0;
-
 }
 .mini-edit-menu i {
   float: right;
@@ -475,7 +506,9 @@ export default {
   color: black;
 }
 
-@media only screen and (min-width : 1200px) {
-    .recipes { max-width: 1400px; }
+@media only screen and (min-width: 1200px) {
+  .recipes {
+    max-width: 1400px;
+  }
 }
 </style>

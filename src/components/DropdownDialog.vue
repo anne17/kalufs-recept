@@ -7,8 +7,7 @@
         <div class="modal-content">
           <button type="button" class="close" v-on:click="$emit('close')" aria-hidden="true">&times;</button>
           <div class="modal-body container">
-
-            <div class="message"> Välj en kategori för taggen "{{ tag }}" </div>
+            <div class="message">Välj en kategori för taggen "{{ tag }}"</div>
 
             <div class="dropdown">
               <select v-model="chosenCat">
@@ -17,21 +16,19 @@
             </div>
 
             <div class="row">
-              <div class="col-4"/>
+              <div class="col-4" />
               <div class="col-4">
                 <button type="button" class="btn btn-primary btn-block" v-on:click="$emit('confirm', chosenCat)">
                   Ok
                 </button>
               </div>
-              <div class="col-4"/>
+              <div class="col-4" />
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <!-- ####################################################################### -->
@@ -42,7 +39,7 @@ export default {
   data() {
     return {
       chosenCat: ""
-    };
+    }
   },
   props: {
     tag: String,
@@ -51,22 +48,21 @@ export default {
   },
   created() {
     // Emit close event on ESC
-    document.onkeydown = evt => {
-      evt = evt || window.event;
+    document.onkeydown = (evt) => {
+      evt = evt || window.event
       if (evt.keyCode == 27) {
-        this.$emit("close");
+        this.$emit("close")
       }
-    };
+    }
     // Set default choice
-    this.chosenCat = this.defaultCat;
+    this.chosenCat = this.defaultCat
   }
-};
+}
 </script>
 
 <!-- ####################################################################### -->
 
 <style scoped>
-
 .modal-confirm {
   color: #636363;
   width: 350px;
@@ -119,10 +115,10 @@ export default {
   border-radius: 4px;
   appearance: none;
   -webkit-appearance: none; /* remove default caret on Safari and Chrome */
-  -moz-appearance:none; /* remove default caret on Firefox */
+  -moz-appearance: none; /* remove default caret on Firefox */
   background: transparent;
 }
-.dropdown::after{
+.dropdown::after {
   position: absolute;
   top: 30%;
   right: 10px;
@@ -130,7 +126,7 @@ export default {
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #023F55;
+  border-top: 6px solid #023f55;
   content: "";
   pointer-events: none;
 }

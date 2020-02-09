@@ -1,28 +1,28 @@
-import Vue from "vue";
-export const EventBus = new Vue();
+import Vue from "vue"
+export const EventBus = new Vue()
 
-import axios from "axios";
-axios.defaults.withCredentials = true;
-export { axios };
+import axios from "axios"
+axios.defaults.withCredentials = true
+export { axios }
 
 export const ImageMixin = {
   // Get URL for image in correct size
   methods: {
-    getImgUrl(recipe_data, mode="full") {
+    getImgUrl(recipe_data, mode = "full") {
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
-        let path = this.$imagePath;
+        let path = this.$imagePath
         if (mode === "thumb") {
-          path = this.$thumbnailPath;
+          path = this.$thumbnailPath
         } else if (mode === "medium") {
-          path = this.$mediumImagePath;
+          path = this.$mediumImagePath
         }
-        return path + recipe_data.image;
+        return path + recipe_data.image
       } else {
-        return this.$defaultimg;
+        return this.$defaultimg
       }
     }
   }
-};
+}
 
 export const LoginMixin = {
   // Provides functionality for checking authentication
@@ -33,87 +33,87 @@ export const LoginMixin = {
       currentUser: "",
       hasSuggestions: false,
       suggestions: [],
-      nSuggestions: -1,
-    };
+      nSuggestions: -1
+    }
   },
   created() {
-    EventBus.$on("login", this.updateLoginStatus);
+    EventBus.$on("login", this.updateLoginStatus)
     // Check if there are suggestions still after saving
-    EventBus.$on("save", this.getSuggestions);
-    this.checkLogin();
+    EventBus.$on("save", this.getSuggestions)
+    this.checkLogin()
   },
   methods: {
     checkLogin() {
       axios
         .post(this.$backend + "check_authentication")
-        .then(response => {
+        .then((response) => {
           if (response.data.authenticated == true) {
-            this.loggedIn = true;
-            this.currentUser = response.data.user;
+            this.loggedIn = true
+            this.currentUser = response.data.user
             if (response.data.admin == true) {
-              this.admin = true;
-              this.getSuggestions();
+              this.admin = true
+              this.getSuggestions()
             } else {
-              this.admin = false;
-              this.hasSuggestions = false;
-              this.nSuggestions = -1;
+              this.admin = false
+              this.hasSuggestions = false
+              this.nSuggestions = -1
             }
           } else {
-            this.setAllLogout();
+            this.setAllLogout()
           }
         })
-        .catch(error => {
-          this.setAllLogout();
-          console.error(error);
-        });
+        .catch((error) => {
+          this.setAllLogout()
+          console.error(error)
+        })
     },
     updateLoginStatus(authObject) {
       if (authObject.authenticated == true) {
-        this.loggedIn = true;
-        this.currentUser = authObject.user;
+        this.loggedIn = true
+        this.currentUser = authObject.user
         if (authObject.admin == true) {
-          this.admin = true;
-          this.getSuggestions();
+          this.admin = true
+          this.getSuggestions()
         } else {
-          this.admin = false;
+          this.admin = false
         }
       } else {
         if (this.$route.name == "edit" || this.$route.name == "suggest") {
-          this.$router.push({ name: "recipes"});
+          this.$router.push({ name: "recipes" })
         }
-        this.setAllLogout();
+        this.setAllLogout()
       }
     },
     getSuggestions() {
       axios
         .get(this.$backend + "recipe_suggestions")
-        .then(response => {
-          if (response.data.status !== "success"){
-            this.hasSuggestions = false;
+        .then((response) => {
+          if (response.data.status !== "success") {
+            this.hasSuggestions = false
           } else {
-            this.nSuggestions = response.data.hits;
+            this.nSuggestions = response.data.hits
             if (this.nSuggestions > 0) {
-              this.hasSuggestions = true;
-              this.suggestions = response.data.data;
+              this.hasSuggestions = true
+              this.suggestions = response.data.data
             } else {
-              this.hasSuggestions = false;
+              this.hasSuggestions = false
             }
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-          this.hasSuggestions = false;
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+          this.hasSuggestions = false
+        })
     },
     setAllLogout() {
-      this.loggedIn = false;
-      this.currentUser = "";
-      this.admin = false;
-      this.hasSuggestions = false;
-      this.nSuggestions = -1;
+      this.loggedIn = false
+      this.currentUser = ""
+      this.admin = false
+      this.hasSuggestions = false
+      this.nSuggestions = -1
     }
   }
-};
+}
 
 export const TagMixin = {
   // Provides functionality for getting tags and categories from the backend
@@ -123,58 +123,58 @@ export const TagMixin = {
       tagStructure: [],
       tagStructureSimple: [],
       tagList: []
-    };
+    }
   },
   created() {
-    this.getTagCategories();
+    this.getTagCategories()
   },
   methods: {
     getTagCategories() {
       axios
         .get(this.$backend + "get_tag_categories")
-        .then(response => {
-          if (response.data.status == "success"){
+        .then((response) => {
+          if (response.data.status == "success") {
             for (var i in response.data.data) {
-              Vue.set(this.tagCategories, i, response.data.data[i]);
+              Vue.set(this.tagCategories, i, response.data.data[i])
             }
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+        })
     },
     getTagStructure() {
       axios
         .get(this.$backend + "get_tag_structure")
-        .then(response => {
-          if (response.data.status == "success"){
+        .then((response) => {
+          if (response.data.status == "success") {
             for (var i in response.data.data) {
-              Vue.set(this.tagStructure, i, response.data.data[i]);
+              Vue.set(this.tagStructure, i, response.data.data[i])
             }
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+        })
     },
     getTagStructureSimple() {
       return axios
         .get(this.$backend + "get_tag_structure_simple")
-        .then(response => {
-          if (response.data.status == "success"){
-            var tagCounter = 0;
+        .then((response) => {
+          if (response.data.status == "success") {
+            var tagCounter = 0
             for (var i in response.data.data) {
-              Vue.set(this.tagStructureSimple, i, response.data.data[i]);
+              Vue.set(this.tagStructureSimple, i, response.data.data[i])
               for (var j in response.data.data[i].tags) {
-                Vue.set(this.tagList, tagCounter, response.data.data[i].tags[j]);
-                tagCounter++;
+                Vue.set(this.tagList, tagCounter, response.data.data[i].tags[j])
+                tagCounter++
               }
             }
           }
         })
-        .catch(e => {
-          console.error("Response from backend:", e.response);
-        });
+        .catch((e) => {
+          console.error("Response from backend:", e.response)
+        })
     }
   }
-};
+}

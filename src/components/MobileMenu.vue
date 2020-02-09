@@ -2,39 +2,37 @@
   <div class="sideBarScreen">
     <div class="overlay" v-if="!hideSideBar" @click="closeHandler"></div>
 
-    <div class="mobileSideBar" :class="{'shown': !hideSideBar, 'hidden': hideSideBar}" v-touch:swipe.right="closeHandler" v-touch:swipe.left="openHandler">
+    <div
+      class="mobileSideBar"
+      :class="{ shown: !hideSideBar, hidden: hideSideBar }"
+      v-touch:swipe.right="closeHandler"
+      v-touch:swipe.left="openHandler"
+    >
+      <button ref="closeButton" type="button" class="close" @click="closeHandler">&times;</button>
 
-    <button ref="closeButton" type="button" class="close" @click="closeHandler">&times;</button>
-
-        <div class="sidebar-body">
-          <div class="container">
-
-            <div class="row">
-              <div class="login-status">
-                <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
-                  <i class="fas fa-sign-in-alt"></i>
-                  Logga in
-                </span>
-                <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-                  <i class="fas fa-sign-out-alt"></i>
-                  Logga ut {{ currentUser }}&nbsp;
-                </span>
-              </div>
-            </div>
-
-            <div class="row" v-if="admin && hasSuggestions">
-              <span v-if="admin && hasSuggestions" class="bell active-bell">
-                <router-link to="/suggestions">
-                  <i class="fas fa-bell"></i>&nbsp;
-                  Visa förslag &nbsp;
-                </router-link>
+      <div class="sidebar-body">
+        <div class="container">
+          <div class="row">
+            <div class="login-status">
+              <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
+                <i class="fas fa-sign-in-alt"></i>
+                Logga in
+              </span>
+              <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+                <i class="fas fa-sign-out-alt"></i>
+                Logga ut {{ currentUser }}&nbsp;
               </span>
             </div>
+          </div>
 
+          <div class="row" v-if="admin && hasSuggestions">
+            <span v-if="admin && hasSuggestions" class="bell active-bell">
+              <router-link to="/suggestions"> <i class="fas fa-bell"></i>&nbsp; Visa förslag &nbsp; </router-link>
+            </span>
           </div>
         </div>
       </div>
-
+    </div>
   </div>
 </template>
 
@@ -51,23 +49,23 @@ export default {
   },
   created() {
     // Emit close event on ESC
-    document.onkeydown = evt => {
-      evt = evt || window.event;
+    document.onkeydown = (evt) => {
+      evt = evt || window.event
       if (evt.keyCode == 27) {
-        this.$emit("close");
+        this.$emit("close")
       }
-    };
+    }
   },
   methods: {
     closeHandler() {
-      this.$refs.closeButton.blur();
-      this.$emit("close");
+      this.$refs.closeButton.blur()
+      this.$emit("close")
     },
     openHandler() {
-      this.$emit("open");
+      this.$emit("open")
     }
   }
-};
+}
 </script>
 
 <style scoped>
