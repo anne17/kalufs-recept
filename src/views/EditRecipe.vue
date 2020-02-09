@@ -120,7 +120,7 @@
             <textarea
               class="form-control"
               rows="8"
-              placeholder="* [Skriv i markdown-formatet]"
+              placeholder="* [Skriv i markdown-format]"
               id="ingredients"
               v-model="form.ingredients"
               @input="modInput()"
@@ -136,7 +136,7 @@
             <textarea
               class="form-control"
               rows="10"
-              placeholder="1. [Skriv i markdown-formatet]"
+              placeholder="1. [Skriv i markdown-format]"
               id="contents"
               v-model="form.contents"
               @input="modInput()"
