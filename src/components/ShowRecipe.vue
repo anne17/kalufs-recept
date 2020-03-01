@@ -201,7 +201,8 @@ a {
   margin: 0.6em 0 0 0;
   padding: 0 0.6em 0 0;
   float: right;
-  color: var(--standard-font-color-2);
+  /* color: var(--standard-font-color-2); */
+  color: var(--theme-color-5);
 }
 .mini-edit-menu a {
   color: inherit;
@@ -209,7 +210,8 @@ a {
 }
 .mini-edit-menu i:hover,
 .mini-button i:hover {
-  color: var(--standard-font-color);
+  /* color: var(--standard-font-color); */
+  color: var(--theme-color);
   cursor: pointer;
 }
 
@@ -243,7 +245,8 @@ h2 {
 }
 
 .small-header {
-  color: var(--standard-font-color-2);
+  /* color: var(--standard-font-color-2); */
+  color: var(--theme-color-5);
   font-weight: 600;
   padding-bottom: 0.2em;
   padding-top: 0.2em;

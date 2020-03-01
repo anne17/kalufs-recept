@@ -31,7 +31,7 @@
 
         <!-- Placeholder - level filter height with height of recipe list -->
         <div class="row">
-          <div v-if="!loggedIn" class="mb-3"></div>
+          <div v-if="!loggedIn" class="mb-1"></div>
           <span v-if="loggedIn">&nbsp;</span>
         </div>
 
@@ -53,7 +53,7 @@
           <span class="hits" v-if="nHits !== -1"> ({{ nHits }})</span>
         </h1>
         <div class="menu container">
-          <div class="menu row mb-3">
+          <div class="menu mb-2 row">
             <div v-if="showPublished" class="input-group input-group-sm col-6">
               <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
@@ -80,18 +80,17 @@
                 <strong>&#43;</strong> Nytt recept
               </router-link>
             </div>
-
-            <button
-              v-if="showPublished"
-              type="button"
-              class="btn btn-primary d-lg-none btn-sm"
-              :class="{ 'mt-2': loggedIn }"
-              @click="toggleMobileFilter()"
-            >
-              <i class="fas fa-filter"></i>
-              Filtrera recept
-            </button>
           </div>
+
+          <button
+            v-if="showPublished"
+            type="button"
+            class="filter-button btn btn-primary d-lg-none btn-sm mb-2"
+            @click="toggleMobileFilter()"
+          >
+            <i class="fas fa-filter"></i>
+            Filtrera recept
+          </button>
         </div>
 
         <!-- Recipe list -->
@@ -422,6 +421,10 @@ export default {
 
 .input-group {
   padding-left: 0;
+}
+
+.filter-button {
+  float: left;
 }
 
 .search-icon {

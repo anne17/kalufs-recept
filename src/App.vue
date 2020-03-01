@@ -37,6 +37,7 @@ export default {
 
   --theme-color: #568648;
   --theme-color-4: #659a56;
+  --theme-color-5: #7a9971;
 
   --primary-color-5: #a6b07e;
   --primary-color-4: #cad59e;
