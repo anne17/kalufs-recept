@@ -84,7 +84,7 @@ h1 {
 /*Category tags (bubbles)*/
 .tag {
   /*      top right bottom left */
-  margin: 0em 0.3em 0em 0;
+  margin: 0em 0.3em 0.3em 0;
   padding: 0em 0.3em 0em 0.3em;
   font-size: 0.8rem;
   font-weight: bold;

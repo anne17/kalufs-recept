@@ -243,7 +243,7 @@ export default {
       if (!this.activeTags.includes(tag)) {
         this.activeTags.push(tag)
       } else {
-        this.activeTags = this.activeTags.filter((t) => t !== tag)
+        this.activeTags = this.activeTags.filter(t => t !== tag)
       }
       // Do filtering on tag click if not in mobile mode
       if (filter) {
@@ -260,7 +260,7 @@ export default {
     },
     toggleCategoryFilter(category) {
       if (this.activeCats.includes(category)) {
-        this.activeCats = this.activeCats.filter((c) => c !== category)
+        this.activeCats = this.activeCats.filter(c => c !== category)
       } else {
         this.activeCats.push(category)
       }
@@ -290,7 +290,7 @@ export default {
       }
       axios
         .get(this.$backend + call, { params: { title: this.$route.params.title } })
-        .then((response) => {
+        .then(response => {
           if (response.data.status !== "success") {
             this.results = false
           } else {
@@ -299,7 +299,7 @@ export default {
             this.tableTitle = this.defaultTableTitle
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
           this.results = false
         })
@@ -318,7 +318,7 @@ export default {
       this.loading = true
       axios
         .get(this.$backend + "search", { params: queryParams })
-        .then((response) => {
+        .then(response => {
           this.loading = false
           if (response.data.status == "success") {
             this.results = response.data.data
@@ -337,7 +337,7 @@ export default {
             this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
           }
         })
-        .catch((e) => {
+        .catch(e => {
           this.loading = false
           this.results = false
           console.error("Response from backend:", e.response)
@@ -384,6 +384,10 @@ export default {
 .hits {
   font-size: 0.8em;
   filter: brightness(130%);
+}
+
+.sidebar-search {
+  margin-bottom: 0.5em;
 }
 
 .recipes,

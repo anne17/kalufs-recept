@@ -70,7 +70,7 @@
             <span v-if="!loggedIn" class="do-login" @click="openLogin">
               Logga in
             </span>
-            <span v-if="loggedIn"> Hej {{ currentUser }}!&nbsp; </span>
+            <span v-if="loggedIn"> Hej {{ currentUser }}!</span>
             <span v-if="admin && hasSuggestions" title="Visa förslag" class="bell active-bell">
               <router-link to="/suggestions"> <i class="fas fa-bell"></i>&nbsp; </router-link>
             </span>
@@ -165,7 +165,7 @@ export default {
     logout() {
       axios
         .post(this.$backend + "logout")
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             EventBus.$emit("login", { authenticated: false })
             this.loggedIn = false
@@ -173,7 +173,7 @@ export default {
             this.error = this.errorMessage(response.data.message)
           }
         })
-        .catch((error) => {
+        .catch(error => {
           console.error("Couldn't log out:", error)
           // Todo: popup with error message? http://test.keen-design.ru/vue-flash-message/
         })
@@ -245,6 +245,14 @@ export default {
   position: absolute;
   right: 10%;
   top: 15px;
+}
+
+.login-status span {
+  margin-right: 0.5em;
+}
+
+.login-status span:last-child {
+  margin-right: unset;
 }
 
 .active-bell i {
