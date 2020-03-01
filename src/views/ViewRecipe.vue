@@ -42,7 +42,7 @@ export default {
     getData() {
       axios
         .get(this.$backend + "view_recipe", { params: { title: this.$route.params.title } })
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             this.recipe = response.data.data
             // This is needed to avoid a flashing unpublished message
@@ -52,7 +52,7 @@ export default {
             console.error(response.data)
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error(e.response.data.message)
           this.isError = true
         })

@@ -5,12 +5,14 @@ import Popover from "vue-js-popover"
 import Vue2TouchEvents from "vue2-touch-events"
 const Multiselect = () => import("vue-multiselect")
 import VueClipboard from "vue-clipboard2"
+import Toasted from "vue-toasted"
 
 Vue.use(Popover)
 Vue.use(Vue2TouchEvents)
 Vue.component("multiselect", Multiselect)
 Vue.use(Multiselect)
 Vue.use(VueClipboard)
+Vue.use(Toasted, { position: "bottom-center", duration: 2000, keepOnHover: true, theme: "outline" })
 
 Vue.config.productionTip = false
 Vue.prototype.$backend =
@@ -28,5 +30,5 @@ global.Vue = Vue
 
 new Vue({
   router,
-  render: (h) => h(App)
+  render: h => h(App)
 }).$mount("#app")

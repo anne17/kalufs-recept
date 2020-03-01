@@ -25,7 +25,12 @@
       <div class="mini-button" v-if="!preview">
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
       </div>
-      <div class="mini-button d-lg-none" v-if="!preview && published" v-clipboard:copy="recipeUrl">
+      <div
+        class="mini-button d-lg-none"
+        v-if="!preview && published"
+        v-clipboard:copy="recipeUrl"
+        v-clipboard:success="handleCopyStatus"
+      >
         <i class="fas fa-copy" title="kopiera länk"></i>
       </div>
 
@@ -168,6 +173,9 @@ export default {
       return moment(datetime, "ddd, DD MMM YYYY hh:mm:ss")
         .locale("sv")
         .format("DD MMM YYYY, HH:mm")
+    },
+    handleCopyStatus() {
+      this.$toasted.show("Receptets URL kopierad")
     }
   }
 }
