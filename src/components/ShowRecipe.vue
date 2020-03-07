@@ -94,13 +94,13 @@
         </router-link>
         <span v-if="recipe.changed"> ({{ convertDatetime(recipe.changed) }})</span>
         <br />
-        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
-        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
+        <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
+        <span v-if="recipe.suggester && recipe.suggester !== 'null'">{{ recipe.suggester }} </span>
       </p>
 
       <p v-if="preview" class="recipe-metadata">
-        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">Föreslagit av: </span>
-        <span v-if="recipe.suggestor && recipe.suggestor !== 'null'">{{ recipe.suggestor }} </span>
+        <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
+        <span v-if="recipe.suggester && recipe.suggester !== 'null'">{{ recipe.suggester }} </span>
       </p>
     </div>
   </div>
@@ -139,7 +139,7 @@ export default {
             displayname: ""
           },
           changed: "",
-          suggestor: "",
+          suggester: "",
           published: true
         }
       }
