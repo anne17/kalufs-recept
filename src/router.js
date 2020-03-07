@@ -26,6 +26,11 @@ const router = new Router({
       }
     },
     {
+      path: "/random",
+      name: "random",
+      component: Recipes
+    },
+    {
       path: "/edit/:title",
       name: "edit",
       component: EditRecipe,
@@ -48,7 +53,7 @@ const router = new Router({
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => {
           resolve(savedPosition)
         }, 500)
@@ -60,9 +65,9 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     // This route requires auth: check if logged in and redirect to login page.
-    axios.post(Vue.prototype.$backend + "check_authentication").then((response) => {
+    axios.post(Vue.prototype.$backend + "check_authentication").then(response => {
       if (response.data.authenticated) {
         if (!response.data.admin && !to.meta.allowGuest) {
           // Don't go here

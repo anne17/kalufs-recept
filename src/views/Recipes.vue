@@ -91,6 +91,15 @@
             <i class="fas fa-filter"></i>
             Filtrera recept
           </button>
+          <button
+            v-if="showPublished"
+            type="button"
+            class="hungry-button btn btn-primary d-lg-none btn-sm mb-2"
+            @click="hitRandom()"
+          >
+            <i class="fas fa-utensils"></i>
+            Jag är hungrig!
+          </button>
         </div>
 
         <!-- Recipe list -->
@@ -194,8 +203,10 @@ export default {
     })
     if (Object.keys(this.$route.query).length !== 0 && !("redirect" in this.$route.query)) {
       this.search(this.$route.query)
+    } else if (this.$router.currentRoute.name == "random") {
+      this.ShowRandomRecipe()
     } else {
-      // Otherwise, get all data (or suggestions)
+      // Otherwise, get all data or suggestions
       if (this.$router.currentRoute.name == "suggestions") {
         this.showSuggestions()
       } else {
@@ -210,6 +221,8 @@ export default {
       this.updateTags()
       if (Object.keys(this.$route.query).length !== 0) {
         this.search(this.$route.query)
+      } else if (this.$router.currentRoute.name == "random") {
+        this.ShowRandomRecipe()
       } else {
         if (this.$router.currentRoute.name == "suggestions") {
           this.showSuggestions()
@@ -274,11 +287,11 @@ export default {
     },
     toggleMobileFilter() {
       if (!this.showMobileFilter) {
-        this.$router.push({ hash: "#filter", query: this.$route.query })
+        this.$router.push({ name: "recipes", hash: "#filter", query: this.$route.query })
       } else if (this.activeTags.length > 0) {
-        this.$router.push({ hash: "", query: { tag: this.activeTags.join(",") } })
+        this.$router.push({ name: "recipes", hash: "", query: { tag: this.activeTags.join(",") } })
       } else {
-        this.$router.push({ hash: "" })
+        this.$router.push({ name: "recipes", hash: "" })
       }
       this.showMobileFilter = !this.showMobileFilter
     },
@@ -309,7 +322,7 @@ export default {
     preSearch() {
       this.searchString = this.searchString.trim()
       if (this.searchString !== "") {
-        this.$router.push({ query: { q: this.searchString } })
+        this.$router.push({ name: "recipes", query: { q: this.searchString } })
       }
     },
     search(queryParams) {
@@ -332,6 +345,38 @@ export default {
           } else {
             this.results = false
             this.tableTitle = "Recept med '" + this.searchString + "'"
+            console.error("Message from backend:", response.data.message)
+            this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
+          }
+        })
+        .catch(e => {
+          this.loading = false
+          this.results = false
+          console.error("Response from backend:", e.response)
+          this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
+        })
+    },
+    hitRandom() {
+      if (this.$router.currentRoute.name == "random") {
+        this.ShowRandomRecipe()
+      } else {
+        this.$router.push("random")
+      }
+    },
+    ShowRandomRecipe() {
+      this.searchError = ""
+      this.loading = true
+      axios
+        .get(this.$backend + "random")
+        .then(response => {
+          this.loading = false
+          if (response.data.status == "success") {
+            this.results = response.data.data
+            this.nHits = -1
+            this.tableTitle = "Ät det här:"
+          } else {
+            this.results = false
+            this.tableTitle = ""
             console.error("Message from backend:", response.data.message)
             this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
           }
@@ -425,6 +470,10 @@ export default {
 
 .filter-button {
   float: left;
+}
+
+.hungry-button {
+  float: right;
 }
 
 .search-icon {
