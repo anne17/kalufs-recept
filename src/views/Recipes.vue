@@ -53,23 +53,19 @@
           <span class="hits" v-if="nHits !== -1"> ({{ nHits }})</span>
         </h1>
         <div class="menu container">
-          <div class="menu mb-2 row">
+          <!-- Row above recipes, small screens -->
+          <div class="menu mb-2 row d-lg-none">
             <div v-if="showPublished" class="input-group input-group-sm col-6">
-              <div class="search-icon input-group-prepend d-inline d-lg-none" @click="preSearch">
+              <div class="search-icon input-group-prepend d-inline" @click="preSearch">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><i class="fas fa-search"></i></span>
               </div>
               <input
                 type="text"
-                class="form-control d-inline d-lg-none"
+                class="form-control d-inline"
                 placeholder="Sök"
                 v-model="searchString"
                 @keyup.enter="preSearch"
               />
-            </div>
-
-            <div v-if="!showPublished" class="unpublished-notice">
-              <i class="fas fa-info-circle"></i>
-              Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
             </div>
 
             <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
@@ -81,11 +77,10 @@
               </router-link>
             </div>
           </div>
-
           <button
             v-if="showPublished"
             type="button"
-            class="filter-button btn btn-primary d-lg-none btn-sm mb-2"
+            class="filter-button btn btn-primary btn-sm mb-2"
             @click="toggleMobileFilter()"
           >
             <i class="fas fa-filter"></i>
@@ -94,12 +89,39 @@
           <button
             v-if="showPublished"
             type="button"
-            class="hungry-button btn btn-primary d-lg-none btn-sm mb-2"
+            class="btn btn-primary btn-sm float-right mb-2"
+            title="Visa ett receptförslag"
             @click="hitRandom()"
           >
             <i class="fas fa-utensils"></i>
             Jag är hungrig!
           </button>
+
+          <!-- Row above recipes, large screens -->
+          <div class="menu mb-2 row d-none d-lg-block">
+            <button
+              v-if="showPublished"
+              class="btn btn-primary btn-sm float-left mb-2"
+              title="Visa ett receptförslag"
+              @click="hitRandom()"
+            >
+              <i class="fas fa-utensils"></i>
+              Jag är hungrig!
+            </button>
+            <div v-if="loggedIn && showPublished" class="new-recipe-container d-inline float-right">
+              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: { title: 'New' } }">
+                <strong>&#43;</strong> Nytt recept
+              </router-link>
+              <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest' }">
+                <strong>&#43;</strong> Nytt recept
+              </router-link>
+            </div>
+          </div>
+
+          <div v-if="!showPublished" class="unpublished-notice">
+            <i class="fas fa-info-circle"></i>
+            Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
+          </div>
         </div>
 
         <!-- Recipe list -->
@@ -470,10 +492,6 @@ export default {
 
 .filter-button {
   float: left;
-}
-
-.hungry-button {
-  float: right;
 }
 
 .search-icon {
