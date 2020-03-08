@@ -80,7 +80,7 @@
           <button
             v-if="showPublished"
             type="button"
-            class="filter-button btn btn-primary btn-sm mb-2"
+            class="filter-button btn btn-primary d-lg-none btn-sm mb-2"
             @click="toggleMobileFilter()"
           >
             <i class="fas fa-filter"></i>
@@ -89,7 +89,7 @@
           <button
             v-if="showPublished"
             type="button"
-            class="btn btn-primary btn-sm float-right mb-2"
+            class="btn btn-primary d-lg-none btn-sm float-right mb-2"
             title="Visa ett receptförslag"
             @click="hitRandom()"
           >
