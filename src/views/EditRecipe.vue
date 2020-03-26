@@ -224,9 +224,7 @@
               @close="closeTagChooser()"
               @change="modInput()"
             >
-              <template slot="noResult"
-                >Inga taggar kunde hittas med det här namnet.</template
-              >
+              <template slot="noResult">Inga taggar kunde hittas med det här namnet.</template>
             </multiselect>
           </div>
         </div>
@@ -248,7 +246,7 @@
         </div>
 
         <div v-if="suggestion" class="form-group row">
-          <label for="suggestor" class="col-sm-2 col-form-label">
+          <label for="suggester" class="col-sm-2 col-form-label">
             *Ditt namn
           </label>
           <div class="col-sm-4">
@@ -256,9 +254,9 @@
               class="form-control"
               type="text"
               placeholder="Kalle Anka"
-              id="suggestor"
-              ref="suggestor"
-              v-model="form.suggestor"
+              id="suggester"
+              ref="suggester"
+              v-model="form.suggester"
               required="required"
               @change="validateName()"
               @input="modInput()"
@@ -270,17 +268,17 @@
           </div>
         </div>
 
-        <div v-if="form.suggestor !== 'null' && !suggestion && edit_existing" class="form-group row">
-          <label for="suggestor" class="col-sm-2 col-form-label">
+        <div v-if="form.suggester !== 'null' && !suggestion && edit_existing" class="form-group row">
+          <label for="suggester" class="col-sm-2 col-form-label">
             Föreslagit av
           </label>
           <div class="col-sm-4">
             <input
               class="form-control"
               type="text"
-              id="suggestor"
-              ref="suggestor"
-              v-model="form.suggestor"
+              id="suggester"
+              ref="suggester"
+              v-model="form.suggester"
               @input="modInput()"
             />
           </div>
@@ -400,7 +398,7 @@ export default {
         contents: "",
         image: "",
         source: "",
-        suggestor: "",
+        suggester: "",
         tags: [],
         tagsParents: {}
       }
@@ -437,7 +435,7 @@ export default {
     this.getTagStructureSimple()
 
     // Close tagChooser on esc
-    document.onkeydown = (evt) => {
+    document.onkeydown = evt => {
       evt = evt || window.event
       if (evt.keyCode == 27) {
         this.tagChooserActive = false
@@ -456,14 +454,14 @@ export default {
     get_parsable_pages() {
       axios
         .get(this.$backend + "get_parsers")
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             this.parsablePages = response.data.data
           } else {
             console.error("Message from backend:", response.data.message)
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
         })
     },
@@ -474,7 +472,7 @@ export default {
         this.previewActive = false
         axios
           .get(this.$backend + "parse_from_url?url=" + this.url)
-          .then((response) => {
+          .then(response => {
             this.loading = false
             if (response.data.status == "success") {
               this.data = response.data.data
@@ -494,7 +492,7 @@ export default {
               console.error("Response from backend:", response.data)
             }
           })
-          .catch((e) => {
+          .catch(e => {
             this.loading = false
 
             if (typeof e.response == "undefined") {
@@ -530,7 +528,7 @@ export default {
       if (this.valid) {
         axios
           .post(this.$backend + "preview_data", this.formData)
-          .then((response) => {
+          .then(response => {
             this.loading = false
             if (response.data.status == "success") {
               this.previewActive = true
@@ -541,7 +539,7 @@ export default {
               this.previewActive = false
             }
           })
-          .catch((e) => {
+          .catch(e => {
             this.loading = false
             console.error("Response from backend:", e)
             this.previewActive = false
@@ -551,7 +549,7 @@ export default {
     getData() {
       axios
         .get(this.$backend + "get_recipe?title=" + this.$route.params.title)
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             this.data = response.data.data
             // Update form
@@ -574,7 +572,7 @@ export default {
             console.error("Response from backend:", response.data)
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
           this.isError = true
         })
@@ -640,7 +638,7 @@ export default {
     },
     validateName() {
       // When suggestion is active, user must provide a name
-      if (this.form.suggestor == "") {
+      if (this.form.suggester == "") {
         this.nameError = true
         return false
       }
@@ -675,7 +673,7 @@ export default {
       }
       axios
         .post(this.$backend + this.call, this.formData)
-        .then((response) => {
+        .then(response => {
           this.loading = false
           if (response.data.status == "success") {
             this.unsaved = false
@@ -690,7 +688,7 @@ export default {
             this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte sparas :("
           }
         })
-        .catch((e) => {
+        .catch(e => {
           this.loading = false
           if (typeof e.response !== "undefined" && e.response.data.message == "Recipe title already exists!") {
             this.saveError = "Receptnamn måste vara unika. Receptet '" + this.form.title + "' finns redan i databasen."
@@ -710,7 +708,7 @@ export default {
       this.showConfirm = false
       axios
         .get(this.$backend + "delete_recipe", { params: { id: this.form.id } })
-        .then((response) => {
+        .then(response => {
           this.loading = false
           this.unsaved = false
           if (response.data.status == "success") {
@@ -720,7 +718,7 @@ export default {
             this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :("
           }
         })
-        .catch((e) => {
+        .catch(e => {
           this.loading = false
           console.error("Response from backend:", e.response)
           this.saveError = "Ett oväntat fel har inträffat. Receptet kunde inte tas bort :("
