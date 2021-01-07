@@ -16,7 +16,7 @@ Vue.use(Toasted, { position: "bottom-center", duration: 2000, keepOnHover: true,
 
 Vue.config.productionTip = false
 Vue.prototype.$backend =
-  process.env.NODE_ENV === "production" ? "https://api.kalufs.lol/recapi/" : "http://0.0.0.0:9005/"
+  process.env.NODE_ENV === "production" ? "https://api.kalufs.lol/recapi/" : "http://localhost:9005/"
 
 Vue.prototype.$defaultimg = Vue.prototype.$backend + "defaultimg"
 Vue.prototype.$defaultthumb = Vue.prototype.$backend + "defaultthumb"
