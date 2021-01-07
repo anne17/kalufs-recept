@@ -63,12 +63,17 @@
         </router-link>
       </p>
 
-      <p v-if="recipe.source" class="recipe-source">
-        <span>Källa: </span>
-        <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{
-          recipe.source
-        }}</a>
-        <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
+      <p class="recipe-source">
+        <template v-if="recipe.source">
+          <span>Källa: </span>
+          <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{
+            recipe.source
+          }}</a>
+          <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
+          <br />
+        </template>
+        <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
+        <span v-if="recipe.suggester && recipe.suggester !== 'null'">{{ recipe.suggester }} </span>
         <br />
       </p>
 
@@ -93,14 +98,6 @@
           <span>{{ getUsername(recipe.changed_by) }}</span>
         </router-link>
         <span v-if="recipe.changed"> ({{ convertDatetime(recipe.changed) }})</span>
-        <br />
-        <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
-        <span v-if="recipe.suggester && recipe.suggester !== 'null'">{{ recipe.suggester }} </span>
-      </p>
-
-      <p v-if="preview" class="recipe-metadata">
-        <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
-        <span v-if="recipe.suggester && recipe.suggester !== 'null'">{{ recipe.suggester }} </span>
       </p>
     </div>
   </div>
