@@ -14,11 +14,11 @@
         <div class="container">
           <div class="row">
             <div class="login-status">
-              <span v-if="!loggedIn" class="do-login" @click="$emit('openLogin')">
+              <span v-if="!loggedIn" class="toggle-login" @click="$emit('openLogin')">
                 <i class="fas fa-sign-in-alt"></i>
                 Logga in
               </span>
-              <span v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+              <span v-if="loggedIn" class="toggle-login" @click="$emit('logout')" title="Logga ut">
                 <i class="fas fa-sign-out-alt"></i>
                 Logga ut {{ currentUser }}&nbsp;
               </span>
@@ -127,7 +127,7 @@ export default {
   color: var(--bright-font-color);
 }
 
-.login-status .do-login {
+.login-status .toggle-login {
   padding-top: 40px;
   cursor: pointer;
 }

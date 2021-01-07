@@ -166,7 +166,7 @@
                   >
                     <span class="tag">{{ tag }}</span>
                   </router-link>
-                  <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&nbsp;</span>
+                  <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&#8205;</span>
                 </div>
               </div>
             </div>
@@ -425,7 +425,7 @@ export default {
 }
 
 .mobile-filter-modal {
-  width: 350px;
+  width: 330px;
   z-index: 10000;
   position: fixed;
   top: 5%;
@@ -434,7 +434,7 @@ export default {
   height: 90vh;
 }
 .mobile-filter-modal .modal-content {
-  padding: 15px 30px 15px 30px;
+  padding: 30px 30px 15px 30px;
   border-radius: 5px;
   border-color: transparent;
   border-width: 2.5px;
@@ -442,8 +442,9 @@ export default {
   height: 100%;
 }
 .modal-content .close {
+  font-size: 2em;
   position: fixed;
-  top: 8px;
+  top: 5px;
   right: 10px;
 }
 

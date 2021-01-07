@@ -1,6 +1,6 @@
 <template>
   <div class="filter">
-    <router-link class="filter-reset" to="/" title="Visa alla recept">
+    <router-link class="filter-reset btn btn-primary" to="/" title="Visa alla recept">
       <i class="fas fa-filter"></i>
       <span>
         Rensa filter
@@ -52,17 +52,11 @@ export default {
   font-family: var(--headerfont);
   display: block;
   text-align: left;
-  background: var(--primary-color-5);
   padding: 0.3em 0.5em 0.3em 0.5em;
   margin-bottom: 0.5em;
-  border: 1px solid var(--primary-color-5);
   border-radius: 5px;
   text-decoration: none;
-  color: unset;
   cursor: pointer;
-}
-.filter-reset:hover {
-  color: black;
 }
 
 i.fas.fa-filter {
