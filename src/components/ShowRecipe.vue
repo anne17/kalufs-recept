@@ -73,7 +73,14 @@
           <br />
         </template>
         <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
-        <span v-if="recipe.suggester && recipe.suggester !== 'null'">{{ recipe.suggester }} </span>
+          <router-link
+            v-if="recipe.suggester && recipe.suggester !== 'null'"
+            class="user-link"
+            :to="{ name: 'recipes', query: { user: recipe.suggester } }"
+            title="Sök på recept av denna användare"
+          >
+          <span>{{ recipe.suggester }}</span>
+        </router-link>
         <br />
       </p>
 
