@@ -26,6 +26,12 @@ const router = new Router({
       }
     },
     {
+      path: "/stored",
+      name: "stored",
+      component: Recipes,
+      meta: {requiresAuth: true}
+    },
+    {
       path: "/random",
       name: "random",
       component: Recipes

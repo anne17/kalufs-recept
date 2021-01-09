@@ -18,9 +18,15 @@
       </div>
 
       <div v-if="showEditOption" class="mini-edit-menu">
-        <router-link :to="{ name: 'edit', params: { title: recipe.title } }" title="redigera" v-if="recipe.title">
+        <router-link :to="{ name: 'edit', params: { title: recipe.title } }" title="Redigera" v-if="recipe.title">
           <i class="fas fa-pencil-alt"></i>
         </router-link>
+      </div>
+      <div class="mini-button" v-if="!preview && !recipe.stored && admin">
+        <i class="far fa-bookmark" @click="rememberRecipe" title="Kom ihåg receptet"></i>
+      </div>
+      <div class="mini-button" v-if="!preview && recipe.stored && admin">
+        <i class="fas fa-bookmark" @click="rememberRecipe" title="Ta bort från sparade recept"></i>
       </div>
       <div class="mini-button" v-if="!preview">
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
@@ -112,12 +118,12 @@
 
 <!-- ####################################################################### -->
 <script>
-import { ImageMixin } from "@/services.js"
+import { ImageMixin, LoginMixin, axios } from "@/services.js"
 import moment from "moment"
 
 export default {
   name: "ShowRecipe",
-  mixins: [ImageMixin],
+  mixins: [ImageMixin, LoginMixin],
   props: {
     showEditOption: Boolean,
     isError: Boolean,
@@ -180,6 +186,35 @@ export default {
     },
     handleCopyStatus() {
       this.$toasted.show("Receptets URL kopierad")
+    },
+    rememberRecipe() {
+      var error_msg
+      if (this.recipe.stored == false) {
+        error_msg = "Det gick inte att spara receptet"
+      } else {
+        error_msg = "Det gick inte att ta bort receptet från sparade recept"
+      }
+      axios
+        .post(this.$backend + "toggle_stored", JSON.stringify(this.recipe), {
+          headers: {"Content-Type": "application/json"}})
+        .then(response => {
+          if (response.data.status == "success") {
+            this.recipe.stored = !this.recipe.stored
+            if (this.recipe.stored == true){
+              this.$toasted.show("Receptet tillagt till sparade recept")
+            } else {
+              this.$toasted.show("Receptet borttaget från sparade recept")
+            }
+
+          } else {
+            console.error("Message from backend:", response.data.message)
+            this.$toasted.show(error_msg)
+          }
+        })
+        .catch(e => {
+          console.error("Response from backend:", e.response)
+          this.$toasted.show(error_msg)
+        })
     }
   }
 }

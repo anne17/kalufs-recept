@@ -12,23 +12,32 @@
 
       <div class="sidebar-body">
         <div class="container">
-          <div class="row">
-            <div class="login-status">
-              <span v-if="!loggedIn" class="toggle-login" @click="$emit('openLogin')">
-                <i class="fas fa-sign-in-alt"></i>
-                Logga in
-              </span>
-              <span v-if="loggedIn" class="toggle-login" @click="$emit('logout')" title="Logga ut">
-                <i class="fas fa-sign-out-alt"></i>
-                Logga ut {{ currentUser }}&nbsp;
-              </span>
-            </div>
+          <div class="row menu-row" v-if="!loggedIn" @click="clickedLogin">
+            <a>
+              <i class="fas fa-sign-in-alt col-1"></i>
+              <span class="col-11">Logga in</span>
+            </a>
           </div>
 
-          <div class="row" v-if="admin && hasSuggestions">
-            <span v-if="admin && hasSuggestions" class="bell active-bell">
-              <router-link to="/suggestions"> <i class="fas fa-bell"></i>&nbsp; Visa förslag &nbsp; </router-link>
-            </span>
+          <div class="row menu-row" v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+            <a>
+              <i class="fas fa-sign-out-alt col-1"></i>
+              <span class="col-11">Logga ut {{ currentUser }}</span>
+            </a>
+          </div>
+
+          <div class="row menu-row active-bell" v-if="admin && hasSuggestions">
+            <router-link to="/suggestions">
+              <i class="fas fa-bell col-1"></i>
+              <span class="col-11">Visa förslag</span>
+            </router-link>
+          </div>
+
+          <div class="row menu-row" v-if="admin">
+            <router-link to="/stored">
+              <i class="fas fa-bookmark col-1"></i>
+              <span class="col-11">Visa sparade recept</span>
+            </router-link>
           </div>
         </div>
       </div>
@@ -63,6 +72,10 @@ export default {
     },
     openHandler() {
       this.$emit("open")
+    },
+    clickedLogin() {
+      this.$emit("close")
+      this.$emit("openLogin")
     }
   }
 }
@@ -90,7 +103,7 @@ export default {
   margin-top: 50px;
 }
 .shown {
-  width: 85%;
+  width: 48vh;
 }
 .mobileSideBar {
   height: 100%;
@@ -115,7 +128,7 @@ export default {
 }
 .sidebar-body {
   color: var(--bright-font-color);
-  margin-left: 10%;
+  margin-left: 0.5em;
   font-size: 1.2em;
   padding-top: 2em;
 }
@@ -127,17 +140,6 @@ export default {
   color: var(--bright-font-color);
 }
 
-.login-status .toggle-login {
-  padding-top: 40px;
-  cursor: pointer;
-}
-.login-status i {
-  cursor: pointer;
-  font-size: 1.3em;
-  position: relative;
-  top: 2px;
-}
-
 .active-bell i {
   color: var(--warning-color);
 }
@@ -145,5 +147,16 @@ export default {
 .inactive-bell i {
   color: var(--primary-color-4);
   cursor: default !important;
+}
+
+.menu-row i {
+  float: left;
+}
+.menu-row {
+  text-align: initial;
+  cursor: pointer;
+}
+.menu-row:hover{
+  text-decoration: underline;
 }
 </style>

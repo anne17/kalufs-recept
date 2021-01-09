@@ -227,6 +227,8 @@ export default {
       this.search(this.$route.query)
     } else if (this.$router.currentRoute.name == "random") {
       this.ShowRandomRecipe()
+    } else if (this.$router.currentRoute.name == "stored") {
+      this.showStoredRecipes()
     } else {
       // Otherwise, get all data or suggestions
       if (this.$router.currentRoute.name == "suggestions") {
@@ -245,6 +247,8 @@ export default {
         this.search(this.$route.query)
       } else if (this.$router.currentRoute.name == "random") {
         this.ShowRandomRecipe()
+      } else if (this.$router.currentRoute.name == "stored") {
+        this.showStoredRecipes()
       } else {
         if (this.$router.currentRoute.name == "suggestions") {
           this.showSuggestions()
@@ -409,6 +413,30 @@ export default {
           console.error("Response from backend:", e.response)
           this.searchError = "Det gick inte att göra den här sökningen. Ett oväntat fel har inträffat."
         })
+    },
+    showStoredRecipes() {
+      this.searchError = ""
+      this.loading = true
+      axios
+        .get(this.$backend + "stored_recipes")
+        .then(response => {
+          this.loading = false
+          this.tableTitle = "Sparade recept"
+          if (response.data.status == "success") {
+            this.results = response.data.data
+            this.nHits = response.data.hits
+          } else {
+            this.results = false
+            console.error("Message from backend:", response.data.message)
+            this.searchError = "Det gick inte att visa sparade recept. Ett oväntat fel har inträffat."
+          }
+        })
+        .catch(e => {
+          this.loading = false
+          this.results = false
+          console.error("Response from backend:", e.response)
+          this.searchError = "Det gick inte att visa sparade recept. Ett oväntat fel har inträffat."
+        })
     }
   }
 }
@@ -455,6 +483,10 @@ export default {
 
 .sidebar-search {
   margin-bottom: 0.5em;
+}
+
+.recipe-list {
+  clear: both;
 }
 
 .recipes,

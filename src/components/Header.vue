@@ -77,8 +77,11 @@
             <span v-if="admin && !hasSuggestions" title="Inga nya förslag" class="bell inactive-bell">
               <i class="fas fa-bell"></i>&nbsp;
             </span>
-            <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
+            <!-- <span v-if="loggedIn" v-on:click="logout" title="Logga ut">
               <i class="fas fa-sign-out-alt"></i>
+            </span> -->
+            <span>
+              <i class="fas fa-bars" @click="openSideBar"></i>
             </span>
           </div>
         </div>
