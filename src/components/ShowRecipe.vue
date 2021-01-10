@@ -28,9 +28,6 @@
       <div class="mini-button" v-if="!preview && recipe.stored && admin">
         <i class="fas fa-bookmark" @click="toggleRememberRecipe" title="Ta bort från sparade recept"></i>
       </div>
-      <div class="mini-button" v-if="!preview">
-        <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
-      </div>
       <div
         class="mini-button d-lg-none"
         v-if="!preview && published"
@@ -87,7 +84,11 @@
           >
           <span>{{ recipe.suggester }}</span>
         </router-link>
-        <br />
+      </p>
+
+      <p class="info-button" v-if="!preview && !showMeta" @click="displayMetadata">
+        <i class="fas fa-info-circle" title="Visa mer info"></i>
+        <span>Visa metadata</span>
       </p>
 
       <p v-if="showMeta" class="recipe-metadata" ref="metaData">
@@ -262,6 +263,17 @@ a {
   cursor: pointer;
 }
 
+.info-button {
+  color: var(--theme-color-5);
+  cursor: pointer;
+}
+.info-button:hover {
+  color: var(--theme-color);
+}
+.info-button i {
+  margin-right: 0.4em;
+}
+
 .img-container {
   display: flex;
   height: 40vh;
@@ -320,6 +332,7 @@ h2 {
 
 .recipe-tags,
 .recipe-source,
+.info-button,
 .recipe-metadata {
   font-size: 0.8em;
 }
@@ -335,10 +348,6 @@ h2 {
 .recipe-metadata > span,
 .recipe-metadata a {
   animation: blink 0.7s 2 alternate;
-}
-
-.user-link {
-  color: var(--standard-font-color);
 }
 
 @media print {
