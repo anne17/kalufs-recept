@@ -36,7 +36,7 @@
           <div class="row menu-row" v-if="admin">
             <router-link to="/stored">
               <i class="fas fa-bookmark col-1"></i>
-              <span class="col-11">Visa sparade recept</span>
+              <span class="col-11">Sparade recept</span>
             </router-link>
           </div>
         </div>

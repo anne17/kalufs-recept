@@ -42,6 +42,10 @@
       </ul>
     </popover>
 
+    <popover name="publishTooltip" class="publish-popover">
+      <span>Recept som inte publiceras sparas som förslag.</span>
+    </popover>
+
     <div class="row">
       <div class="col-2 d-none d-lg-block side-menu"></div>
 
@@ -253,7 +257,7 @@
             <input
               class="form-control"
               type="text"
-              placeholder="Kalle Anka"
+              placeholder="Johan Johansson"
               id="suggester"
               ref="suggester"
               v-model="form.suggester"
@@ -280,6 +284,25 @@
               ref="suggester"
               v-model="form.suggester"
               @input="modInput()"
+            />
+          </div>
+        </div>
+
+        <div v-if="!suggestion" class="form-group row">
+          <label class="col-sm-2 col-form-label">
+            Publicera
+            <span class="publish-tooltip" v-popover:publishTooltip>
+              <i class="far fa-question-circle"></i>
+            </span>
+          </label>
+          <div class="col-sm-1">
+            <input
+              class="form-control checkbox"
+              type="checkbox"
+              id="publish"
+              ref="publish"
+              v-model="form.published"
+              required="required"
             />
           </div>
         </div>
@@ -399,6 +422,7 @@ export default {
         image: "",
         source: "",
         suggester: "",
+        published: true,
         tags: [],
         tagsParents: {}
       }
@@ -836,6 +860,11 @@ textarea::placeholder {
   text-overflow: ellipsis;
 }
 
+.checkbox {
+  height: 1.5em;
+  margin-top: 0.4em;
+}
+
 .tags div {
   float: left;
 }
@@ -889,7 +918,7 @@ textarea::placeholder {
 .save-error {
   color: red;
   font-weight: 500;
-  font-size: 0.9em;
+  font-size: 1.2em;
   padding-bottom: 1em;
 }
 
