@@ -128,6 +128,7 @@
               id="ingredients"
               v-model="form.ingredients"
               @input="modInput()"
+              ref="ingredientsTextarea"
             ></textarea>
           </div>
         </div>
@@ -465,6 +466,14 @@ export default {
         this.tagChooserActive = false
       }
     }
+    // Insert asterisk when pressing enter in ingredients
+    document.onkeyup = evt => {
+      if (evt.keyCode == 13) {
+        if (document.activeElement == this.$refs.ingredientsTextarea){
+          this.insertAtCursor(this.$refs.ingredientsTextarea, "* ")
+        }
+      }
+    }
   },
   beforeRouteLeave(to, from, next) {
     if (this.unsaved) {
@@ -475,6 +484,27 @@ export default {
     }
   },
   methods: {
+    insertAtCursor(myField, myValue) {
+      // https://stackoverflow.com/questions/11076975/how-to-insert-text-into-the-textarea-at-the-current-cursor-position
+      // IE support
+      if (document.selection) {
+        myField.focus()
+        let sel = document.selection.createRange()
+        sel.text = myValue
+      }
+      // MOZILLA and others
+      else if (myField.selectionStart || myField.selectionStart == 0) {
+        var startPos = myField.selectionStart
+        var endPos = myField.selectionEnd
+        myField.value = myField.value.substring(0, startPos)
+          + myValue
+          + myField.value.substring(endPos, myField.value.length)
+        myField.selectionStart = startPos + myValue.length
+        myField.selectionEnd = startPos + myValue.length
+      } else {
+        myField.value += myValue
+      }
+    },
     get_parsable_pages() {
       axios
         .get(this.$backend + "get_parsers")
