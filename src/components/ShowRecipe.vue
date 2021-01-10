@@ -23,10 +23,10 @@
         </router-link>
       </div>
       <div class="mini-button" v-if="!preview && !recipe.stored && admin">
-        <i class="far fa-bookmark" @click="rememberRecipe" title="Kom ihåg receptet"></i>
+        <i class="far fa-bookmark" @click="toggleRememberRecipe" title="Kom ihåg receptet"></i>
       </div>
       <div class="mini-button" v-if="!preview && recipe.stored && admin">
-        <i class="fas fa-bookmark" @click="rememberRecipe" title="Ta bort från sparade recept"></i>
+        <i class="fas fa-bookmark" @click="toggleRememberRecipe" title="Ta bort från sparade recept"></i>
       </div>
       <div class="mini-button" v-if="!preview">
         <i class="fas fa-info-circle" @click="displayMetadata" title="Visa mer info"></i>
@@ -187,7 +187,7 @@ export default {
     handleCopyStatus() {
       this.$toasted.show("Receptets URL kopierad")
     },
-    rememberRecipe() {
+    toggleRememberRecipe() {
       var error_msg
       if (this.recipe.stored == false) {
         error_msg = "Det gick inte att spara receptet"

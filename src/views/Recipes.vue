@@ -150,10 +150,13 @@
                     :to="{ name: 'view', params: { title: recipe.title } }"
                     >{{ recipe.title }}</router-link
                   >
-                  <div class="mini-edit-menu container col-1" v-if="loggedIn && admin">
-                    <router-link :to="{ name: 'edit', params: { title: recipe.title } }" title="redigera">
-                      <i class="fas fa-pencil-alt"></i>
-                    </router-link>
+                  <div class="mini-menu container col-1" v-if="loggedIn && admin">
+                    <div v-if="!recipe.stored">
+                      <i class="far fa-bookmark" @click="toggleRememberRecipe(recipe)" title="Kom ihåg receptet"></i>
+                    </div>
+                    <div v-if="recipe.stored">
+                      <i class="fas fa-bookmark" @click="toggleRememberRecipe(recipe)" title="Ta bort från sparade recept"></i>
+                    </div>
                   </div>
                 </div>
                 <div class="tags-container row">
@@ -437,6 +440,29 @@ export default {
           console.error("Response from backend:", e.response)
           this.searchError = "Det gick inte att visa sparade recept. Ett oväntat fel har inträffat."
         })
+    },
+    toggleRememberRecipe(recipe) {
+      var error_msg
+      if (recipe.stored == false) {
+        error_msg = "Det gick inte att spara receptet"
+      } else {
+        error_msg = "Det gick inte att ta bort receptet från sparade recept"
+      }
+      axios
+        .post(this.$backend + "toggle_stored", JSON.stringify(recipe), {
+          headers: {"Content-Type": "application/json"}})
+        .then(response => {
+          if (response.data.status == "success") {
+            recipe.stored = !recipe.stored
+          } else {
+            console.error("Message from backend:", response.data.message)
+            this.$toasted.show(error_msg)
+          }
+        })
+        .catch(e => {
+          console.error("Response from backend:", e.response)
+          this.$toasted.show(error_msg)
+        })
     }
   }
 }
@@ -602,14 +628,15 @@ export default {
   padding-right: 0px;
 }
 
-.mini-edit-menu {
+.mini-menu {
   margin: 0.2em 0 0 0;
   padding: 0;
+  cursor: pointer;
 }
-.mini-edit-menu i {
+.mini-menu i {
   float: right;
 }
-.mini-edit-menu i:hover {
+.mini-menu i:hover {
   color: black;
 }
 
