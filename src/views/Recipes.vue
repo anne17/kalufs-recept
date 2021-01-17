@@ -420,6 +420,7 @@ export default {
     showStoredRecipes() {
       this.searchError = ""
       this.loading = true
+      this.showPublished = true
       axios
         .get(this.$backend + "stored_recipes")
         .then(response => {
