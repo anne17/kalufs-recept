@@ -87,8 +87,12 @@ export default {
     onSubmit() {
       this.isError = false
       this.loading = true
+      var form_data = new FormData()
+      for ( var key in this.form ) {
+        form_data.append(key, this.form[key])
+      }
       axios
-        .post(this.$backend + "login", this.form)
+        .post(this.$backend + "login", form_data)
         .then((response) => {
           this.loading = false
           this.username = response.data.user
