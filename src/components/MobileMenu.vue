@@ -11,6 +11,10 @@
       <button ref="closeButton" type="button" class="close" @click="closeHandler">&times;</button>
 
       <div class="sidebar-body">
+        <div class="menu-row-header">
+            <span>kalufs-recept</span>
+        </div>
+
         <div class="container">
           <div class="row menu-row" v-if="!loggedIn" @click="clickedLogin">
             <a>
@@ -29,7 +33,7 @@
           <div class="row menu-row active-bell" v-if="admin && hasSuggestions">
             <router-link to="/suggestions">
               <i class="fas fa-bell col-1"></i>
-              <span class="col-11">Visa förslag</span>
+              <span class="col-11">Receptförslag</span>
             </router-link>
           </div>
 
@@ -121,6 +125,7 @@ export default {
   padding-right: 10px;
   color: var(--bright-font-color);
   opacity: 0.9;
+  font-size: 2em;
 }
 /* Hack to stop the close button from changing to gray */
 .close:not(:disabled):not(.disabled):hover {
@@ -128,12 +133,10 @@ export default {
 }
 .sidebar-body {
   color: var(--bright-font-color);
-  margin-left: 0.5em;
   font-size: 1.2em;
-  padding-top: 2em;
 }
 .sidebar-body .row {
-  padding: 0.3em;
+  padding: 0.7em 0 0.7em 0;
 }
 
 .sidebar-body a {
@@ -149,14 +152,32 @@ export default {
   cursor: default !important;
 }
 
-.menu-row i {
-  float: left;
+.menu-row-header {
+  display: block;
+  font-weight: bold;
+  font-weight: bold;
+  font-size: 1.5rem;
+  font-family: "Indie Flower", cursive;
+  padding: 0.5em 0 0.5em 0;
+  border-bottom: 3px solid var(--theme-color-4);
 }
+.menu-row-header img{
+  height: 1.3em;
+  vertical-align: sub;
+}
+
 .menu-row {
   text-align: initial;
   cursor: pointer;
+  border-bottom: 3px solid var(--theme-color-4);
 }
-.menu-row:hover{
-  text-decoration: underline;
+.menu-row i {
+  float: left;
+  margin-left: 0.5em;
+}
+.menu-row:hover,
+.menu-row a:hover{
+  text-decoration: none;
+  background-color: var(--theme-color-4);
 }
 </style>
