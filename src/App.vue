@@ -36,7 +36,7 @@ export default {
   --light-background-color-2: #fbe1c6;
 
   --theme-color: #568648;
-  --theme-color-2: #2d611e;
+  --theme-color-1: #476c3d;
   --theme-color-4: #659a56;
   --theme-color-5: #7a9971;
 

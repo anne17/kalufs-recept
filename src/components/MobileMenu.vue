@@ -16,33 +16,25 @@
         </div>
 
         <div class="container">
-          <div class="row menu-row" v-if="!loggedIn" @click="clickedLogin">
-            <a>
-              <i class="fas fa-sign-in-alt col-1"></i>
-              <span class="col-11">Logga in</span>
-            </a>
-          </div>
+          <a class="row menu-row" v-if="!loggedIn" @click="clickedLogin">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Logga in</span>
+          </a>
 
-          <div class="row menu-row" v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-            <a>
-              <i class="fas fa-sign-out-alt col-1"></i>
-              <span class="col-11">Logga ut {{ currentUser }}</span>
-            </a>
-          </div>
+          <a class="row menu-row" v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logga ut {{ currentUser }}</span>
+          </a>
 
-          <div class="row menu-row active-bell" v-if="admin && hasSuggestions">
-            <router-link to="/suggestions">
-              <i class="fas fa-bell col-1"></i>
-              <span class="col-11">Receptförslag</span>
-            </router-link>
-          </div>
+          <router-link to="/suggestions" class="row menu-row active-bell" v-if="admin && hasSuggestions">
+            <i class="fas fa-bell"></i>
+            <span >Receptförslag</span>
+          </router-link>
 
-          <div class="row menu-row" v-if="admin">
-            <router-link to="/stored">
-              <i class="fas fa-bookmark col-1"></i>
-              <span class="col-11">Sparade recept</span>
-            </router-link>
-          </div>
+          <router-link to="/stored" class="row menu-row" v-if="admin">
+            <i class="fas fa-bookmark"></i>
+            <span>Sparade recept</span>
+          </router-link>
         </div>
       </div>
     </div>
@@ -107,7 +99,7 @@ export default {
   margin-top: 50px;
 }
 .shown {
-  width: 48vh;
+  width: 45vh;
 }
 .mobileSideBar {
   height: 100%;
@@ -118,7 +110,6 @@ export default {
   right: 0px;
   background-color: var(--theme-color);
   overflow-x: hidden;
-  padding-top: 10px;
   transition: width 0.3s;
 }
 .close {
@@ -153,27 +144,26 @@ export default {
 }
 
 .menu-row-header {
-  display: block;
   font-weight: bold;
   font-weight: bold;
   font-size: 1.5rem;
   font-family: "Indie Flower", cursive;
-  padding: 0.5em 0 0.5em 0;
-  border-bottom: 3px solid var(--theme-color-4);
-}
-.menu-row-header img{
-  height: 1.3em;
-  vertical-align: sub;
+  padding: 0.8em 0 0.5em 0;
+  background-color: var(--theme-color-1);
 }
 
 .menu-row {
   text-align: initial;
   cursor: pointer;
-  border-bottom: 3px solid var(--theme-color-4);
+  border-top: 1px solid var(--theme-color-4);
+}
+.menu-row:first-child {
+  border-top: unset;
 }
 .menu-row i {
   float: left;
-  margin-left: 0.5em;
+  margin: 0 1em 0 1.5em;
+  line-height: unset;
 }
 .menu-row:hover,
 .menu-row a:hover{
