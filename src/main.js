@@ -17,12 +17,14 @@ Vue.use(Toasted, { position: "bottom-center", duration: 2000, keepOnHover: true,
 Vue.config.productionTip = false
 Vue.prototype.$backend =
   process.env.NODE_ENV === "production" ? "https://api.kalufs.lol/recapi/" : "http://localhost:9005/"
+  
+Vue.prototype$baseUrl =
+  process.env.NODE_ENV === "production" ? "/recept/" : "/"
 
-Vue.prototype.$defaultimg = Vue.prototype.$backend + "defaultimg"
-Vue.prototype.$defaultthumb = Vue.prototype.$backend + "defaultthumb"
+Vue.prototype.$defaultimg = "default.jpg"
 Vue.prototype.$imagePath = Vue.prototype.$backend + "img/"
-Vue.prototype.$mediumImagePath = Vue.prototype.$backend + "img/medium/"
-Vue.prototype.$thumbnailPath = Vue.prototype.$backend + "img/thumbnail/"
+Vue.prototype.$mediumImagePath = Vue.prototype$baseUrl + "img_medium/"
+Vue.prototype.$thumbnailPath = Vue.prototype$baseUrl + "img_thumb/"
 
 Vue.prototype.$defaulttitle = "kalufs-recept"
 

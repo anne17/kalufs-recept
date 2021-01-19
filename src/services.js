@@ -9,16 +9,16 @@ export const ImageMixin = {
   // Get URL for image in correct size
   methods: {
     getImgUrl(recipe_data, mode = "full") {
+      let path = this.$imagePath
+      if (mode === "thumb") {
+        path = this.$thumbnailPath
+      } else if (mode === "medium") {
+        path = this.$mediumImagePath
+      }
       if (recipe_data.image !== undefined && recipe_data.image !== "") {
-        let path = this.$imagePath
-        if (mode === "thumb") {
-          path = this.$thumbnailPath
-        } else if (mode === "medium") {
-          path = this.$mediumImagePath
-        }
         return path + recipe_data.image
-      } else {
-        return this.$defaultimg
+      } else if (recipe_data.title !== undefined && recipe_data.title !== "") {
+        return path + this.$defaultimg
       }
     }
   }

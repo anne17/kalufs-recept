@@ -7,7 +7,7 @@
         class="img-container"
         v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, preview ? 'full' : 'medium') + ')' }"
       >
-        <img class="invisible-img" :src="getImgUrl(recipe)" />
+        <img class="invisible-img" :src="getImgUrl(recipe, preview ? 'full' : 'medium')" />
       </div>
 
       <h2 v-html="recipe.title" class="recipe-title"></h2>
@@ -38,7 +38,7 @@
       </div>
 
       <div v-if="recipe.image !== undefined && recipe.image !== ''" class="print-img-container">
-        <img :src="getImgUrl(recipe)" />
+        <img :src="getImgUrl(recipe, preview ? 'full' : 'medium')" />
       </div>
 
       <div class="ingredients">

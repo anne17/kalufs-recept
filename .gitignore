@@ -2,7 +2,11 @@
 node_modules
 /dist
 
-# local env files
+# Symlinks
+public/img_thumb
+public/img_medium
+
+# Local env files
 .env.local
 .env.*.local
 
