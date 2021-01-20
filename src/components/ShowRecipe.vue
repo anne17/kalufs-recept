@@ -354,14 +354,14 @@ h2 {
   .mini-edit-menu,
   .mini-button,
   .img-container,
+  .info-button,
   .recipe-tags {
     display: none;
   }
   .print-img-container {
     display: inline-block;
     float: right;
-    margin-right: 15%;
-    margin-top: 5%;
+    margin: 5% 15% 1em 1em;
     max-width: 40%;
   }
   .print-img-container img {
