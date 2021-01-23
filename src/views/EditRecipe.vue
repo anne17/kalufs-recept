@@ -655,6 +655,7 @@ export default {
       document.body.style.overflowY = "auto"
     },
     chooseCat(newTag) {
+      this.tagChooserActive = false
       newTag = newTag.trim().toLowerCase()
       this.newTag = newTag
       this.showDropdown = true
