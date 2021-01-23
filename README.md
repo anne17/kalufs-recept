@@ -7,6 +7,12 @@ Frontend for recAPI recipe data base.
 npm install
 ```
 
+* add symlinks from backend image directories to `public/img_medium` and `public/img_thumb` e.g.:
+```
+ln -s ../recapi/instance/img_medium public/img_medium
+ln -s ../recapi/instance/img_thumb public/img_thumb
+```
+
 ### Compile and hot-reload for development
 ```
 npm run serve

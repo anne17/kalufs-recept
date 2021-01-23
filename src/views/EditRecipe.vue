@@ -365,6 +365,8 @@
 
 <!-- ####################################################################### -->
 <script>
+import Multiselect from "vue-multiselect"
+
 import MarkdownHelp from "@/components/MarkdownHelp.vue"
 import ShowRecipe from "@/components/ShowRecipe.vue"
 import ConfirmDialog from "@/components/ConfirmDialog.vue"
@@ -375,6 +377,7 @@ import { EventBus, axios, TagMixin } from "@/services.js"
 export default {
   name: "EditRecipe",
   components: {
+    Multiselect,
     MarkdownHelp,
     ShowRecipe,
     ConfirmDialog,
