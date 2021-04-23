@@ -273,7 +273,7 @@
           </div>
         </div>
 
-        <div v-if="form.suggester !== 'null' && !suggestion && edit_existing" class="form-group row">
+        <div v-if="form.suggester !== 'null' && !suggestion" class="form-group row">
           <label for="suggester" class="col-sm-2 col-form-label">
             Föreslagit av
           </label>
@@ -472,7 +472,7 @@ export default {
     // Insert asterisk when pressing enter in ingredients
     document.onkeyup = evt => {
       if (evt.keyCode == 13) {
-        if (document.activeElement == this.$refs.ingredientsTextarea){
+        if (document.activeElement == this.$refs.ingredientsTextarea) {
           this.insertAtCursor(this.$refs.ingredientsTextarea, "* ")
         }
       }
@@ -499,9 +499,8 @@ export default {
       else if (myField.selectionStart || myField.selectionStart == 0) {
         var startPos = myField.selectionStart
         var endPos = myField.selectionEnd
-        myField.value = myField.value.substring(0, startPos)
-          + myValue
-          + myField.value.substring(endPos, myField.value.length)
+        myField.value =
+          myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length)
         myField.selectionStart = startPos + myValue.length
         myField.selectionEnd = startPos + myValue.length
       } else {
