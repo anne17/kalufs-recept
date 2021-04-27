@@ -68,20 +68,17 @@
 
       <p class="recipe-source">
         <template v-if="recipe.source">
-          <span>Källa: </span>
-          <a v-if="isUrl(recipe.source)" class="dont-break-out" :href="recipe.source" target="_blank">{{
-            recipe.source
-          }}</a>
-          <span v-if="!isUrl(recipe.source)">{{ recipe.source }}</span>
+          <span>{{ sourceLabel }}: </span>
+          <span v-html="sources"></span>
           <br />
         </template>
         <span v-if="recipe.suggester && recipe.suggester !== 'null'">Föreslagit av: </span>
-          <router-link
-            v-if="recipe.suggester && recipe.suggester !== 'null'"
-            class="user-link"
-            :to="{ name: 'recipes', query: { user: recipe.suggester } }"
-            title="Sök på recept av denna användare"
-          >
+        <router-link
+          v-if="recipe.suggester && recipe.suggester !== 'null'"
+          class="user-link"
+          :to="{ name: 'recipes', query: { user: recipe.suggester } }"
+          title="Sök på recept av denna användare"
+        >
           <span>{{ recipe.suggester }}</span>
         </router-link>
       </p>
@@ -164,13 +161,24 @@ export default {
   computed: {
     recipeUrl() {
       return "https://kalufs.lol/recept" + this.$route.path
+    },
+    sourceLabel() {
+      var sources = 0
+      if (this.recipe.source !== undefined) {
+        sources = this.recipe.source.split(", ").length
+      }
+      if (sources > 1) {
+        return "Källor"
+      }
+      return "Källa"
+    },
+    sources() {
+      var urlRegexp = /((?:https?:\/\/)?(?:[\w.]+\.)?\w+\.\w+(?:\/\S*)?)(?<![,.!?\s])/g
+      var s = this.recipe.source || ""
+      return s.replaceAll(urlRegexp, "<a href='$1' class='dont-break-out'>$1</a>")
     }
   },
   methods: {
-    isUrl(s) {
-      this.regexp = /^(?:https?:\/\/)?(?:[\w.]+\.)?(\w+\.\w+)(?:\/|$)/
-      return this.regexp.test(s)
-    },
     displayMetadata() {
       this.showMeta = true
       this.$nextTick(() => this.$refs.metaData.scrollIntoView())
@@ -197,16 +205,16 @@ export default {
       }
       axios
         .post(this.$backend + "toggle_stored", JSON.stringify(this.recipe), {
-          headers: {"Content-Type": "application/json"}})
+          headers: { "Content-Type": "application/json" }
+        })
         .then(response => {
           if (response.data.status == "success") {
             this.recipe.stored = !this.recipe.stored
-            if (this.recipe.stored == true){
+            if (this.recipe.stored == true) {
               this.$toasted.show("Receptet tillagt till sparade recept")
             } else {
               this.$toasted.show("Receptet borttaget från sparade recept")
             }
-
           } else {
             console.error("Message from backend:", response.data.message)
             this.$toasted.show(error_msg)
@@ -326,7 +334,8 @@ h2 {
 }
 
 .ingredients >>> a,
-.contents >>> a {
+.contents >>> a,
+.recipe-source >>> a {
   color: var(--theme-color);
 }
 
