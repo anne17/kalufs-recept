@@ -2,17 +2,12 @@
   <div class="sideBarScreen">
     <div class="overlay" v-if="!hideSideBar" @click="closeHandler"></div>
 
-    <div
-      class="mobileSideBar"
-      :class="{ shown: !hideSideBar, hidden: hideSideBar }"
-      v-touch:swipe.right="closeHandler"
-      v-touch:swipe.left="openHandler"
-    >
+    <div class="mobileSideBar" :class="{ shown: !hideSideBar, hidden: hideSideBar }">
       <button ref="closeButton" type="button" class="close" @click="closeHandler">&times;</button>
 
       <div class="sidebar-body">
         <div class="menu-row-header">
-            <span>kalufs-recept</span>
+          <span>kalufs-recept</span>
         </div>
 
         <div class="container">
@@ -28,7 +23,7 @@
 
           <router-link to="/suggestions" class="row menu-row active-bell" v-if="admin && hasSuggestions">
             <i class="fas fa-bell"></i>
-            <span >Receptförslag</span>
+            <span>Receptförslag</span>
           </router-link>
 
           <router-link to="/stored" class="row menu-row" v-if="admin">
@@ -54,7 +49,7 @@ export default {
   },
   created() {
     // Emit close event on ESC
-    document.onkeydown = (evt) => {
+    document.onkeydown = evt => {
       evt = evt || window.event
       if (evt.keyCode == 27) {
         this.$emit("close")
@@ -166,7 +161,7 @@ export default {
   line-height: unset;
 }
 .menu-row:hover,
-.menu-row a:hover{
+.menu-row a:hover {
   text-decoration: none;
   background-color: var(--theme-color-4);
 }

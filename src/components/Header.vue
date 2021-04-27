@@ -43,7 +43,7 @@
           <div class="col-2">
             <!-- Hamburger menu -->
             <div class="login-status burger">
-              <i class="fas fa-bars" v-touch:swipe.left="openSideBar" @click="openSideBar"></i>
+              <i class="fas fa-bars" @click="openSideBar"></i>
             </div>
           </div>
         </div>
