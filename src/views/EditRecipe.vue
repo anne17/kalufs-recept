@@ -93,6 +93,7 @@
               class="form-control"
               v-bind:class="{ 'is-invalid': titleError }"
               type="text"
+              maxlength="100"
               id="title"
               ref="title"
               v-model="form.title"
@@ -112,7 +113,14 @@
             Portioner
           </label>
           <div class="col-sm-4">
-            <input class="form-control" type="text" id="portions" v-model="form.portions_text" @input="modInput()" />
+            <input
+              class="form-control"
+              type="text"
+              maxlength="100"
+              id="portions"
+              v-model="form.portions_text"
+              @input="modInput()"
+            />
           </div>
         </div>
 
@@ -258,6 +266,7 @@
             <input
               class="form-control"
               type="text"
+              maxlength="100"
               placeholder="Johan Johansson"
               id="suggester"
               ref="suggester"
