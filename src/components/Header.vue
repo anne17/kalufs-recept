@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Login v-if="!hideLogin" @close="closeLogin" />
+    <Login v-if="!hideLogin" @close="closeLogin" v-scroll-lock="!hideLogin" />
     <MobileMenu
       :hideSideBar="hideSideBar"
       :currentUser="currentUser"
@@ -12,6 +12,7 @@
       @open="openSideBar"
       @openLogin="openLogin"
       @logout="logout"
+      v-scroll-lock="!hideSideBar"
     />
 
     <!-- Header when printing -->
@@ -110,7 +111,6 @@ export default {
   },
   mounted() {
     if (this.$route.hash == "#login") {
-      document.body.style.overflowY = "hidden"
       this.hideLogin = false
     }
   },
@@ -123,47 +123,39 @@ export default {
   watch: {
     $route(to, from) {
       if (to.hash == "#login") {
-        document.body.style.overflowY = "hidden"
         this.isError = false
         this.hideLogin = false
       }
       if (from.hash == "#login" && to.hash !== "#login") {
-        document.body.style.overflowY = "auto"
         this.hideLogin = true
         this.isError = false
       }
       if (to.hash == "#sidebar") {
-        document.body.style.overflowY = "hidden"
         this.hideSideBar = false
       }
       if (from.hash == "#sidebar" && to.hash !== "#sidebar") {
-        document.body.style.overflowY = "auto"
         this.hideSideBar = true
       }
     }
   },
   methods: {
     openLogin() {
-      this.$router.push({ hash: "#login" })
-      document.body.style.overflowY = "hidden"
+      this.$router.push({ hash: "#login", params: { savePosition: true } })
       this.isError = false
       this.hideLogin = false
     },
     closeLogin() {
-      this.$router.push({ hash: "" })
-      document.body.style.overflowY = "auto"
+      this.$router.push({ hash: "", params: { savePosition: true } })
       this.hideLogin = true
       this.isError = false
     },
     openSideBar() {
       this.hideSideBar = false
-      this.$router.push({ hash: "#sidebar" })
-      document.body.style.overflowY = "hidden"
+      this.$router.push({ hash: "#sidebar", params: { savePosition: true } })
     },
     closeSideBar() {
       this.hideSideBar = true
-      this.$router.push({ hash: "" })
-      document.body.style.overflowY = "auto"
+      this.$router.push({ hash: "", params: { savePosition: true } })
     },
     logout() {
       axios

@@ -76,7 +76,7 @@ export default {
   },
   created() {
     // Emit close event on ESC
-    document.onkeydown = (evt) => {
+    document.onkeydown = evt => {
       evt = evt || window.event
       if (evt.keyCode == 27) {
         this.$emit("close")
@@ -88,12 +88,12 @@ export default {
       this.isError = false
       this.loading = true
       var form_data = new FormData()
-      for ( var key in this.form ) {
+      for (var key in this.form) {
         form_data.append(key, this.form[key])
       }
       axios
         .post(this.$backend + "login", form_data)
-        .then((response) => {
+        .then(response => {
           this.loading = false
           this.username = response.data.user
           this.admin = response.data.admin
@@ -101,7 +101,7 @@ export default {
           // Go to requested page (or stay on current page if there is no redirect)
           this.$router.push({ path: this.$route.query.redirect })
         })
-        .catch((e) => {
+        .catch(e => {
           this.isError = true
           this.loading = false
           if (typeof e.response !== "undefined" && e.response.data.message == "Invalid username or password!") {

@@ -3,7 +3,7 @@
     <LoadingSpinner :loading="loading" />
 
     <!-- Filter menu for small screens -->
-    <div class="d-lg-none" :class="{ hidden: !showMobileFilter }">
+    <div class="d-lg-none" :class="{ hidden: !showMobileFilter }" v-scroll-lock="showMobileFilter">
       <div class="overlay" @click="toggleMobileFilter()"></div>
       <div class="mobile-filter-modal">
         <div class="modal-content">
@@ -155,7 +155,11 @@
                       <i class="far fa-bookmark" @click="toggleRememberRecipe(recipe)" title="Kom ihåg receptet"></i>
                     </div>
                     <div v-if="recipe.stored">
-                      <i class="fas fa-bookmark" @click="toggleRememberRecipe(recipe)" title="Ta bort från sparade recept"></i>
+                      <i
+                        class="fas fa-bookmark"
+                        @click="toggleRememberRecipe(recipe)"
+                        title="Ta bort från sparade recept"
+                      ></i>
                     </div>
                   </div>
                 </div>
@@ -169,7 +173,9 @@
                   >
                     <span class="tag">{{ tag }}</span>
                   </router-link>
-                  <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0">&#8205;</span>
+                  <span class="tag-placeholder" v-if="recipe.tags == undefined || recipe.tags.length == 0"
+                    >&#8205;</span
+                  >
                 </div>
               </div>
             </div>
@@ -213,7 +219,6 @@ export default {
   },
   mounted() {
     document.title = this.$defaulttitle
-    document.body.style.overflowY = "auto"
 
     if (this.$route.hash == "#filter") {
       this.showMobileFilter = true
@@ -262,11 +267,9 @@ export default {
       }
       // Handle history for filter display on small screens
       if (to.hash == "#filter") {
-        document.body.style.overflowY = "hidden"
         this.showMobileFilter = true
       }
       if (from.hash == "#filter" && to.hash !== "#filter") {
-        document.body.style.overflowY = "auto"
         this.showMobileFilter = false
       }
     }
@@ -451,7 +454,8 @@ export default {
       }
       axios
         .post(this.$backend + "toggle_stored", JSON.stringify(recipe), {
-          headers: {"Content-Type": "application/json"}})
+          headers: { "Content-Type": "application/json" }
+        })
         .then(response => {
           if (response.data.status == "success") {
             recipe.stored = !recipe.stored

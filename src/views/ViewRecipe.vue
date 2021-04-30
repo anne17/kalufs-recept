@@ -35,7 +35,6 @@ export default {
     }
   },
   created() {
-    document.body.style.overflowY = "auto"
     this.getData()
   },
   methods: {

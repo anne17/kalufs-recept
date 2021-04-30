@@ -29,7 +29,7 @@ const router = new Router({
       path: "/stored",
       name: "stored",
       component: Recipes,
-      meta: {requiresAuth: true}
+      meta: { requiresAuth: true }
     },
     {
       path: "/random",
@@ -64,6 +64,8 @@ const router = new Router({
           resolve(savedPosition)
         }, 500)
       })
+    } else if (to.params.savePosition) {
+      return {}
     } else {
       return { x: 0, y: 0 }
     }

@@ -2,7 +2,13 @@
   <div class="edit container">
     <div v-if="tagChooserActive" class="overlay" @click="closeTagChooser()"></div>
 
-    <ConfirmDialog v-if="showConfirm" :message="confirmDeleteMsg" @close="toggleConfirm" @confirm="remove" />
+    <ConfirmDialog
+      v-if="showConfirm"
+      :message="confirmDeleteMsg"
+      @close="toggleConfirm"
+      @confirm="remove"
+      v-scroll-lock="showConfirm"
+    />
     <ConfirmDialog
       v-if="showLeaveConfirm"
       :message="confirmLeaveMsg"
@@ -13,6 +19,7 @@
         showLeaveConfirm = false
       "
       @confirm="next()"
+      v-scroll-lock="showLeaveConfirm"
     />
     <ConfirmDialog
       v-if="showOkSuggest"
@@ -20,6 +27,7 @@
       :showCancel="false"
       @close="$router.push('/')"
       @confirm="$router.push('/')"
+      v-scroll-lock="showOkSuggest"
     />
     <DropdownDialog
       v-if="showDropdown"
@@ -28,6 +36,7 @@
       :defaultCat="tagCategories[0]"
       @close="closeDropdown"
       @confirm="addTag"
+      v-scroll-lock="showDropdown"
     />
     <LoadingSpinner :loading="loading" />
 
@@ -444,17 +453,14 @@ export default {
   watch: {
     $route(to, from) {
       if (to.hash == "#confirmDelete") {
-        document.body.style.overflowY = "hidden"
         this.showConfirm = true
       }
       if (from.hash == "#confirmDelete" && to.hash !== "#login") {
-        document.body.style.overflowY = "auto"
         this.showConfirm = false
       }
     }
   },
   created() {
-    document.body.style.overflowY = "auto"
     if (this.$route.params.title !== "New" && this.$route.params.title !== undefined) {
       this.getData()
       this.edit_existing = true
@@ -655,26 +661,21 @@ export default {
     },
     openTagChooser() {
       this.tagChooserActive = true
-      document.body.style.overflowY = "hidden"
     },
     closeTagChooser() {
       this.tagChooserActive = false
-      document.body.style.overflowY = "auto"
     },
     closeDropdown() {
       this.showDropdown = false
-      document.body.style.overflowY = "auto"
     },
     chooseCat(newTag) {
       this.tagChooserActive = false
       newTag = newTag.trim().toLowerCase()
       this.newTag = newTag
       this.showDropdown = true
-      document.body.style.overflowY = "hidden"
     },
     addTag(newCat) {
       this.showDropdown = false
-      document.body.style.overflowY = "auto"
       var index = this.tagCategories.indexOf(newCat)
       this.tagStructureSimple[index].tags.push(this.newTag)
       this.form.tags.push(this.newTag)
@@ -768,7 +769,6 @@ export default {
         })
     },
     remove() {
-      document.body.style.overflowY = "auto"
       this.saveError = ""
       this.loading = true
       this.showConfirm = false
@@ -792,21 +792,17 @@ export default {
     },
     toggleConfirm() {
       if (this.showConfirm == false) {
-        document.body.style.overflowY = "hidden"
-        this.$router.push({ hash: "#confirmDelete" })
+        this.$router.push({ hash: "#confirmDelete", params: { savePosition: true } })
       } else {
-        document.body.style.overflowY = "auto"
-        this.$router.push({ hash: "" })
+        this.$router.push({ hash: "", params: { savePosition: true } })
       }
       this.showConfirm = !this.showConfirm
     },
     toggleOkSuggest() {
       if (this.showConfirm == false) {
-        document.body.style.overflowY = "hidden"
-        this.$router.push({ hash: "#okSuggest" })
+        this.$router.push({ hash: "#okSuggest", params: { savePosition: true } })
       } else {
-        document.body.style.overflowY = "auto"
-        this.$router.push({ hash: "" })
+        this.$router.push({ hash: "", params: { savePosition: true } })
       }
       this.showOkSuggest = !this.showOkSuggest
     },
