@@ -18,7 +18,7 @@
       </div>
 
       <div v-if="showEditOption" class="mini-edit-menu">
-        <router-link :to="{ name: 'edit', params: { title: recipe.title } }" title="Redigera" v-if="recipe.title">
+        <router-link :to="{ name: 'edit', params: { url: recipe.url } }" title="Redigera" v-if="recipe.url">
           <i class="fas fa-pencil-alt"></i>
         </router-link>
       </div>
@@ -160,7 +160,7 @@ export default {
   },
   computed: {
     recipeUrl() {
-      return "https://kalufs.lol/recept" + this.$route.path
+      return window.location.origin + this.$route.path
     },
     sourceLabel() {
       var sources = 0

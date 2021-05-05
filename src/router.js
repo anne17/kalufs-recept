@@ -37,7 +37,7 @@ const router = new Router({
       component: Recipes
     },
     {
-      path: "/edit/:title",
+      path: "/edit/:url",
       name: "edit",
       component: EditRecipe,
       meta: { requiresAuth: true }
@@ -52,7 +52,7 @@ const router = new Router({
       }
     },
     {
-      path: "/view/:title",
+      path: "/view/:url",
       name: "view",
       component: ViewRecipe
     }

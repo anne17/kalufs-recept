@@ -69,7 +69,7 @@
             </div>
 
             <div v-if="loggedIn && showPublished" class="new-recipe-container col-6">
-              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: { title: 'New' } }">
+              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: { url: 'New' } }">
                 <strong>&#43;</strong> Nytt recept
               </router-link>
               <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest' }">
@@ -109,7 +109,7 @@
               Jag är hungrig!
             </button>
             <div v-if="loggedIn && showPublished" class="new-recipe-container d-inline float-right">
-              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: { title: 'New' } }">
+              <router-link v-if="admin" class="new-recipe" :to="{ name: 'edit', params: { url: 'New' } }">
                 <strong>&#43;</strong> Nytt recept
               </router-link>
               <router-link v-if="!admin" class="new-recipe" :to="{ name: 'suggest' }">
@@ -140,14 +140,14 @@
             <div class="row">
               <div
                 class="main-img-container col-3"
-                v-on:click="openLink(recipe.title)"
+                v-on:click="openLink(recipe.url)"
                 v-bind:style="{ backgroundImage: 'url(' + getImgUrl(recipe, 'thumb') + ')' }"
               />
               <div class="text-container container col-9">
                 <div class="row title">
                   <router-link
                     :class="{ 'col-11': loggedIn && admin }"
-                    :to="{ name: 'view', params: { title: recipe.title } }"
+                    :to="{ name: 'view', params: { url: recipe.url } }"
                     >{{ recipe.title }}</router-link
                   >
                   <div class="mini-menu container col-1" v-if="loggedIn && admin">
@@ -333,7 +333,7 @@ export default {
         call = "recipe_suggestions"
       }
       axios
-        .get(this.$backend + call, { params: { title: this.$route.params.title } })
+        .get(this.$backend + call)
         .then(response => {
           if (response.data.status !== "success") {
             this.results = false
@@ -348,8 +348,8 @@ export default {
           this.results = false
         })
     },
-    openLink(title) {
-      this.$router.push({ name: "view", params: { title: title } })
+    openLink(url) {
+      this.$router.push({ name: "view", params: { url: url } })
     },
     preSearch() {
       this.searchString = this.searchString.trim()

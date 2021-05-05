@@ -390,7 +390,7 @@ import ShowRecipe from "@/components/ShowRecipe.vue"
 import ConfirmDialog from "@/components/ConfirmDialog.vue"
 import DropdownDialog from "@/components/DropdownDialog.vue"
 import LoadingSpinner from "@/components/LoadingSpinner.vue"
-import { EventBus, axios, TagMixin } from "@/services.js"
+import { EventBus, axios, TagMixin, GetRecipeMixin } from "@/services.js"
 
 export default {
   name: "EditRecipe",
@@ -402,7 +402,7 @@ export default {
     DropdownDialog,
     LoadingSpinner
   },
-  mixins: [TagMixin],
+  mixins: [TagMixin, GetRecipeMixin],
   data() {
     return {
       edit_existing: false,
@@ -461,7 +461,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.title !== "New" && this.$route.params.title !== undefined) {
+    if (this.$route.params.url !== "New" && this.$route.params.url !== undefined) {
       this.getData()
       this.edit_existing = true
     } else {
@@ -618,8 +618,9 @@ export default {
       }
     },
     getData() {
+      let params = this.getRecipeParams()
       axios
-        .get(this.$backend + "get_recipe?title=" + this.$route.params.title)
+        .get(this.$backend + "get_recipe", { params })
         .then(response => {
           if (response.data.status == "success") {
             this.data = response.data.data
@@ -747,7 +748,7 @@ export default {
             if (suggest) {
               this.toggleOkSuggest()
             } else {
-              this.$router.push({ name: "view", params: { title: this.form.title } })
+              this.$router.push({ name: "view", params: { url: response.data.url } })
               EventBus.$emit("save")
             }
           } else {

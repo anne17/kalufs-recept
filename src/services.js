@@ -5,6 +5,22 @@ import axios from "axios"
 axios.defaults.withCredentials = true
 export { axios }
 
+export const GetRecipeMixin = {
+  // Get the correct query string for the backend call from the 'url' param
+  // which can be a pretty URL with an ID or a recipe title (old format).
+  methods: {
+    getRecipeParams() {
+      let urlarray = this.$route.params.url.split("-")
+      let id = parseInt(urlarray[urlarray.length - 1])
+      if (!isNaN(id)) {
+        return { id: id }
+      } else {
+        return { title: this.$route.params.url }
+      }
+    }
+  }
+}
+
 export const ImageMixin = {
   // Get URL for image in correct size
   methods: {
@@ -46,7 +62,7 @@ export const LoginMixin = {
     checkLogin() {
       axios
         .post(this.$backend + "check_authentication")
-        .then((response) => {
+        .then(response => {
           if (response.data.authenticated == true) {
             this.loggedIn = true
             this.currentUser = response.data.user
@@ -62,7 +78,7 @@ export const LoginMixin = {
             this.setAllLogout()
           }
         })
-        .catch((error) => {
+        .catch(error => {
           this.setAllLogout()
           console.error(error)
         })
@@ -87,7 +103,7 @@ export const LoginMixin = {
     getSuggestions() {
       axios
         .get(this.$backend + "recipe_suggestions")
-        .then((response) => {
+        .then(response => {
           if (response.data.status !== "success") {
             this.hasSuggestions = false
           } else {
@@ -100,7 +116,7 @@ export const LoginMixin = {
             }
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
           this.hasSuggestions = false
         })
@@ -132,35 +148,35 @@ export const TagMixin = {
     getTagCategories() {
       axios
         .get(this.$backend + "get_tag_categories")
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             for (var i in response.data.data) {
               Vue.set(this.tagCategories, i, response.data.data[i])
             }
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
         })
     },
     getTagStructure() {
       axios
         .get(this.$backend + "get_tag_structure")
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             for (var i in response.data.data) {
               Vue.set(this.tagStructure, i, response.data.data[i])
             }
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
         })
     },
     getTagStructureSimple() {
       return axios
         .get(this.$backend + "get_tag_structure_simple")
-        .then((response) => {
+        .then(response => {
           if (response.data.status == "success") {
             var tagCounter = 0
             for (var i in response.data.data) {
@@ -172,7 +188,7 @@ export const TagMixin = {
             }
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error("Response from backend:", e.response)
         })
     }

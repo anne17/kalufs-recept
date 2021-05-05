@@ -19,11 +19,11 @@
 <!-- ####################################################################### -->
 <script>
 import ShowRecipe from "@/components/ShowRecipe.vue"
-import { axios, LoginMixin } from "@/services.js"
+import { axios, GetRecipeMixin, LoginMixin } from "@/services.js"
 
 export default {
   name: "ViewRecipe",
-  mixins: [LoginMixin],
+  mixins: [GetRecipeMixin, LoginMixin],
   components: {
     ShowRecipe
   },
@@ -39,14 +39,19 @@ export default {
   },
   methods: {
     getData() {
+      let params = this.getRecipeParams()
       axios
-        .get(this.$backend + "view_recipe", { params: { title: this.$route.params.title } })
+        .get(this.$backend + "view_recipe", { params })
         .then(response => {
           if (response.data.status == "success") {
             this.recipe = response.data.data
             // This is needed to avoid a flashing unpublished message
             this.published = this.recipe.published
             document.title = this.$defaulttitle + " - " + this.recipe.title
+            // Redirect to "correct" url if necessary
+            if (this.$route.params.url != this.recipe.url) {
+              this.$router.push({ params: { url: this.recipe.url } })
+            }
           } else {
             console.error(response.data)
           }
