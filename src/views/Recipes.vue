@@ -120,7 +120,7 @@
 
           <div v-if="!showPublished" class="unpublished-notice">
             <i class="fas fa-info-circle"></i>
-            Dessa recept är opublicerade. Gå in i redigeringsläget och spara för att publicera.
+            Dessa recept är opublicerade. För att publicera ett recept kryssa i rutan "Publicera" i redigeringsläget.
           </div>
         </div>
 
@@ -371,6 +371,7 @@ export default {
               this.tableTitle = "Recept av " + queryParams.user
             } else if (queryParams.tag !== undefined) {
               this.tableTitle = "Recept med "
+              this.showPublished = true
             } else {
               this.tableTitle = "Recept med '" + queryParams.q + "'"
             }
