@@ -16,20 +16,30 @@
             <span>Logga in</span>
           </a>
 
-          <a class="row menu-row" v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logga ut {{ currentUser }}</span>
-          </a>
+          <span class="row menu-row welcome" v-if="loggedIn">
+            <i class="fas fa-user"></i>
+            <span>Hej {{ currentUser }}!</span>
+          </span>
 
-          <router-link to="/suggestions" class="row menu-row active-bell" v-if="admin && hasSuggestions">
+          <router-link
+            to="/suggestions"
+            class="row menu-row active-bell"
+            v-if="admin && hasSuggestions"
+            title="Gå till receptförslag"
+          >
             <i class="fas fa-bell"></i>
             <span>Receptförslag</span>
           </router-link>
 
-          <router-link to="/stored" class="row menu-row" v-if="admin">
+          <router-link to="/stored" class="row menu-row" v-if="admin" title="Gå till sparade recept">
             <i class="fas fa-bookmark"></i>
             <span>Sparade recept</span>
           </router-link>
+
+          <a class="row menu-row user" v-if="loggedIn" @click="$emit('logout')" title="Logga ut">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logga ut</span>
+          </a>
         </div>
       </div>
     </div>
@@ -164,5 +174,16 @@ export default {
 .menu-row a:hover {
   text-decoration: none;
   background-color: var(--theme-color-4);
+}
+.menu-row.user {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: unset;
+}
+
+.menu-row.welcome:hover {
+  background-color: unset;
+  cursor: unset;
 }
 </style>
